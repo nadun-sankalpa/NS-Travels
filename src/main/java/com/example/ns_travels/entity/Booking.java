@@ -18,14 +18,18 @@ public class Booking {
 
         @ManyToOne
         @JoinColumn(name = "user_id")
+        @Column(nullable = false)
         private User user;
 
         @ManyToOne
         @JoinColumn(name = "hotel_id")
+        @Column(nullable = false)
         private Hotel hotel;
-
+        @Column(nullable = false)
         private LocalDate checkInDate;
+        @Column(nullable = false)
         private LocalDate checkOutDate;
+        @Column(nullable = false)
         private double totalPrice;
 
         @Enumerated(EnumType.STRING)
