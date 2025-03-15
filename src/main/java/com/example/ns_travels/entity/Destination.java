@@ -1,12 +1,12 @@
 package com.example.ns_travels.entity;
 
+
+import com.example.ns_travels.enums.Cateogary;
 import jakarta.persistence.*;
-import jdk.jfr.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
 @Entity
 @Table(name = "destinations")
@@ -30,5 +30,5 @@ public class Destination {
     private String imageURL;
 
     @Enumerated(EnumType.STRING)
-    private Category category;
+    private Cateogary cateogary;
 }

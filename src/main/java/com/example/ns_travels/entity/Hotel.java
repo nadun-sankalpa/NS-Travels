@@ -1,20 +1,19 @@
 package com.example.ns_travels.entity;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
+@Entity
+@Table(name = "hotels")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Hotel {
-    @Entity
-    @Table(name = "hotels")
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public class Hotel {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
@@ -32,4 +31,4 @@ public class Hotel {
         @Column(nullable = false)
         private String contactInfo;
     }
-}
+

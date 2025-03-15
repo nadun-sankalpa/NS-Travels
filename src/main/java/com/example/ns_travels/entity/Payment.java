@@ -1,11 +1,12 @@
 package com.example.ns_travels.entity;
 
+import com.example.ns_travels.enums.PaymentMethod;
+import com.example.ns_travels.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
 @Entity
 @Table(name = "payments")
