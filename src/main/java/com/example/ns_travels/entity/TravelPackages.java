@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TravelPacakages {
+public class TravelPackages {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

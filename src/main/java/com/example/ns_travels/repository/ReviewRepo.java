@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ReviewRepo extends JpaRepository<Review, Long> {
     List<Review> findByEntityTypeAndEntityId(String entityType, Long entityId);
+
+    List<Review> findByUserId(Long userId);
 }

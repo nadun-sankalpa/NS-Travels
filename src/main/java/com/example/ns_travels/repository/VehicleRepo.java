@@ -7,4 +7,8 @@ import java.util.List;
 
 public interface VehicleRepo extends JpaRepository<Vehicle, Long> {
     List<Vehicle> findByAvailability(boolean availability);
+
+    List<Vehicle> findByType(String type);
+
+    List<Vehicle> findByCapacityGreaterThanEqual(int minCapacity);
 }
