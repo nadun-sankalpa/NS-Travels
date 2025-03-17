@@ -6,10 +6,12 @@ import com.example.ns_travels.repository.JobVacancyRepo;
 import com.example.ns_travels.service.JobVacancyService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class JobVacancyServiceImpl implements JobVacancyService {
     @Autowired
     private JobVacancyRepo jobVacancyRepo;

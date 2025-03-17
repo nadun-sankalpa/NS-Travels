@@ -34,6 +34,7 @@ public class TravelPackagesServiceImpl implements TravelPackagesService {
 
         TravelPackages travelPackage = modelMapper.map(travelPackageDTO, TravelPackages.class);
         travelPackageRepo.save(travelPackage);
+
     }
 
     @Override

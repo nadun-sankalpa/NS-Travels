@@ -6,10 +6,12 @@ import com.example.ns_travels.repository.GuideRepo;
 import com.example.ns_travels.service.GuideService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class GuideServiceImpl implements GuideService {
     @Autowired
     private GuideRepo guideRepo;

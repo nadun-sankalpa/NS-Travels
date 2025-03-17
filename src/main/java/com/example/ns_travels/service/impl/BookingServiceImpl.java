@@ -10,10 +10,12 @@ import com.example.ns_travels.repository.UserRepo;
 import com.example.ns_travels.service.BookingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class BookingServiceImpl implements BookingService {
     @Autowired
     private BookingRepo bookingRepo;

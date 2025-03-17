@@ -6,10 +6,12 @@ import com.example.ns_travels.repository.DestinationRepo;
 import com.example.ns_travels.service.DestinationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class DestinationServiceImpl implements DestinationService {
     @Autowired
     private DestinationRepo destinationRepository;
@@ -27,7 +29,8 @@ public class DestinationServiceImpl implements DestinationService {
     public void update(DestinationDTO destinationDTO) {
         Optional<Destination> optDestination = destinationRepository.findById(destinationDTO.getId());
         if (optDestination.isEmpty()) {
-            throw new RuntimeException("Destination not found with ID: " + destinationDTO.getId());
+            throw new RuntimeException("Destination not found with ID: " + destinationDTO
+                    .getId());
         }
         Destination destination = modelMapper.map(destinationDTO, Destination.class);
         destinationRepository.save(destination);
