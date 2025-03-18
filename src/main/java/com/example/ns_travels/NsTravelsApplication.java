@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories("com.example.ns_travels.repository")
-@EntityScan(basePackages = "com.example.ns_travels.model")
+@EntityScan("com.example.ns_travels.entity") // Ensure your package is scanned
+@EnableJpaRepositories("com.example.ns_travels.repository") // Ensure repository package is scanned
 public class NsTravelsApplication {
 
     public static void main(String[] args) {

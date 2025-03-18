@@ -2,11 +2,12 @@ package com.example.ns_travels.entity;
 
 import com.example.ns_travels.enums.Role;
 import jakarta.persistence.*;
-import lombok.*;
 
+import java.util.List;
 
 @Entity
-public  class User {
+@Table(name = "users")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,32 +19,35 @@ public  class User {
     @Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING) // Use the correct enum type
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
     @Column(unique = true, nullable = false)
     private String email;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Booking> bookings;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews;
+
+    // Default constructor
     public User() {
     }
 
-    public User(Long id, String username, String password, Role role, String email) {
+    // Constructor with all fields
+    public User(Long id, String username, String password, Role role, String email, List<Booking> bookings, List<Review> reviews) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.role = role;
         this.email = email;
+        this.bookings = bookings;
+        this.reviews = reviews;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -76,6 +80,30 @@ public  class User {
         this.role = role;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -84,6 +112,8 @@ public  class User {
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 ", email='" + email + '\'' +
+                ", bookings=" + bookings +
+                ", reviews=" + reviews +
                 '}';
     }
 }

@@ -9,15 +9,15 @@ public class TravelPackagesDTO {
     private Long id;
     private String name;
     private String description;
-    private double price;
+    private double budget;
     private int duration;
     private String includedServices;
 
-    public TravelPackagesDTO(Long id, String name, String description, double price, int duration, String includedServices) {
+    public TravelPackagesDTO(Long id, String name, String description, double budget, int duration, String includedServices) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.price = price;
+        this.budget = budget;
         this.duration = duration;
         this.includedServices = includedServices;
     }
@@ -48,12 +48,12 @@ public class TravelPackagesDTO {
         this.description = description;
     }
 
-    public double getPrice() {
-        return price;
+    public double getBudget() {
+        return budget;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setBudget(double budget) {
+        this.budget = budget;
     }
 
     public int getDuration() {
@@ -78,7 +78,7 @@ public class TravelPackagesDTO {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", price=" + price +
+                ", budget=" + budget +
                 ", duration=" + duration +
                 ", includedServices='" + includedServices + '\'' +
                 '}';

@@ -1,37 +1,40 @@
 package com.example.ns_travels.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "reviews")
-
 public class Review {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column(nullable = false)
     private String entityType;  // "HOTEL", "GUIDE", "DESTINATION"
+
+    @Column(nullable = false)
     private Long entityId;
+
+    @Column(nullable = false)
     private double rating;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String comment;
 
+    @Column(nullable = false)
     private LocalDate date;
 
+    // Default constructor
     public Review() {
     }
 
+    // Constructor with parameters
     public Review(Long id, User user, String entityType, Long entityId, double rating, String comment, LocalDate date) {
         this.id = id;
         this.user = user;
@@ -42,6 +45,7 @@ public class Review {
         this.date = date;
     }
 
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -102,7 +106,7 @@ public class Review {
     public String toString() {
         return "Review{" +
                 "id=" + id +
-                ", user=" + user +
+                ", user=" + user.getId() +  // Avoiding full User object to prevent recursion
                 ", entityType='" + entityType + '\'' +
                 ", entityId=" + entityId +
                 ", rating=" + rating +

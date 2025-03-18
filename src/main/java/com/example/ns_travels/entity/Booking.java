@@ -2,12 +2,11 @@ package com.example.ns_travels.entity;
 
 import com.example.ns_travels.enums.BookingStatus;
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.time.LocalDate;
 
-
 @Entity
+@Table(name = "booking") // Explicit table name
 public class Booking {
 
         @Id
@@ -15,11 +14,11 @@ public class Booking {
         private Long id;
 
         @ManyToOne
-        @JoinColumn(name = "user_id", nullable = false)  // Corrected
+        @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
         private User user;
 
         @ManyToOne
-        @JoinColumn(name = "hotel_id", nullable = false) // Corrected
+        @JoinColumn(name = "hotel_id", referencedColumnName = "id", nullable = false)
         private Hotel hotel;
 
         @Column(nullable = false)
@@ -32,6 +31,7 @@ public class Booking {
         private double totalPrice;
 
         @Enumerated(EnumType.STRING)
+        @Column(nullable = false) // Ensure column is not null
         private BookingStatus status;
 
         public Booking() {
