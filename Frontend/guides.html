@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en" class="light-mode">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel Guides - Wanderlust Travel</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/guides.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+  <!-- Preloader -->
+  <div class="preloader">
+    <div class="preloader-spinner"></div>
+  </div>
+
+  <!-- Cursor -->
+  <div class="cursor"></div>
+  <div class="cursor-follower"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <div class="logo">
+          <a href="index.html" class="logo-link">
+            <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>NS TRAVELS</span>
+          </a>
+        </div>
+        <nav class="nav">
+          <ul class="nav-list">
+            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="destination.html" class="nav-link">Destinations</a></li>
+            <li class="nav-item"><a href="index.html#packages" class="nav-link">Packages</a></li>
+            <li class="nav-item"><a href="guides.html" class="nav-link active">Guides</a></li>
+            <li class="nav-item"><a href="index.html#about" class="nav-link">About</a></li>
+            <li class="nav-item"><a href="index.html#contact" class="nav-link">Contact</a></li>
+          </ul>
+        </nav>
+        <div class="header-actions">
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+          <button class="btn btn-outline">Sign In</button>
+          <a href="book-now.html" class="btn btn-primary">Book Now</a>
+          <button class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu">
+    <div class="mobile-menu-inner">
+      <ul class="mobile-nav-list">
+        <li class="mobile-nav-item"><a href="index.html" class="mobile-nav-link">Home</a></li>
+        <li class="mobile-nav-item"><a href="original-destinations.html" class="mobile-nav-link">Destinations</a></li>
+        <li class="mobile-nav-item"><a href="guides.html" class="mobile-nav-link active">Guides</a></li>
+        <li class="mobile-nav-item"><a href="index.html#packages" class="mobile-nav-link">Packages</a></li>
+        <li class="mobile-nav-item"><a href="index.html#about" class="mobile-nav-link">About</a></li>
+        <li class="mobile-nav-item"><a href="index.html#contact" class="mobile-nav-link">Contact</a></li>
+      </ul>
+      <div class="mobile-menu-footer">
+        <div class="social-links">
+          <a href="#" class="social-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+            </svg>
+          </a>
+          <a href="#" class="social-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+          <a href="#" class="social-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="page-header-bg">
+        <div class="page-header-overlay"></div>
+      </div>
+      <div class="container">
+        <div class="page-header-content">
+          <h1 class="page-title split-text" >Travel Guides</h1>
+          <div class="breadcrumbs">
+            <a href="index.html" class="breadcrumb-item" >Home</a>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-item active">Guides</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Guides Introduction -->
+    <section class="guides-intro">
+      <div class="container">
+        <div class="section-header" data-aos="fade-up">
+          <h2 class="section-title">Meet Our Expert Guides</h2>
+          <p class="section-subtitle">Passionate travel professionals who will make your journey unforgettable</p>
+        </div>
+        <div class="guides-intro-content" data-aos="fade-up" data-aos-delay="100">
+          <p>Our team of experienced travel guides are passionate about sharing their knowledge and creating unforgettable experiences. Each guide specializes in specific regions and travel styles, ensuring you get the most authentic and enriching journey possible. Whether you're looking for adventure, cultural immersion, or relaxation, our guides will craft the perfect experience tailored to your preferences.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Meet Our Guides -->
+    <section class="guides-team">
+      <div class="container">
+        <div class="guides-grid">
+          <!-- Guide 1 -->
+          <div class="guide-card" data-aos="fade-up">
+            <div class="guide-image">
+              <img src="images/guide.jpg" alt="Sarah Johnson">
+              <div class="guide-overlay">
+                <div class="guide-social">
+                  <a href="#" class="guide-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                    </svg>
+                  </a>
+                  <a href="#" class="guide-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                  </a>
+                  <a href="#" class="guide-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                      <rect x="2" y="9" width="4" height="12"></rect>
+                      <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="guide-content">
+              <h3 class="guide-name">Nadun Sankalpa</h3>
+              <p class="guide-position">Travel Specialist</p>
+              <div class="guide-info">
+                <div class="guide-info-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  <span>10+ Years Experience</span>
+                </div>
+                <div class="guide-info-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                  <span>Karapitiya, Galle, Sri Lanka</span>
+                </div>
+                <div class="guide-info-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.5 12H16c-.7 2-2 3-4 3s-3.3-1-4-3H2.5"></path>
+                    <path d="M5.5 5.1L2 12v6c0 1.1.9 2 2 2h16a2 2 0 0 0 2-2v-6l-3.4-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.8 1.1z"></path>
+                  </svg>
+                  <span>Cultural & Food Tours</span>
+                </div>
+              </div>
+              <p class="guide-bio">Sarah has spent over a decade exploring the hidden gems of Southeast Asia. Her deep connections with local communities allow her to create authentic experiences that go beyond typical tourist routes.</p>
+              <a href="#" class="btn btn-outline btn-sm">View Profile</a>
+            </div>
+          </div>
+
+          <!-- Guide 2 -->
+          <div class="guide-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="guide-image">
+              <img src="images/guide2.jpg" alt="Michael Rodriguez">
+              <div class="guide-overlay">
+                <div class="guide-social">
+                  <a href="#" class="guide-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                    </svg>
+                  </a>
+                  <a href="#" class="guide-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                  </a>
+                  <a href="#" class="guide-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                      <rect x="2" y="9" width="4" height="12"></rect>
+                      <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="guide-content">
+              <h3 class="guide-name">Mash De Silva</h3>
+              <p class="guide-position">Adventure Travel Expert</p>
+              <div class="guide-info">
+                <div class="guide-info-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  <span>8+ Years Experience</span>
+                </div>
+                <div class="guide-info-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                  <span>Colombo, Sri Lanka</span>
+                </div>
+                <div class="guide-info-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.5 12H16c-.7 2-2 3-4 3s-3.3-1-4-3H2.5"></path>
+                    <path d="M5.5 5.1L2 12v6c0 1.1.9 2 2 2h16a2 2 0 0 0 2-2v-6l-3.4-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.8 1.1z"></path>
+                  </svg>
+                  <span>Hiking & Outdoor Adventures</span>
+                </div>
+              </div>
+              <p class="guide-bio">Michael is a certified adventure guide with expertise in hiking, climbing, and white-water rafting. His knowledge of remote trails and passion for conservation makes every expedition both thrilling and educational.</p>
+              <a href="#" class="btn btn-outline btn-sm">View Profile</a>
+            </div>
+          </div>
+
+          <!-- Guide 3 -->
+          <div class="guide-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="guide-image">
+              <img src="images/guide7.jpg" alt="Emma Chen">
+              <div class="guide-overlay">
+                <div class="guide-social">
+                  <a href="#" class="guide-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                    </svg>
+                  </a>
+                  <a href="#" class="guide-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                  </a>
+                  <a href="#" class="guide-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                      <rect x="2" y="9" width="4" height="12"></rect>
+                      <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="guide-content">
+              <h3 class="guide-name">Charitha Chiranjeewa</h3>
+              <p class="guide-position">Sri Lankan Culture Expert</p>
+              <div class="guide-info">
+                <div class="guide-info-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  <span>12+ Years Experience</span>
+                </div>
+                <div class="guide-info-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                  <span>Ambalangoda, Sri Lanka</span>
+                </div>
+                <div class="guide-info-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.5 12H16c-.7 2-2 3-4 3s-3.3-1-4-3H2.5"></path>
+                    <path d="M5.5 5.1L2 12v6c0 1.1.9 2 2 2h16a2 2 0 0 0 2-2v-6l-3.4-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.8 1.1z"></path>
+                  </svg>
+                  <span>Art, History & Culinary Tours</span>
+                </div>
+              </div>
+              <p class="guide-bio">With a PhD in Art History and fluency in five languages, Emma creates immersive cultural experiences throughout Europe. Her tours blend famous landmarks with hidden local treasures and authentic culinary experiences.</p>
+              <a href="#" class="btn btn-outline btn-sm">View Profile</a>
+            </div>
+          </div>
+
+          <!-- Guide 4 -->
+          <div class="guide-card" data-aos="fade-up">
+            <div class="guide-image">
+              <img src="images/guide5.jpg" alt="David Okafor">
+              <div class="guide-overlay">
+                <div class="guide-social">
+                  <a href="#" class="guide-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                    </svg>
+                  </a>
+                  <a href="#" class="guide-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                  </a>
+                  <a href="#" class="guide-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                      <rect x="2" y="9" width="4" height="12"></rect>
+                      <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="guide-content">
+              <h3 class="guide-name">Navod Pushpakumara</h3>
+              <p class="guide-position">Sri Lankan Safari Specialist</p>
+              <div class="guide-info">
+                <div class="guide-info-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  <span>15+ Years Experience</span>
+                </div>
+                <div class="guide-info-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                  <span>Kurunagala, Sri Lanka</span>
+                </div>
+                <div class="guide-info-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.5 12H16c-.7 2-2 3-4 3s-3.3-1-4-3H2.5"></path>
+                    <path d="M5.5 5.1L2 12v6c0 1.1.9 2 2 2h16a2 2 0 0 0 2-2v-6l-3.4-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.8 1.1z"></path>
+                  </svg>
+                  <span>Wildlife & Conservation Tours</span>
+                </div>
+              </div>
+              <p class="guide-bio">David is a wildlife biologist turned safari guide with unparalleled knowledge of African ecosystems. His tours focus on sustainable wildlife viewing and supporting local conservation efforts while providing unforgettable encounters.</p>
+              <a href="#" class="btn btn-outline btn-sm">View Profile</a>
+            </div>
+          </div>
+
+          <!-- Guide 5 -->
+          <div class="guide-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="guide-image">
+              <img src="images/guide6.jpg" alt="Mei Tanaka">
+              <div class="guide-overlay">
+                <div class="guide-social">
+                  <a href="#" class="guide-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                    </svg>
+                  </a>
+                  <a href="#" class="guide-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                  </a>
+                  <a href="#" class="guide-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                      <rect x="2" y="9" width="4" height="12"></rect>
+                      <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="guide-content">
+              <h3 class="guide-name">Sachin Tharaka</h3>
+              <p class="guide-position">Travel Expert</p>
+              <div class="guide-info">
+                <div class="guide-info-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  <span>9+ Years Experience</span>
+                </div>
+                <div class="guide-info-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                  <span>Galle, Sri Lanka</span>
+                </div>
+                <div class="guide-info-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.5 12H16c-.7 2-2 3-4 3s-3.3-1-4-3H2.5"></path>
+                    <path d="M5.5 5.1L2 12v6c0 1.1.9 2 2 2h16a2 2 0 0 0 2-2v-6l-3.4-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.8 1.1z"></path>
+                  </svg>
+                  <span>Cultural & Urban Exploration</span>
+                </div>
+              </div>
+              <p class="guide-bio">Mei specializes in blending traditional and modern aspects of East Asian cultures. Her tours offer unique insights into local customs, arts, and cuisine while navigating the dynamic urban landscapes of major Asian cities.</p>
+              <a href="#" class="btn btn-outline btn-sm">View Profile</a>
+            </div>
+          </div>
+
+          <!-- Guide 6 -->
+          <div class="guide-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="guide-image">
+              <img src="images/guide8.jpg" alt="Alex Thompson">
+              <div class="guide-overlay">
+                <div class="guide-social">
+                  <a href="#" class="guide-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                    </svg>
+                  </a>
+                  <a href="#" class="guide-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                  </a>
+                  <a href="#" class="guide-social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                      <rect x="2" y="9" width="4" height="12"></rect>
+                      <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="guide-content">
+              <h3 class="guide-name">Navodya Sathsarani</h3>
+              <p class="guide-position">Luxury Travel Specialist</p>
+              <div class="guide-info">
+                <div class="guide-info-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  <span>11+ Years Experience</span>
+                </div>
+                <div class="guide-info-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                  <span>Galle, Sri Lanka</span>
+                </div>
+                <div class="guide-info-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.5 12H16c-.7 2-2 3-4 3s-3.3-1-4-3H2.5"></path>
+                    <path d="M5.5 5.1L2 12v6c0 1.1.9 2 2 2h16a2 2 0 0 0 2-2v-6l-3.4-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.8 1.1z"></path>
+                  </svg>
+                  <span>VIP & Exclusive Experiences</span>
+                </div>
+              </div>
+              <p class="guide-bio">Alex specializes in creating bespoke luxury travel experiences for discerning clients. With connections to exclusive venues and private access to iconic sites, he crafts journeys that combine comfort with authentic local experiences.</p>
+              <a href="#" class="btn btn-outline btn-sm">View Profile</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Travel Tips Section -->
+    <section class="travel-tips">
+      <div class="container">
+        <div class="section-header" data-aos="fade-up">
+          <h2 class="section-title">Expert Travel Tips</h2>
+          <p class="section-subtitle">Insights and advice from our experienced guides</p>
+        </div>
+        <div class="tips-grid">
+          <!-- Tip 1 -->
+          <div class="tip-card" data-aos="fade-up">
+            <div class="tip-image">
+              <img src="images/pack.png" alt="Packing Tips">
+            </div>
+            <div class="tip-content">
+              <div class="tip-category">Preparation</div>
+              <h3 class="tip-title">The Art of Packing Light</h3>
+              <p class="tip-excerpt">Learn how to pack efficiently for any trip duration without sacrificing essentials. Our expert guides share their tried-and-tested techniques.</p>
+              <a href="#" class="tip-link">
+                <span>Read More</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Tip 2 -->
+          <div class="tip-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="tip-image">
+              <img src="images/photo.webp" alt="Photography Tips">
+            </div>
+            <div class="tip-content">
+              <div class="tip-category">Photography</div>
+              <h3 class="tip-title">Capturing Memorable Travel Moments</h3>
+              <p class="tip-excerpt">Professional tips for taking stunning travel photos regardless of your camera equipment. Learn composition, lighting, and timing techniques.</p>
+              <a href="#" class="tip-link">
+                <span>Read More</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Tip 3 -->
+          <div class="tip-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="tip-image">
+              <img src="images/food.png" alt="Food Tips">
+            </div>
+            <div class="tip-content">
+              <div class="tip-category">Culinary</div>
+              <h3 class="tip-title">Exploring Local Cuisines Safely</h3>
+              <p class="tip-excerpt">How to enjoy authentic local foods while traveling without compromising your health. Includes tips for finding the best local eateries.</p>
+              <a href="#" class="tip-link">
+                <span>Read More</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="tips-cta" data-aos="fade-up">
+          <a href="#" class="btn btn-primary">View All Travel Tips</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Book a Guide Section -->
+    <section class="book-guide">
+      <div class="container">
+        <div class="book-guide-wrapper" data-aos="fade-up">
+          <div class="book-guide-content">
+            <h2 class="book-guide-title">Ready to Explore with an Expert?</h2>
+            <p class="book-guide-text">Our guides are ready to create a personalized travel experience just for you. Whether you're looking for adventure, relaxation, or cultural immersion, we'll match you with the perfect guide for your journey.</p>
+            <ul class="book-guide-features">
+              <li class="book-guide-feature">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Personalized itineraries tailored to your interests</span>
+              </li>
+              <li class="book-guide-feature">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Access to hidden gems and local experiences</span>
+              </li>
+              <li class="book-guide-feature">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Expert knowledge and cultural insights</span>
+              </li>
+              <li class="book-guide-feature">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>24/7 support throughout your journey</span>
+              </li>
+            </ul>
+            <a href="book-now.html" class="btn btn-primary">Book a Guide Now</a>
+          </div>
+          <div class="book-guide-image">
+            <img src="images/booking.webp" alt="Book a Guide">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="guide-testimonials">
+      <div class="container">
+        <div class="section-header" data-aos="fade-up">
+          <h2 class="section-title">What Our Travelers Say</h2>
+          <p class="section-subtitle">Experiences shared by travelers who explored with our guides</p>
+        </div>
+        <div class="testimonials-slider" data-aos="fade-up" data-aos-delay="100">
+          <!-- Testimonial 1 -->
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              <div class="testimonial-rating">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </div>
+              <p class="testimonial-text">"Sarah's knowledge of Southeast Asia transformed our trip from a standard vacation to a life-changing experience. She introduced us to local families, took us to hidden temples, and helped us understand the rich cultural heritage of each place we visited."</p>
+              <div class="testimonial-author">
+                <div class="testimonial-author-image">
+                  <img src="https://source.unsplash.com/random/100x100/?portrait,woman" alt="Jennifer & Mark">
+                </div>
+                <div class="testimonial-author-info">
+                  <h4 class="testimonial-author-name">Jennifer & Mark Wilson</h4>
+                  <p class="testimonial-trip">Thailand & Cambodia Tour</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 2 -->
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              <div class="testimonial-rating">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </div>
+              <p class="testimonial-text">"Michael's expertise made our adventure trip both thrilling and safe. He knew exactly when to push us out of our comfort zones and when to provide extra support. The hiking trails he chose offered breathtaking views that we would never have found on our own."</p>
+              <div class="testimonial-author">
+                <div class="testimonial-author-image">
+                  <img src="https://source.unsplash.com/random/100x100/?portrait,man" alt="Robert Chen">
+                </div>
+                <div class="testimonial-author-info">
+                  <h4 class="testimonial-author-name">Robert Chen</h4>
+                  <p class="testimonial-trip">New Zealand Adventure Tour</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 3 -->
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              <div class="testimonial-rating">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </div>
+              <p class="testimonial-text">"Emma's art history background brought the museums and historical sites of Europe to life. She arranged private viewings and introduced us to local artists. Her restaurant recommendations were impeccable, and she even helped us communicate with locals in each country."</p>
+              <div class="testimonial-author">
+                <div class="testimonial-author-image">
+                  <img src="https://source.unsplash.com/random/100x100/?portrait,couple" alt="James & Patricia">
+                </div>
+                <div class="testimonial-author-info">
+                  <h4 class="testimonial-author-name">James & Patricia Thompson</h4>
+                  <p class="testimonial-trip">European Cultural Tour</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <div class="footer-logo">
+            <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>NS TRAVELS</span>
+          </div>
+          <p class="footer-description">Creating unforgettable travel experiences since 2010. Your journey begins with us.</p>
+          <div class="footer-social">
+            <a href="#" class="social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+              </svg>
+            </a>
+            <a href="#" class="social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+            <a href="#" class="social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-column">
+          <h3 class="footer-title">Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="original-destinations.html">Destinations</a></li>
+            <li><a href="guides.html">Guides</a></li>
+            <li><a href="index.html#packages">Packages</a></li>
+            <li><a href="index.html#about">About Us</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3 class="footer-title">Support</h3>
+          <ul class="footer-links">
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Terms & Conditions</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Booking Information</a></li>
+            <li><a href="#">Cancellation Policy</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3 class="footer-title">Newsletter</h3>
+          <p class="footer-newsletter-text">Subscribe to our newsletter for travel tips and exclusive offers</p>
+          <div class="footer-newsletter">
+            <input type="email" placeholder="Enter your email">
+            <button class="btn btn-primary">Subscribe</button>
+          </div>
+          <p class="footer-newsletter-disclaimer">By subscribing, you agree to our Privacy Policy</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="copyright">© <span id="currentYear"></span> Wanderlust Travel. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <!-- Scripts -->
+  <script src="js/script.js"></script>
+  <script src="js/guides.js"></script>
+</body>
+</html>

@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en" class="light-mode">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Destinations - Wanderlust Travel</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/destinations.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+  <!-- Preloader -->
+  <div class="preloader">
+    <div class="preloader-spinner"></div>
+  </div>
+
+  <!-- Cursor -->
+  <div class="cursor"></div>
+  <div class="cursor-follower"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <div class="logo">
+          <a href="index.html" class="logo-link">
+            <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>NS TRAVELS</span>
+          </a>
+        </div>
+        <nav class="nav">
+          <ul class="nav-list">
+            <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="original-destinations.html" class="nav-link active">Destinations</a></li>
+            <li class="nav-item"><a href="index.html#packages" class="nav-link">Packages</a></li>
+            <li class="nav-item"><a href="index.html#about" class="nav-link">About</a></li>
+            <li class="nav-item"><a href="index.html#testimonials" class="nav-link">Testimonials</a></li>
+            <li class="nav-item"><a href="index.html#contact" class="nav-link">Contact</a></li>
+          </ul>
+        </nav>
+        <div class="header-actions">
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+          <button class="btn btn-outline">Sign In</button>
+          <a href="book-now.html" class="btn btn-primary">Book Now</a>
+          <button class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu">
+    <div class="mobile-menu-inner">
+      <ul class="mobile-nav-list">
+        <li class="mobile-nav-item"><a href="index.html" class="mobile-nav-link">Home</a></li>
+        <li class="mobile-nav-item"><a href="original-destinations.html" class="mobile-nav-link active">Destinations</a></li>
+        <li class="mobile-nav-item"><a href="index.html#packages" class="mobile-nav-link">Packages</a></li>
+        <li class="mobile-nav-item"><a href="index.html#about" class="mobile-nav-link">About</a></li>
+        <li class="mobile-nav-item"><a href="index.html#testimonials" class="mobile-nav-link">Testimonials</a></li>
+        <li class="mobile-nav-item"><a href="index.html#contact" class="mobile-nav-link">Contact</a></li>
+      </ul>
+      <div class="mobile-menu-footer">
+        <div class="social-links">
+          <a href="#" class="social-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+            </svg>
+          </a>
+          <a href="#" class="social-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+          <a href="#" class="social-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="page-header-bg">
+        <div class="page-header-overlay"></div>
+      </div>
+      <div class="container">
+        <div class="page-header-content">
+          <h1 class="page-title split-text">All Destinations</h1>
+          <div class="breadcrumbs">
+            <a href="index.html" class="breadcrumb-item">Home</a>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-item active">Destinations</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Destinations Section -->
+    <section class="destinations-section">
+      <div class="container">
+        <!-- Destinations Filters -->
+        <div class="destinations-filters">
+          <div class="filter-wrapper">
+            <div class="filter-group">
+              <label for="continent-filter">Continent</label>
+              <select id="continent-filter" class="filter-select">
+                <option value="all">All Continents</option>
+                <option value="africa">Africa</option>
+                <option value="asia">Asia</option>
+                <option value="europe">Europe</option>
+                <option value="north-america">North America</option>
+                <option value="oceania">Oceania</option>
+                <option value="south-america">South America</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="category-filter">Category</label>
+              <select id="category-filter" class="filter-select">
+                <option value="all">All Categories</option>
+                <option value="beach">Beach</option>
+                <option value="city">City</option>
+                <option value="mountain">Mountain</option>
+                <option value="countryside">Countryside</option>
+                <option value="historical">Historical</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="price-filter">Price Range</label>
+              <select id="price-filter" class="filter-select">
+                <option value="all">All Prices</option>
+                <option value="budget">Budget</option>
+                <option value="mid-range">Mid-Range</option>
+                <option value="luxury">Luxury</option>
+              </select>
+            </div>
+          </div>
+          <div class="search-wrapper">
+            <input type="text" id="destination-search" placeholder="Search destinations...">
+            <button class="search-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Destinations Grid -->
+        <div class="destinations-grid">
+          <!-- Destination Card 1 -->
+          <div class="destination-card" data-aos="fade-up">
+            <div class="destination-image">
+              <img src="images/2.jpg" alt="Paris">
+              <div class="destination-overlay">
+                <div class="destination-overlay-content">
+                  <div class="destination-meta">
+                    <span class="destination-category">City</span>
+                    <span class="destination-rating">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                      </svg>
+                      4.8
+                    </span>
+                  </div>
+                  <a href="book-now.html" class="btn btn-sm btn-primary">Book Now</a>
+                </div>
+              </div>
+            </div>
+            <div class="destination-content">
+              <h3 class="destination-title">Sigiriya</h3>
+              <p class="destination-location">Dambulla, Sri Lanka</p>
+              <div class="destination-footer">
+                <div class="destination-price">From <span>Rs.10,000</span></div>
+                <a href="#" class="destination-link">
+                  <span>Explore</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Destination Card 2 -->
+          <div class="destination-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="destination-image">
+              <img src="images/galle-fort.webp" alt="Bali">
+              <div class="destination-overlay">
+                <div class="destination-overlay-content">
+                  <div class="destination-meta">
+                    <span class="destination-category">Beach</span>
+                    <span class="destination-rating">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                      </svg>
+                      4.9
+                    </span>
+                  </div>
+                  <a href="book-now.html" class="btn btn-sm btn-primary">Book Now</a>
+                </div>
+              </div>
+            </div>
+            <div class="destination-content">
+              <h3 class="destination-title">Galle Fort</h3>
+              <p class="destination-location">Galle, Sri Lanka</p>
+              <div class="destination-footer">
+                <div class="destination-price">From <span>Rs.12,000</span></div>
+                <a href="#" class="destination-link">
+                  <span>Explore</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Destination Card 3 -->
+          <div class="destination-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="destination-image">
+              <img src="images/1.jpeg" alt="Santorini">
+              <div class="destination-overlay">
+                <div class="destination-overlay-content">
+                  <div class="destination-meta">
+                    <span class="destination-category">Island</span>
+                    <span class="destination-rating">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                      </svg>
+                      4.7
+                    </span>
+                  </div>
+                  <a href="book-now.html" class="btn btn-sm btn-primary">Book Now</a>
+                </div>
+              </div>
+            </div>
+            <div class="destination-content">
+              <h3 class="destination-title">Nine Arch Bridge</h3>
+              <p class="destination-location">Ella, Sri Lanka</p>
+              <div class="destination-footer">
+                <div class="destination-price">From <span>Rs.15,000</span></div>
+                <a href="#" class="destination-link">
+                  <span>Explore</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Destination Card 4 -->
+          <div class="destination-card" data-aos="fade-up">
+            <div class="destination-image">
+              <img src="images/3.png" alt="New York">
+              <div class="destination-overlay">
+                <div class="destination-overlay-content">
+                  <div class="destination-meta">
+                    <span class="destination-category">City</span>
+                    <span class="destination-rating">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                      </svg>
+                      4.6
+                    </span>
+                  </div>
+                  <a href="book-now.html" class="btn btn-sm btn-primary">Book Now</a>
+                </div>
+              </div>
+            </div>
+            <div class="destination-content">
+              <h3 class="destination-title">Lotus Tower</h3>
+              <p class="destination-location">Colombo, Sri Lanka</p>
+              <div class="destination-footer">
+                <div class="destination-price">From <span>Rs.10,000</span></div>
+                <a href="#" class="destination-link">
+                  <span>Explore</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Destination Card 5 -->
+          <div class="destination-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="destination-image">
+              <img src="images/8.jpg" alt="Tokyo">
+              <div class="destination-overlay">
+                <div class="destination-overlay-content">
+                  <div class="destination-meta">
+                    <span class="destination-category">City</span>
+                    <span class="destination-rating">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                      </svg>
+                      4.8
+                    </span>
+                  </div>
+                  <a href="book-now.html" class="btn btn-sm btn-primary">Book Now</a>
+                </div>
+              </div>
+            </div>
+            <div class="destination-content">
+              <h3 class="destination-title">Adam's Peak</h3>
+              <p class="destination-location">Rathnapura, Sri Lanka</p>
+              <div class="destination-footer">
+                <div class="destination-price">From <span>Rs.15,000</span></div>
+                <a href="#" class="destination-link">
+                  <span>Explore</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Destination Card 6 -->
+          <div class="destination-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="destination-image">
+              <img src="images/7.jpg" alt="Maldives">
+              <div class="destination-overlay">
+                <div class="destination-overlay-content">
+                  <div class="destination-meta">
+                    <span class="destination-category">Beach</span>
+                    <span class="destination-rating">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                      </svg>
+                      5.0
+                    </span>
+                  </div>
+                  <a href="book-now.html" class="btn btn-sm btn-primary">Book Now</a>
+                </div>
+              </div>
+            </div>
+            <div class="destination-content">
+              <h3 class="destination-title">Coconut Tree Hill Beach</h3>
+              <p class="destination-location">Mirissa, Sri Lanka</p>
+              <div class="destination-footer">
+                <div class="destination-price">From <span>Rs.23,000</span></div>
+                <a href="#" class="destination-link">
+                  <span>Explore</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Destination Card 7 -->
+          <div class="destination-card" data-aos="fade-up">
+            <div class="destination-image">
+              <img src="images/6.jpg" alt="Rome">
+              <div class="destination-overlay">
+                <div class="destination-overlay-content">
+                  <div class="destination-meta">
+                    <span class="destination-category">Historical</span>
+                    <span class="destination-rating">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                      </svg>
+                      4.7
+                    </span>
+                  </div>
+                  <a href="book-now.html" class="btn btn-sm btn-primary">Book Now</a>
+                </div>
+              </div>
+            </div>
+            <div class="destination-content">
+              <h3 class="destination-title">Temple of tooth</h3>
+              <p class="destination-location">Kandy, Sri Lanka</p>
+              <div class="destination-footer">
+                <div class="destination-price">From <span>Rs.20,000</span></div>
+                <a href="#" class="destination-link">
+                  <span>Explore</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Destination Card 8 -->
+          <div class="destination-card" data-aos="fade-up" data-aos-delay="100">
+            <div class="destination-image">
+              <img src="images/Nuwara-Eliya.jpg" alt="Sydney">
+              <div class="destination-overlay">
+                <div class="destination-overlay-content">
+                  <div class="destination-meta">
+                    <span class="destination-category">City</span>
+                    <span class="destination-rating">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                      </svg>
+                      4.6
+                    </span>
+                  </div>
+                  <a href="book-now.html" class="btn btn-sm btn-primary">Book Now</a>
+                </div>
+              </div>
+            </div>
+            <div class="destination-content">
+              <h3 class="destination-title">Ambewela Farm</h3>
+              <p class="destination-location">Nuwara Eliya, Sri Lanka</p>
+              <div class="destination-footer">
+                <div class="destination-price">From <span>$Rs.25,000</span></div>
+                <a href="#" class="destination-link">
+                  <span>Explore</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Destination Card 9 -->
+          <div class="destination-card" data-aos="fade-up" data-aos-delay="200">
+            <div class="destination-image">
+              <img src="images/yala.jpg" alt="Cape Town">
+              <div class="destination-overlay">
+                <div class="destination-overlay-content">
+                  <div class="destination-meta">
+                    <span class="destination-category">Coastal</span>
+                    <span class="destination-rating">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                      </svg>
+                      4.5
+                    </span>
+                  </div>
+                  <a href="book-now.html" class="btn btn-sm btn-primary">Book Now</a>
+                </div>
+              </div>
+            </div>
+            <div class="destination-content">
+              <h3 class="destination-title">Yala Forest</h3>
+              <p class="destination-location">Hambanthota, Sri Lanka</p>
+              <div class="destination-footer">
+                <div class="destination-price">From <span>Rs.30,000</span></div>
+                <a href="#" class="destination-link">
+                  <span>Explore</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+          <a href="#" class="pagination-item active">1</a>
+          <a href="#" class="pagination-item">2</a>
+          <a href="#" class="pagination-item">3</a>
+          <span class="pagination-dots">...</span>
+          <a href="#" class="pagination-item">8</a>
+          <a href="#" class="pagination-next">
+            <span>Next</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <div class="footer-logo">
+            <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>NS TRAVELS</span>
+          </div>
+          <p class="footer-description">Creating unforgettable travel experiences since 2010. Your journey begins with us.</p>
+          <div class="footer-social">
+            <a href="#" class="social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+              </svg>
+            </a>
+            <a href="#" class="social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+            <a href="#" class="social-link">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-column">
+          <h3 class="footer-title">Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="original-destinations.html">Destinations</a></li>
+            <li><a href="index.html#packages">Packages</a></li>
+            <li><a href="index.html#about">About Us</a></li>
+            <li><a href="index.html#testimonials">Testimonials</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3 class="footer-title">Support</h3>
+          <ul class="footer-links">
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Terms & Conditions</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Booking Information</a></li>
+            <li><a href="#">Cancellation Policy</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3 class="footer-title">Newsletter</h3>
+          <p class="footer-newsletter-text">Subscribe to our newsletter for travel tips and exclusive offers</p>
+          <div class="footer-newsletter">
+            <input type="email" placeholder="Enter your email">
+            <button class="btn btn-primary">Subscribe</button>
+          </div>
+          <p class="footer-newsletter-disclaimer">By subscribing, you agree to our Privacy Policy</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="copyright">© <span id="currentYear"></span> Wanderlust Travel. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <!-- Scripts -->
+  <script src="js/script.js"></script>
+  <script src="js/destinations.js"></script>
+</body>
+</html>

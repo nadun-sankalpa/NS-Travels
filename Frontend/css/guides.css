@@ -1,0 +1,585 @@
+:root {
+    /* Light Mode Colors */
+    --bg-color-light: #ffffff;
+    --text-color-light: #333333;
+    --text-light-color-light: #666666;
+    --border-color-light: #e0e0e0;
+    --bg-light-light: #f8f9fa;
+    --primary-color-light: #2a9df4;
+    --primary-hover-light: #1a8cd8;
+    --box-shadow-light: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --box-shadow-hover-light: 0 8px 24px rgba(0, 0, 0, 0.1);
+    --card-bg-light: #ffffff;
+    
+    /* Dark Mode Colors */
+    --bg-color-dark: #121212;
+    --text-color-dark: #e0e0e0;
+    --text-light-color-dark: #a0a0a0;
+    --border-color-dark: #2a2a2a;
+    --bg-light-dark: #1e1e1e;
+    --primary-color-dark: #3aa5f6;
+    --primary-hover-dark: #4db1ff;
+    --box-shadow-dark: 0 4px 12px rgba(0, 0, 0, 0.2);
+    --box-shadow-hover-dark: 0 8px 24px rgba(0, 0, 0, 0.3);
+    --card-bg-dark: #1e1e1e;
+    
+    /* Default to light mode */
+    --bg-color: var(--bg-color-light);
+    --text-color: var(--text-color-light);
+    --text-light: var(--text-light-color-light);
+    --border-color: var(--border-color-light);
+    --bg-light: var(--bg-light-light);
+    --primary-color: var(--primary-color-light);
+    --primary-hover: var(--primary-hover-light);
+    --box-shadow: var(--box-shadow-light);
+    --box-shadow-hover: var(--box-shadow-hover-light);
+    --card-bg: var(--card-bg-light);
+  }
+  
+  /* Dark Mode */
+  .dark-mode {
+    --bg-color: var(--bg-color-dark);
+    --text-color: var(--text-color-dark);
+    --text-light: var(--text-light-color-dark);
+    --border-color: var(--border-color-dark);
+    --bg-light: var(--bg-light-dark);
+    --primary-color: var(--primary-color-dark);
+    --primary-hover: var(--primary-hover-dark);
+    --box-shadow: var(--box-shadow-dark);
+    --box-shadow-hover: var(--box-shadow-hover-dark);
+    --card-bg: var(--card-bg-dark);
+  }
+  
+  /* Theme Toggle */
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-color);
+    margin-right: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .theme-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  .dark-mode .theme-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .theme-toggle svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .theme-toggle .sun-icon {
+    display: none;
+  }
+  
+  .theme-toggle .moon-icon {
+    display: block;
+  }
+  
+  .dark-mode .theme-toggle .sun-icon {
+    display: block;
+  }
+  
+  .dark-mode .theme-toggle .moon-icon {
+    display: none;
+  }
+  
+  /* Apply theme colors to body */
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Guides Introduction */
+  .guides-intro {
+    padding: 4rem 0;
+  }
+  
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+  }
+  
+  .section-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    max-width: 700px;
+    margin: 0 auto;
+    transition: color 0.3s ease;
+  }
+  
+  .guides-intro-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+  }
+  
+  /* Guides Team */
+  .guides-team {
+    padding: 2rem 0 5rem;
+    background-color: var(--bg-light);
+    transition: background-color 0.3s ease;
+  }
+  
+  .guides-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2.5rem;
+  }
+  
+  /* Guide Card */
+  .guide-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    border: 1px solid var(--border-color);
+  }
+  
+  .guide-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--box-shadow-hover);
+  }
+  
+  .guide-image {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+  }
+  
+  .guide-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .guide-card:hover .guide-image img {
+    transform: scale(1.05);
+  }
+  
+  .guide-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: flex-end;
+    padding: 1.5rem;
+  }
+  
+  .guide-card:hover .guide-overlay {
+    opacity: 1;
+  }
+  
+  .guide-social {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .guide-social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .guide-social-link:hover {
+    background-color: var(--primary-color);
+  }
+  
+  .guide-social-link svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .guide-content {
+    padding: 1.5rem;
+  }
+  
+  .guide-name {
+    font-size: 1.3rem;
+    margin: 0 0 0.25rem;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+  }
+  
+  .guide-position {
+    font-size: 0.9rem;
+    color: var(--primary-color);
+    margin: 0 0 1rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  
+  .guide-info {
+    margin-bottom: 1.5rem;
+  }
+  
+  .guide-info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+  }
+  
+  .guide-info-item svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 0.75rem;
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+  }
+  
+  .guide-bio {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+  }
+  
+  /* Travel Tips Section */
+  .travel-tips {
+    padding: 5rem 0;
+  }
+  
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+  
+  .tip-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    border: 1px solid var(--border-color);
+  }
+  
+  .tip-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--box-shadow-hover);
+  }
+  
+  .tip-image {
+    height: 200px;
+    overflow: hidden;
+  }
+  
+  .tip-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .tip-card:hover .tip-image img {
+    transform: scale(1.05);
+  }
+  
+  .tip-content {
+    padding: 1.5rem;
+  }
+  
+  .tip-category {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  .tip-title {
+    font-size: 1.2rem;
+    margin: 0 0 1rem;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+  }
+  
+  .tip-excerpt {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    color: var(--text-light);
+    transition: color 0.3s ease;
+  }
+  
+  .tip-link {
+    display: flex;
+    align-items: center;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .tip-link:hover {
+    color: var(--primary-hover);
+  }
+  
+  .tip-link span {
+    margin-right: 0.5rem;
+  }
+  
+  .tip-link svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+  }
+  
+  .tip-link:hover svg {
+    transform: translateX(3px);
+  }
+  
+  .tips-cta {
+    text-align: center;
+  }
+  
+  /* Book a Guide Section */
+  .book-guide {
+    padding: 5rem 0;
+    background-color: var(--bg-light);
+    transition: background-color 0.3s ease;
+  }
+  
+  .book-guide-wrapper {
+    display: flex;
+    align-items: center;
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--border-color);
+  }
+  
+  .book-guide-content {
+    flex: 1;
+    padding: 3rem;
+  }
+  
+  .book-guide-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+  }
+  
+  .book-guide-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    color: var(--text-light);
+    transition: color 0.3s ease;
+  }
+  
+  .book-guide-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+  }
+  
+  .book-guide-feature {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+  
+  .book-guide-feature svg {
+    width: 18px;
+    height: 18px;
+    margin-right: 1rem;
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+  }
+  
+  .book-guide-image {
+    flex: 1;
+    height: 500px;
+    overflow: hidden;
+    display: none;
+  }
+  
+  .book-guide-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Testimonials Section */
+  .guide-testimonials {
+    padding: 5rem 0;
+  }
+  
+  .testimonials-slider {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .testimonial-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--border-color);
+    margin-bottom: 2rem;
+  }
+  
+  .testimonial-content {
+    padding: 2rem;
+  }
+  
+  .testimonial-rating {
+    display: flex;
+    margin-bottom: 1.5rem;
+  }
+  
+  .testimonial-rating svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 0.25rem;
+    color: #ffc107;
+    fill: #ffc107;
+  }
+  
+  .testimonial-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+    font-style: italic;
+    transition: color 0.3s ease;
+  }
+  
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+  }
+  
+  .testimonial-author-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 1rem;
+  }
+  
+  .testimonial-author-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .testimonial-author-name {
+    font-size: 1.1rem;
+    margin: 0 0 0.25rem;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+  }
+  
+  .testimonial-trip {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin: 0;
+    transition: color 0.3s ease;
+  }
+  
+  /* Responsive Styles */
+  @media (min-width: 992px) {
+    .book-guide-image {
+      display: block;
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .guides-grid {
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+    
+    .book-guide-content {
+      padding: 2rem;
+    }
+    
+    .book-guide-title {
+      font-size: 1.75rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .guides-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .tips-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .section-title {
+      font-size: 2rem;
+    }
+    
+    .book-guide-title {
+      font-size: 1.5rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .guide-image {
+      height: 250px;
+    }
+    
+    .testimonial-content {
+      padding: 1.5rem;
+    }
+    
+    .testimonial-text {
+      font-size: 1rem;
+    }
+  }
