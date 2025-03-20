@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en" class="light-mode">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Vacancies - Wanderlust Travel</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/job-vacancies.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <div class="header-wrapper">
+        <a href="index.html" class="logo">
+          <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          <span>NS TRAVELS</span>
+        </a>
+        
+        <nav class="main-nav">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="original-destinations.html">Destinations</a></li>
+            <li><a href="guides.html">Travel Guides</a></li>
+            <li><a href="universities.html">Universities</a></li>
+            <li><a href="job-vacancies.html">Jobs</a></li>
+            <li><a href="vehicle-rentals.html" class="active">Vehicle Rentals</a></li>
+          </ul>
+        </nav>
+        
+        <div class="header-actions">
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+          <a href="login-select.html" class="btn btn-primary">Sign In</a>
+        </div>
+        
+        <button class="mobile-menu-toggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-background">
+      <div class="overlay"></div>
+    </div>
+    <div class="container">
+      <div class="hero-content" style="margin-top: 15%;">
+        <h1 class="hero-title" data-aos="fade-up" style="margin-top: -1%;">Join Our Global Team</h1>
+        <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="100" style="margin-top: 15%;">Discover exciting career opportunities in travel and tourism around the world</p>
+        <div class="hero-search" data-aos="fade-up" data-aos-delay="200">
+          <div class="search-container">
+            <input type="text" id="job-search" placeholder="Search jobs by title, location, or keyword...">
+            <button class="search-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-wave" style="margin-top: 10%;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" >
+        <path fill="var(--bg-color)" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,149.3C960,160,1056,160,1152,138.7C1248,117,1344,75,1392,53.3L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Filter Section -->
+  <section class="filter-section">
+    <div class="container">
+      <div class="filters-container" data-aos="fade-up">
+        <div class="filter-group">
+          <label for="department-filter">Department</label>
+          <select id="department-filter">
+            <option value="">All Departments</option>
+            <option value="customer-service">Customer Service</option>
+            <option value="sales">Sales & Marketing</option>
+            <option value="operations">Operations</option>
+            <option value="it">IT & Digital</option>
+            <option value="finance">Finance & Admin</option>
+            <option value="hr">Human Resources</option>
+            <option value="guides">Tour Guides</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="location-filter">Location</label>
+          <select id="location-filter">
+            <option value="">All Locations</option>
+            <option value="new-york">Colombo</option>
+            <option value="london">Galle</option>
+            <option value="paris">Panadura</option>
+            <option value="tokyo">Bamabalapitiya</option>
+            <option value="sydney">Kandy</option>
+            <option value="remote">Piliyandala</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="type-filter">Job Type</label>
+          <select id="type-filter">
+            <option value="">All Types</option>
+            <option value="full-time">Full-Time</option>
+            <option value="part-time">Part-Time</option>
+            <option value="contract">Contract</option>
+            <option value="seasonal">Seasonal</option>
+            <option value="internship">Internship</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="experience-filter">Experience</label>
+          <select id="experience-filter">
+            <option value="">Any Experience</option>
+            <option value="entry">Entry Level</option>
+            <option value="mid">Mid Level</option>
+            <option value="senior">Senior Level</option>
+            <option value="executive">Executive</option>
+          </select>
+        </div>
+        <button class="btn btn-filter">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+          </svg>
+          Filter Jobs
+        </button>
+      </div>
+      <div class="active-filters" data-aos="fade-up" data-aos-delay="100">
+        <span class="filter-tag">Customer Service <button class="remove-filter">×</button></span>
+        <span class="filter-tag">Full-Time <button class="remove-filter">×</button></span>
+        <button class="clear-filters">Clear All Filters</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Jobs -->
+  <section class="featured-jobs">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <h2 class="section-title">Featured Opportunities</h2>
+        <p class="section-subtitle">Explore our most exciting and in-demand positions</p>
+      </div>
+      
+      <div class="featured-jobs-grid" data-aos="fade-up" data-aos-delay="100">
+        <!-- Featured Job 1 -->
+        <div class="featured-job-card">
+          <div class="job-badge urgent">Urgent</div>
+          <div class="job-header">
+            <div class="job-title-wrapper">
+              <h3 class="job-title">Senior Travel Consultant</h3>
+              <div class="job-location">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <span>Colombo, Sri Lanka</span>
+              </div>
+            </div>
+            <div class="job-type full-time">Full-Time</div>
+          </div>
+          <div class="job-content">
+            <p class="job-description">We're looking for an experienced travel consultant to join our luxury travel team. You'll be designing bespoke travel experiences for high-value clients and managing complex itineraries.</p>
+            <div class="job-details">
+              <div class="job-detail">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+                <span>Sales & Marketing</span>
+              </div>
+              <div class="job-detail">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>Posted 2 days ago</span>
+              </div>
+              <div class="job-detail">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>5+ years experience</span>
+              </div>
+              <div class="job-detail">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+                <span>Rs80K - Rs.150K</span>
+              </div>
+            </div>
+            <div class="job-actions">
+              <a href="#" class="btn btn-apply">Apply Now</a>
+              <button class="btn-save">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span>Save</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Featured Job 2 -->
+        <div class="featured-job-card">
+          <div class="job-badge new">New</div>
+          <div class="job-header">
+            <div class="job-title-wrapper">
+              <h3 class="job-title">Digital Marketing Manager</h3>
+              <div class="job-location">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <span>Galle, Sri Lanka</span>
+              </div>
+            </div>
+            <div class="job-type full-time">Full-Time</div>
+          </div>
+          <div class="job-content">
+            <p class="job-description">Lead our digital marketing efforts to promote travel packages and destinations. You'll be responsible for strategy, campaign management, and optimizing our online presence.</p>
+            <div class="job-details">
+              <div class="job-detail">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+                <span>Sales & Marketing</span>
+              </div>
+              <div class="job-detail">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>Posted 1 week ago</span>
+              </div>
+              <div class="job-detail">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>3+ years experience</span>
+              </div>
+              <div class="job-detail">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+                <span>Rs.45K - Rs.60K</span>
+              </div>
+            </div>
+            <div class="job-actions">
+              <a href="#" class="btn btn-apply">Apply Now</a>
+              <button class="btn-save">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span>Save</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Featured Job 3 -->
+        <div class="featured-job-card">
+          <div class="job-badge remote">Remote</div>
+          <div class="job-header">
+            <div class="job-title-wrapper">
+              <h3 class="job-title">Travel Content Writer</h3>
+              <div class="job-location">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <span>Remote (Worldwide)</span>
+              </div>
+            </div>
+            <div class="job-type contract">Contract</div>
+          </div>
+          <div class="job-content">
+            <p class="job-description">Create engaging travel content for our blog, social media, and marketing materials. Share your passion for travel through compelling storytelling and destination guides.</p>
+            <div class="job-details">
+              <div class="job-detail">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+                <span>Content & Editorial</span>
+              </div>
+              <div class="job-detail">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>Posted 3 days ago</span>
+              </div>
+              <div class="job-detail">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>2+ years experience</span>
+              </div>
+              <div class="job-detail">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+                <span>Rs.140K-Rs.160K per article</span>
+              </div>
+            </div>
+            <div class="job-actions">
+              <a href="#" class="btn btn-apply">Apply Now</a>
+              <button class="btn-save">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span>Save</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- All Job Listings -->
+  <section class="job-listings">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <h2 class="section-title">All Job Openings</h2>
+        <p class="section-subtitle">Browse our current vacancies and find your perfect role</p>
+      </div>
+      
+      <div class="job-list" data-aos="fade-up" data-aos-delay="100">
+        <!-- Job 1 -->
+        <div class="job-card">
+          <div class="job-card-header">
+            <div class="job-card-title-wrapper">
+              <h3 class="job-card-title">Customer Service Representative</h3>
+              <div class="job-card-company">Wanderlust Travel</div>
+            </div>
+            <div class="job-card-type full-time">Full-Time</div>
+          </div>
+          <div class="job-card-details">
+            <div class="job-card-detail">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <span>Paris, France</span>
+            </div>
+            <div class="job-card-detail">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              <span>Customer Service</span>
+            </div>
+            <div class="job-card-detail">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23"></line>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+              </svg>
+              <span>€30K - €40K</span>
+            </div>
+          </div>
+          <div class="job-card-footer">
+            <a href="#" class="job-card-link">View Details</a>
+            <span class="job-card-date">Posted 5 days ago</span>
+          </div>
+        </div>
+        
+        <!-- Job 2 -->
+        <div class="job-card">
+          <div class="job-card-header">
+            <div class="job-card-title-wrapper">
+              <h3 class="job-card-title">Tour Guide - Japanese Speaking</h3>
+              <div class="job-card-company">Wanderlust Travel</div>
+            </div>
+            <div class="job-card-type seasonal">Seasonal</div>
+          </div>
+          <div class="job-card-details">
+            <div class="job-card-detail">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <span>Tokyo, Japan</span>
+            </div>
+            <div class="job-card-detail">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              <span>Tour Guides</span>
+            </div>
+            <div class="job-card-detail">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23"></line>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+              </svg>
+              <span>¥350K - ¥450K/month</span>
+            </div>
+          </div>
+          <div class="job-card-footer">
+            <a href="#" class="job-card-link">View Details</a>
+            <span class="job-card-date">Posted 1 week ago</span>
+          </div>
+        </div>
+        
+        <!-- Job 3 -->
+        <div class="job-card">
+          <div class="job-card-header">
+            <div class="job-card-title-wrapper">
+              <h3 class="job-card-title">Travel App Developer</h3>
+              <div class="job-card-company">Wanderlust Travel</div>
+            </div>
+            <div class="job-card-type full-time">Full-Time</div>
+          </div>
+          <div class="job-card-details">
+            <div class="job-card-detail">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0  stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <span>Remote</span>
+            </div>
+            <div class="job-card-detail">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              <span>IT & Digital</span>
+            </div>
+            <div class="job-card-detail">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23"></line>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+              </svg>
+              <span>$80K - $110K</span>
+            </div>
+          </div>
+          <div class="job-card-footer">
+            <a href="#" class="job-card-link">View Details</a>
+            <span class="job-card-date">Posted 2 weeks ago</span>
+          </div>
+        </div>
+        
+        <!-- Job 4 -->
+        <div class="job-card">
+          <div class="job-card-header">
+            <div class="job-card-title-wrapper">
+              <h3 class="job-card-title">Destination Specialist - Southeast Asia</h3>
+              <div class="job-card-company">Wanderlust Travel</div>
+            </div>
+            <div class="job-card-type full-time">Full-Time</div>
+          </div>
+          <div class="job-card-details">
+            <div class="job-card-detail">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <span>Singapore</span>
+            </div>
+            <div class="job-card-detail">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              <span>Operations</span>
+            </div>
+            <div class="job-card-detail">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23"></line>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+              </svg>
+              <span>S$50K - S$70K</span>
+            </div>
+          </div>
+          <div class="job-card-footer">
+            <a href="#" class="job-card-link">View Details</a>
+            <span class="job-card-date">Posted 3 days ago</span>
+          </div>
+        </div>
+        
+        <!-- Job 5 -->
+        <div class="job-card">
+          <div class="job-card-header">
+            <div class="job-card-title-wrapper">
+              <h3 class="job-card-title">Travel Finance Analyst</h3>
+              <div class="job-card-company">Wanderlust Travel</div>
+            </div>
+            <div class="job-card-type full-time">Full-Time</div>
+          </div>
+          <div class="job-card-details">
+            <div class="job-card-detail">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <span>Sydney, Australia</span>
+            </div>
+            <div class="job-card-detail">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              <span>Finance & Admin</span>
+            </div>
+            <div class="job-card-detail">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23"></line>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+              </svg>
+              <span>A$70K - A$90K</span>
+            </div>
+          </div>
+          <div class="job-card-footer">
+            <a href="#" class="job-card-link">View Details</a>
+            <span class="job-card-date">Posted 1 week ago</span>
+          </div>
+        </div>
+        
+        <!-- Job 6 -->
+        <div class="job-card">
+          <div class="job-card-header">
+            <div class="job-card-title-wrapper">
+              <h3 class="job-card-title">Social Media Coordinator</h3>
+              <div class="job-card-company">Wanderlust Travel</div>
+            </div>
+            <div class="job-card-type part-time">Part-Time</div>
+          </div>
+          <div class="job-card-details">
+            <div class="job-card-detail">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <span>London, UK</span>
+            </div>
+            <div class="job-card-detail">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              <span>Sales & Marketing</span>
+            </div>
+            <div class="job-card-detail">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23"></line>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+              </svg>
+              <span>£25K - £30K</span>
+            </div>
+          </div>
+          <div class="job-card-footer">
+            <a href="#" class="job-card-link">View Details</a>
+            <span class="job-card-date">Posted 4 days ago</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="pagination" data-aos="fade-up" data-aos-delay="150">
+        <button class="pagination-arrow prev">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+        </button>
+        <div class="pagination-numbers">
+          <a href="#" class="active">1</a>
+          <a href="#">2</a>
+          <a href="#">3</a>
+          <span class="pagination-dots">...</span>
+          <a href="#">8</a>
+        </div>
+        <button class="pagination-arrow next">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Job Application Process -->
+  <section class="application-process">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <h2 class="section-title">How to Apply</h2>
+        <p class="section-subtitle">Our simple application process makes it easy to join our team</p>
+      </div>
+      
+      <div class="process-steps" data-aos="fade-up" data-aos-delay="100">
+        <div class="process-step">
+          <div class="step-number">1</div>
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+          </div>
+          <h3 class="step-title">Find Your Role</h3>
+          <p class="step-description">Browse our job listings and find a position that matches your skills and interests.</p>
+        </div>
+        
+        <div class="process-step">
+          <div class="step-number">2</div>
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          <h3 class="step-title">Submit Application</h3>
+          <p class="step-description">Complete the online application form and upload your resume and cover letter.</p>
+        </div>
+        
+        <div class="process-step">
+          <div class="step-number">3</div>
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+            </svg>
+          </div>
+          <h3 class="step-title">Interview Process</h3>
+          <p class="step-description">If selected, you'll participate in interviews with our hiring team, either in person or virtually.</p>
+        </div>
+        
+        <div class="process-step">
+          <div class="step-number">4</div>
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+          <h3 class="step-title">Job Offer</h3>
+          <p class="step-description">Successful candidates will receive a job offer with details about compensation and benefits.</p>
+        </div>
+        
+        <div class="process-step">
+          <div class="step-number">5</div>
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="8.5" cy="7" r="4"></circle>
+              <polyline points="17 11 19 13 23 9"></polyline>
+            </svg>
+          </div>
+          <h3 class="step-title">Onboarding</h3>
+          <p class="step-description">Join our team and begin your onboarding process to set you up for success in your new role.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section class="benefits-section">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <h2 class="section-title">Why Work With Us</h2>
+        <p class="section-subtitle">Discover the benefits of joining the Wanderlust Travel team</p>
+      </div>
+      
+      <div class="benefits-grid" data-aos="fade-up" data-aos-delay="100">
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+              <line x1="9" y1="9" x2="9.01" y2="9"></line>
+              <line x1="15" y1="9" x2="15.01" y2="9"></line>
+            </svg>
+          </div>
+          <h3 class="benefit-title">Travel Perks</h3>
+          <p class="benefit-description">Enjoy discounted travel packages, familiarization trips, and special rates with our partner hotels and airlines.</p>
+        </div>
+        
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+          </div>
+          <h3 class="benefit-title">Health & Wellness</h3>
+          <p class="benefit-description">Comprehensive health insurance, wellness programs, and mental health support to keep you at your best.</p>
+        </div>
+        
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20h9"></path>
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+            </svg>
+          </div>
+          <h3 class="benefit-title">Professional Development</h3>
+          <p class="benefit-description">Ongoing training, education assistance, and clear career paths to help you grow professionally.</p>
+        </div>
+        
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            </svg>
+          </div>
+          <h3 class="benefit-title">Work-Life Balance</h3>
+          <p class="benefit-description">Flexible work arrangements, generous paid time off, and family-friendly policies to support your personal life.</p>
+        </div>
+        
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <h3 class="benefit-title">Diverse & Inclusive Culture</h3>
+          <p class="benefit-description">Join a global team that celebrates diversity and creates an inclusive environment for all employees.</p>
+        </div>
+        
+        <div class="benefit-card">
+          <div class="benefit-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="1" x2="12" y2="23"></line>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+          </div>
+          <h3 class="benefit-title">Competitive Compensation</h3>
+          <p class="benefit-description">Attractive salary packages, performance bonuses, and retirement plans to reward your contributions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Employee Testimonials -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <h2 class="section-title">Meet Our Team</h2>
+        <p class="section-subtitle">Hear from the people who make Wanderlust Travel an amazing place to work</p>
+      </div>
+      
+      <div class="testimonials-container" data-aos="fade-up" data-aos-delay="100">
+        <div class="testimonial">
+          <div class="testimonial-image">
+            <img src="/placeholder.svg?height=150&width=150" alt="Employee Portrait">
+          </div>
+          <div class="testimonial-content">
+            <div class="quote-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path>
+                <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"></path>
+              </svg>
+            </div>
+            <p class="testimonial-text">Working at Wanderlust has been the adventure of a lifetime. I've had the opportunity to visit over 15 countries while developing my career in travel marketing. The company truly values work-life balance and encourages us to explore the world we promote.</p>
+            <div class="testimonial-author">
+              <h4>Sarah Johnson</h4>
+              <p>Marketing Manager</p>
+              <div class="years-at-company">With Wanderlust for 5 years</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial">
+          <div class="testimonial-image">
+            <img src="/placeholder.svg?height=150&width=150" alt="Employee Portrait">
+          </div>
+          <div class="testimonial-content">
+            <div class="quote-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path>
+                <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"></path>
+              </svg>
+            </div>
+            <p class="testimonial-text">I started as an intern and have grown into a senior role thanks to Wanderlust's amazing mentorship program. The company invests in its employees and provides clear paths for advancement. The diverse team and global perspective make every day exciting.</p>
+            <div class="testimonial-author">
+              <h4>Miguel Sanchez</h4>
+              <p>Senior Tour Operations Specialist</p>
+              <div class="years-at-company">With Wanderlust for 7 years</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Job Alert Signup -->
+  <section class="job-alert">
+    <div class="container">
+      <div class="job-alert-container" data-aos="fade-up">
+        <div class="job-alert-content">
+          <h2>Stay Updated on New Opportunities</h2>
+          <p>Subscribe to our job alerts and be the first to know when new positions matching your interests become available.</p>
+        </div>
+        <form class="job-alert-form">
+          <div class="form-group">
+            <input type="email" placeholder="Your email address" required>
+          </div>
+          <div class="form-group">
+            <select required>
+              <option value="" disabled selected>Job category</option>
+              <option value="customer-service">Customer Service</option>
+              <option value="sales">Sales & Marketing</option>
+              <option value="operations">Operations</option>
+              <option value="it">IT & Digital</option>
+              <option value="finance">Finance & Admin</option>
+              <option value="hr">Human Resources</option>
+              <option value="guides">Tour Guides</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-subscribe">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <a href="index.html">
+            <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>Wanderlust</span>
+          </a>
+          <p>Join our global team and help people discover the world.</p>
+        </div>
+        
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Careers</h4>
+            <ul>
+              <li><a href="#">All Job Openings</a></li>
+              <li><a href="#">Benefits</a></li>
+              <li><a href="#">Our Culture</a></li>
+              <li><a href="#">Internships</a></li>
+              <li><a href="#">Life at Wanderlust</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-column">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Our Story</a></li>
+              <li><a href="#">Leadership</a></li>
+              <li><a href="#">Press</a></li>
+              <li><a href="#">Social Responsibility</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-column">
+            <h4>Resources</h4>
+            <ul>
+              <li><a href="#">FAQs</a></li>
+              <li><a href="#">Application Tips</a></li>
+              <li><a href="#">Interview Preparation</a></li>
+              <li><a href="#">Employee Stories</a></li>
+              <li><a href="#">Diversity & Inclusion</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-column">
+            <h4>Contact Us</h4>
+            <ul class="contact-info">
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                <a href="mailto:careers@wanderlust.com">careers@wanderlust.com</a>
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+                <a href="tel:+1234567890">+1 (234) 567-890</a>
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <span>123 Travel St, New York, NY 10001</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div class="social-links">
+          <a href="#" aria-label="Facebook">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+            </svg>
+          </a>
+          <a href="#" aria-label="Twitter">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+            </svg>
+          </a>
+          <a href="#" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+          <a href="#" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+              <rect x="2" y="9" width="4" height="12"></rect>
+              <circle cx="4" cy="4" r="2"></circle>
+            </svg>
+          </a>
+        </div>
+        <div class="copyright">
+          <p>&copy; 2025 Wanderlust Travel. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="19" x2="12" y2="5"></line>
+      <polyline points="5 12 12 5 19 12"></polyline>
+    </svg>
+  </button>
+
+  <!-- Scripts -->
+  <script src="js/job-vacancies.js"></script>
+</body>
+</html>

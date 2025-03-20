@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NS TRAVELS - Vehicle Rentals </title>
+    <link rel="stylesheet" href="css/vehicle-rentals.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container header-wrapper">
+            <a href="index.html" class="logo">
+                <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                NS TRAVELS
+            </a>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="original-destinations.html">Destinations</a></li>
+                    <li><a href="guides.html">Travel Guides</a></li>
+                    <li><a href="universities.html">Universities</a></li>
+                    <li><a href="job-vacancies.html">Jobs</a></li>
+                    <li><a href="vehicle-rentals.html" class="active">Vehicle Rentals</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <a href="login-select.html" class="btn btn-primary">Sign In</a>
+            </div>
+            
+            <button class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-background"></div>
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title" data-aos="fade-up">Explore with Freedom</h1>
+                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="100">Find the perfect vehicle for your journey</p>
+            </div>
+            
+            <div class="booking-form-container" data-aos="fade-up" data-aos-delay="200">
+                <form class="booking-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pickup-location">Pickup Location</label>
+                            <div class="input-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                                <input type="text" id="pickup-location" placeholder="City, Airport, etc.">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pickup-date">Pickup Date</label>
+                            <div class="input-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                                <input type="date" id="pickup-date">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pickup-time">Pickup Time</label>
+                            <div class="input-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                                <input type="time" id="pickup-time" value="10:00">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dropoff-date">Drop-off Date</label>
+                            <div class="input-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                                <input type="date" id="dropoff-date">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dropoff-time">Drop-off Time</label>
+                            <div class="input-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                                <input type="time" id="dropoff-time" value="10:00">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="driver-age">Driver's Age</label>
+                            <div class="input-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                <select id="driver-age">
+                                    <option value="18-20">18-20 years</option>
+                                    <option value="21-24">21-24 years</option>
+                                    <option value="25+" selected>25+ years</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group vehicle-type-group">
+                            <label>Vehicle Type</label>
+                            <div class="vehicle-type-options">
+                                <label class="vehicle-type-option">
+                                    <input type="radio" name="vehicle-type" value="economy" checked>
+                                    <div class="option-content">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C1.4 11.3 1 12.1 1 13v3c0 .6.4 1 1 1h2"></path>
+                                            <circle cx="7" cy="17" r="2"></circle>
+                                            <circle cx="17" cy="17" r="2"></circle>
+                                        </svg>
+                                        <span>Economy</span>
+                                    </div>
+                                </label>
+                                <label class="vehicle-type-option">
+                                    <input type="radio" name="vehicle-type" value="compact">
+                                    <div class="option-content">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C1.4 11.3 1 12.1 1 13v3c0 .6.4 1 1 1h2"></path>
+                                            <circle cx="7" cy="17" r="2"></circle>
+                                            <circle cx="17" cy="17" r="2"></circle>
+                                        </svg>
+                                        <span>Compact</span>
+                                    </div>
+                                </label>
+                                <label class="vehicle-type-option">
+                                    <input type="radio" name="vehicle-type" value="suv">
+                                    <div class="option-content">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M5 17h14M5 17a2 2 0 1 0 4 0M5 17a2 2 0 1 1 0-4h14a2 2 0 1 1 0 4M9 17a2 2 0 1 0 4 0m-4 0a2 2 0 1 1 0-4h6a2 2 0 1 1 0 4m-6 0h6M3 9l4-4h10l4 4M3 9v4h18V9M3 9h18"></path>
+                                        </svg>
+                                        <span>SUV</span>
+                                    </div>
+                                </label>
+                                <label class="vehicle-type-option">
+                                    <input type="radio" name="vehicle-type" value="luxury">
+                                    <div class="option-content">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0M5 9l2 -4h10l2 4M5 9h14M5 9v4M19 9v4M5 13h14"></path>
+                                        </svg>
+                                        <span>Luxury</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn-search">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            Search Vehicles
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="hero-wave">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path fill="#ffffff" fill-opacity="1" d="M0,32L60,42.7C120,53,240,75,360,74.7C480,75,600,53,720,42.7C840,32,960,32,1080,37.3C1200,43,1320,53,1380,58.7L1440,64L1440,100L1380,100C1320,100,1200,100,1080,100C960,100,840,100,720,100C600,100,480,100,360,100C240,100,120,100,60,100L0,100Z"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Featured Vehicles Section -->
+    <section class="featured-vehicles-section section-padding">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Featured Vehicles</h2>
+                <p class="section-subtitle">Our most popular rental options</p>
+            </div>
+            
+            <div class="featured-vehicles-slider" data-aos="fade-up" data-aos-delay="100">
+                <div class="featured-vehicles-container">
+                    <div class="featured-vehicle">
+                        <div class="vehicle-image">
+                            <img src="/images/camrry.jpg" alt="Toyota Camry">
+                            <div class="vehicle-badge popular">Popular</div>
+                        </div>
+                        <div class="vehicle-details">
+                            <div class="vehicle-header">
+                                <h3 class="vehicle-name">Toyota Camry</h3>
+                                <div class="vehicle-rating">
+                                    <div class="stars">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                        </svg>
+                                    </div>
+                                    <span class="rating-count">4.8 (120 reviews)</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-features">
+                                <div class="feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 2a10 10 0 1 0 10 10H12V2z"></path>
+                                        <path d="M12 2a10 10 0 0 1 10 10h-10V2z"></path>
+                                        <path d="M12 12l9.7-3.2"></path>
+                                        <path d="M12 12l3.2 9.7"></path>
+                                    </svg>
+                                    <span>Automatic</span>
+                                </div>
+                                <div class="feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                    <span>5 Seats</span>
+                                </div>
+                                <div class="feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C1.4 11.3 1 12.1 1 13v3c0 .6.4 1 1 1h2"></path>
+                                        <circle cx="7" cy="17" r="2"></circle>
+                                        <circle cx="17" cy="17" r="2"></circle>
+                                    </svg>
+                                    <span>Economy</span>
+                                </div>
+                                <div class="feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                    </svg>
+                                    <span>2 Bags</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-price">
+                                <div class="price">
+                                    <span class="amount">$45</span>
+                                    <span class="period">/ day</span>
+                                </div>
+                                <a href="#" class="btn btn-primary">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="featured-vehicle">
+                        <div class="vehicle-image">
+                            <img src="/images/honda.avif" alt="Honda CR-V">
+                            <div class="vehicle-badge discount">15% Off</div>
+                        </div>
+                        <div class="vehicle-details">
+                            <div class="vehicle-header">
+                                <h3 class="vehicle-name">Honda CR-V</h3>
+                                <div class="vehicle-rating">
+                                    <div class="stars">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="half-star">
+                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                        </svg>
+                                    </div>
+                                    <span class="rating-count">4.5 (98 reviews)</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-features">
+                                <div class="feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 2a10 10 0 1 0 10 10H12V2z"></path>
+                                        <path d="M12 2a10 10 0 0 1 10 10h-10V2z"></path>
+                                        <path d="M12 12l9.7-3.2"></path>
+                                        <path d="M12 12l3.2 9.7"></path>
+                                    </svg>
+                                    <span>Automatic</span>
+                                </div>
+                                <div class="feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                    <span>5 Seats</span>
+                                </div>
+                                <div class="feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M5 17h14M5 17a2 2 0 1 0 4 0M5 17a2 2 0 1 1 0-4h14a2 2 0 1 1 0 4M9 17a2 2 0 1 0 4 0m-4 0a2 2 0 1 1 0-4h6a2 2 0 1 1 0 4m-6 0h6M3 9l4-4h10l4 4M3 9v4h18V9M3 9h18"></path>
+                                    </svg>
+                                    <span>SUV</span>
+                                </div>
+                                <div class="feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                    </svg>
+                                    <span>3 Bags</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-price">
+                                <div class="price">
+                                    <span class="amount">$65</span>
+                                    <span class="period">/ day</span>
+                                </div>
+                                <a href="#" class="btn btn-primary">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="featured-vehicle">
+                        <div class="vehicle-image">
+                            <img src="/images/benz.webp" alt="Mercedes-Benz E-Class">
+                            <div class="vehicle-badge new">New</div>
+                        </div>
+                        <div class="vehicle-details">
+                            <div class="vehicle-header">
+                                <h3 class="vehicle-name">Mercedes-Benz E-Class</h3>
+                                <div class="vehicle-rating">
+                                    <div class="stars">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                        </svg>
+                                    </div>
+                                    <span class="rating-count">5.0 (42 reviews)</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-features">
+                                <div class="feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 2a10 10 0 1 0 10 10H12V2z"></path>
+                                        <path d="M12 2a10 10 0 0 1 10 10h-10V2z"></path>
+                                        <path d="M12 12l9.7-3.2"></path>
+                                        <path d="M12 12l3.2 9.7"></path>
+                                    </svg>
+                                    <span>Automatic</span>
+                                </div>
+                                <div class="feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                    <span>5 Seats</span>
+                                </div>
+                                <div class="feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0M5 9l2 -4h10l2 4M5 9h14M5 9v4M19 9v4M5 13h14"></path>
+                                    </svg>
+                                    <span>Luxury</span>
+                                </div>
+                                <div class="feature">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                    </svg>
+                                    <span>4 Bags</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-price">
+                                <div class="price">
+                                    <span class="amount">$120</span>
+                                    <span class="period">/ day</span>
+                                </div>
+                                <a href="#" class="btn btn-primary">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slider-controls">
+                    <button class="prev" aria-label="Previous slide">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <div class="dots">
+                        <button class="dot active" aria-label="Go to slide 1"></button>
+                        <button class="dot" aria-label="Go to slide 2"></button>
+                        <button class="dot" aria-label="Go to slide 3"></button>
+                    </div>
+                    <button class="next" aria-label="Next slide">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vehicle Categories Section -->
+    <section class="vehicle-categories-section section-padding bg-light">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Browse by Category</h2>
+                <p class="section-subtitle">Find the perfect vehicle for your needs</p>
+            </div>
+            
+            <div class="categories-grid" data-aos="fade-up" data-aos-delay="100">
+                <div class="category-card economy">
+                    <div class="category-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C1.4 11.3 1 12.1 1 13v3c0 .6.4 1 1 1h2"></path>
+                            <circle cx="7" cy="17" r="2"></circle>
+                            <circle cx="17" cy="17" r="2"></circle>
+                        </svg>
+                    </div>
+                    <h3 class="category-name">Economy</h3>
+                    <p class="category-description">Fuel-efficient cars perfect for city driving and budget-conscious travelers.</p>
+                    <div class="category-stats">
+                        <div class="stat">
+                            <span class="value">$40+</span>
+                            <span class="label">per day</span>
+                        </div>
+                        <div class="stat">
+                            <span class="value">15</span>
+                            <span class="label">vehicles</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-outline">View All</a>
+                </div>
+                
+                <div class="category-card suv">
+                    <div class="category-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 17h14M5 17a2 2 0 1 0 4 0M5 17a2 2 0 1 1 0-4h14a2 2 0 1 1 0 4M9 17a2 2 0 1 0 4 0m-4 0a2 2 0 1 1 0-4h6a2 2 0 1 1 0 4m-6 0h6M3 9l4-4h10l4 4M3 9v4h18V9M3 9h18"></path>
+                        </svg>
+                    </div>
+                    <h3 class="category-name">SUVs</h3>
+                    <p class="category-description">Spacious vehicles ideal for families and adventures on any terrain.</p>
+                    <div class="category-stats">
+                        <div class="stat">
+                            <span class="value">$65+</span>
+                            <span class="label">per day</span>
+                        </div>
+                        <div class="stat">
+                            <span class="value">12</span>
+                            <span class="label">vehicles</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-outline">View All</a>
+                </div>
+                
+                <div class="category-card luxury">
+                    <div class="category-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0M5 9l2 -4h10l2 4M5 9h14M5 9v4M19 9v4M5 13h14"></path>
+                        </svg>
+                    </div>
+                    <h3 class="category-name">Luxury</h3>
+                    <p class="category-description">Premium vehicles offering exceptional comfort and sophisticated features.</p>
+                    <div class="category-stats">
+                        <div class="stat">
+                            <span class="value">$100+</span>
+                            <span class="label">per day</span>
+                        </div>
+                        <div class="stat">
+                            <span class="value">8</span>
+                            <span class="label">vehicles</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-outline">View All</a>
+                </div>
+                
+                <div class="category-card convertible">
+                    <div class="category-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0M5 9l2 -4h10l2 4M5 9h14M5 9v4M19 9v4M5 13h14"></path>
+                        </svg>
+                    </div>
+                    <h3 class="category-name">Convertibles</h3>
+                    <p class="category-description">Open-top vehicles perfect for scenic drives and enjoying the sunshine.</p>
+                    <div class="category-stats">
+                        <div class="stat">
+                            <span class="value">$85+</span>
+                            <span class="label">per day</span>
+                        </div>
+                        <div class="stat">
+                            <span class="value">6</span>
+                            <span class="label">vehicles</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-outline">View All</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- All Vehicles Section -->
+    <section id="all-vehicles" class="all-vehicles-section section-padding">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Our Complete Fleet</h2>
+                <p class="section-subtitle">Browse all available vehicles for your next trip</p>
+            </div>
+            
+            <div class="filters-container" data-aos="fade-up" data-aos-delay="100">
+                <div class="filter-group">
+                    <label for="category-filter">Category</label>
+                    <select id="category-filter">
+                        <option value="all">All Categories</option>
+                        <option value="economy">Economy</option>
+                        <option value="compact">Compact</option>
+                        <option value="suv">SUV</option>
+                        <option value="luxury">Luxury</option>
+                        <option value="convertible">Convertible</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="price-filter">Price Range</label>
+                    <select id="price-filter">
+                        <option value="all">All Prices</option>
+                        <option value="budget">Budget ($0-$50)</option>
+                        <option value="mid">Mid-Range ($51-$100)</option>
+                        <option value="premium">Premium ($101+)</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="passengers-filter">Passengers</label>
+                    <select id="passengers-filter">
+                        <option value="all">Any</option>
+                        <option value="2">2 Seats</option>
+                        <option value="4">4 Seats</option>
+                        <option value="5">5 Seats</option>
+                        <option value="7+">7+ Seats</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="sort-filter">Sort By</label>
+                    <select id="sort-filter">
+                        <option value="recommended">Recommended</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="rating">Highest Rated</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="vehicles-grid" data-aos="fade-up" data-aos-delay="200">
+                <!-- Vehicle Cards (8 examples) -->
+                <div class="vehicle-card">
+                    <div class="vehicle-image">
+                        <img src="/images/toyota-toyota-corolla-trd-wallpaper-preview.jpg" alt="Toyota Corolla">
+                    </div>
+                    <div class="vehicle-details">
+                        <h3 class="vehicle-name">Toyota Axio</h3>
+                        <div class="vehicle-category">Economy</div>
+                        <div class="vehicle-features">
+                            <div class="feature">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                <span>5 Seats</span>
+                            </div>
+                            <div class="feature">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                </svg>
+                                <span>2 Bags</span>
+                            </div>
+                            <div class="feature">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2a10 10 0 1 0 10 10H12V2z"></path>
+                                    <path d="M12 2a10 10 0 0 1 10 10h-10V2z"></path>
+                                    <path d="M12 12l9.7-3.2"></path>
+                                    <path d="M12 12l3.2 9.7"></path>
+                                </svg>
+                                <span>Auto</span>
+                            </div>
+                        </div>
+                        <div class="vehicle-price">
+                            <span class="amount">Rs.4000</span>
+                            <span class="period">/ day</span>
+                        </div>
+                        <a href="#" class="btn btn-primary btn-sm">Book Now</a>
+                    </div>
+                </div>
+                
+                <!-- More vehicle cards would be here -->
+                <!-- I'll include just one more as an example -->
+                
+                <div class="vehicle-card">
+                    <div class="vehicle-image">
+                        <img src="/images/range rover.jpg" alt="Ford Escape">
+                    </div>
+                    <div class="vehicle-details">
+                        <h3 class="vehicle-name">Range Rover Sport</h3>
+                        <div class="vehicle-category">SUV</div>
+                        <div class="vehicle-features">
+                            <div class="feature">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                <span>5 Seats</span>
+                            </div>
+                            <div class="feature">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                </svg>
+                                <span>3 Bags</span>
+                            </div>
+                            <div class="feature">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2a10 10 0 1 0 10 10H12V2z"></path>
+                                    <path d="M12 2a10 10 0 0 1 10 10h-10V2z"></path>
+                                    <path d="M12 12l9.7-3.2"></path>
+                                    <path d="M12 12l3.2 9.7"></path>
+                                </svg>
+                                <span>Auto</span>
+                            </div>
+                        </div>
+                        <div class="vehicle-price">
+                            <span class="amount">Rs.12,000</span>
+                            <span class="period">/ day</span>
+                        </div>
+                        <a href="#" class="btn btn-primary btn-sm">Book Now</a>
+                    </div>
+                </div>
+
+                <div class="vehicle-card">
+                  <div class="vehicle-image">
+                      <img src="/images/fit.webp" alt="Ford Escape">
+                  </div>
+                  <div class="vehicle-details">
+                      <h3 class="vehicle-name">Honda Fit Sport</h3>
+                      <div class="vehicle-category">SUV</div>
+                      <div class="vehicle-features">
+                          <div class="feature">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                  <circle cx="12" cy="7" r="4"></circle>
+                              </svg>
+                              <span>5 Seats</span>
+                          </div>
+                          <div class="feature">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                              </svg>
+                              <span>3 Bags</span>
+                          </div>
+                          <div class="feature">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                  <path d="M12 2a10 10 0 1 0 10 10H12V2z"></path>
+                                  <path d="M12 2a10 10 0 0 1 10 10h-10V2z"></path>
+                                  <path d="M12 12l9.7-3.2"></path>
+                                  <path d="M12 12l3.2 9.7"></path>
+                              </svg>
+                              <span>Auto</span>
+                          </div>
+                      </div>
+                      <div class="vehicle-price">
+                          <span class="amount">Rs.12,000</span>
+                          <span class="period">/ day</span>
+                      </div>
+                      <a href="#" class="btn btn-primary btn-sm">Book Now</a>
+                  </div>
+              </div>
+                
+                <!-- More vehicle cards would go here -->
+            </div>
+            
+            <div class="load-more-container" data-aos="fade-up" data-aos-delay="300">
+                <button class="btn btn-outline btn-load-more">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="1 4 1 10 7 10"></polyline>
+                        <polyline points="23 20 23 14 17 14"></polyline>
+                        <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+                    </svg>
+                    Load More Vehicles
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rental Process Section -->
+    <section class="rental-process-section section-padding bg-light">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-subtitle">Renting a vehicle with us is quick and easy</p>
+            </div>
+            
+            <div class="process-steps" data-aos="fade-up" data-aos-delay="100">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </div>
+                    <h3 class="step-title">Choose Your Vehicle</h3>
+                    <p class="step-description">Browse our wide selection of vehicles and choose the one that fits your needs.</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                    </div>
+                    <h3 class="step-title">Select Dates</h3>
+                    <p class="step-description">Choose your pickup and drop-off dates and times that work for you.</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <h3 class="step-title">Provide Details</h3>
+                    <p class="step-description">Fill in your personal information and driver's license details.</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                        </svg>
+                    </div>
+                    <h3 class="step-title">Confirm & Pay</h3>
+                    <p class="step-description">Review your booking details and complete the payment securely.</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">5</div>
+                    <div class="step-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C1.4 11.3 1 12.1 1 13v3c0 .6.4 1 1 1h2"></path>
+                            <circle cx="7" cy="17" r="2"></circle>
+                            <circle cx="17" cy="17" r="2"></circle>
+                        </svg>
+                    </div>
+                    <h3 class="step-title">Enjoy Your Ride</h3>
+                    <p class="step-description">Pick up your vehicle and enjoy your journey with peace of mind.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews-section section-padding">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Customer Reviews</h2>
+                <p class="section-subtitle">What our customers say about our rental service</p>
+            </div>
+            
+            <div class="reviews-slider" data-aos="fade-up" data-aos-delay="100">
+                <div class="reviews-container">
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-avatar">
+                                <img src="/images/guide4.jpg" alt="John Smith">
+                            </div>
+                            <div class="reviewer-info">
+                                <h4 class="reviewer-name">Chenuka Tharusha</h4>
+                                <div class="review-date">May 15, 2023</div>
+                            </div>
+                            <div class="review-rating">
+                                <div class="stars">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"The rental process was incredibly smooth. The car was clean, well-maintained, and exactly what I needed for my trip. The staff was friendly and helpful. Will definitely use this service again!"</p>
+                        </div>
+                        <div class="review-vehicle">
+                            <span>Rented:</span> Toyota Camry
+                        </div>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-avatar">
+                                <img src="/placeholder.svg?height=60&width=60" alt="Sarah Johnson">
+                            </div>
+                            <div class="reviewer-info">
+                                <h4 class="reviewer-name">Sarah Johnson</h4>
+                                <div class="review-date">April 3, 2023</div>
+                            </div>
+                            <div class="review-rating">
+                                <div class="stars">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="half-star">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"We rented an SUV for our family vacation and it was perfect. The booking process was easy and the vehicle was spacious and comfortable. The only minor issue was a slight delay at pickup, but the staff was apologetic and professional."</p>
+                        </div>
+                        <div class="review-vehicle">
+                            <span>Rented:</span> Honda CR-V
+                        </div>
+                    </div>
+                    
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-avatar">
+                                <img src="/placeholder.svg?height=60&width=60" alt="Michael Chen">
+                            </div>
+                            <div class="reviewer-info">
+                                <h4 class="reviewer-name">Michael Chen</h4>
+                                <div class="review-date">June 22, 2023</div>
+                            </div>
+                            <div class="review-rating">
+                                <div class="stars">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>"I treated myself to a luxury car rental for a business trip and was thoroughly impressed. The Mercedes was immaculate and drove like a dream. The customer service was exceptional from start to finish. Highly recommend!"</p>
+                        </div>
+                        <div class="review-vehicle">
+                            <span>Rented:</span> Mercedes-Benz E-Class
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slider-controls">
+                    <button class="prev" aria-label="Previous review">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <div class="dots">
+                        <button class="dot active" aria-label="Go to review 1"></button>
+                        <button class="dot" aria-label="Go to review 2"></button>
+                        <button class="dot" aria-label="Go to review 3"></button>
+                    </div>
+                    <button class="next" aria-label="Next review">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section section-padding bg-light">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-subtitle">Find answers to common questions about our vehicle rental service</p>
+            </div>
+            
+            <div class="faq-container" data-aos="fade-up" data-aos-delay="100">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What documents do I need to rent a vehicle?</h3>
+                        <button class="toggle-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="faq-answer">
+                        <p>To rent a vehicle, you'll need a valid driver's license, a credit card in the renter's name, and proof of insurance. International renters may need an International Driving Permit along with their national driver's license. Age requirements vary by vehicle type, but generally, renters must be at least 21 years old.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Is there a mileage limit on rentals?</h3>
+                        <button class="toggle-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Most of our standard rentals come with unlimited mileage within the country of rental. However, some specialty and luxury vehicles may have daily mileage limits. Any restrictions will be clearly stated during the booking process. Additional charges apply if you exceed the mileage limit.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What is your cancellation policy?</h3>
+                        <button class="toggle-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="faq-answer">
+                        <p>For standard reservations, cancellations made at least 48 hours before the pickup time are free of charge. Cancellations made within 48 hours of pickup may incur a fee equivalent to one day's rental. No-shows are charged the full rental amount. Special events and peak season rentals may have different cancellation policies.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Do you offer one-way rentals?</h3>
+                        <button class="toggle-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we offer one-way rentals between many of our locations. One-way fees may apply depending on the pickup and drop-off locations. These fees vary based on distance and vehicle type. Please specify your one-way rental needs during the booking process to get accurate pricing.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What insurance options are available?</h3>
+                        <button class="toggle-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We offer several insurance options including Collision Damage Waiver (CDW), Supplemental Liability Insurance (SLI), Personal Accident Insurance (PAI), and Roadside Assistance Protection (RAP). Your personal auto insurance or credit card may provide coverage for rental vehicles, so check before purchasing additional insurance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section section-padding">
+        <div class="container">
+            <div class="cta-container" data-aos="fade-up">
+                <div class="cta-content">
+                    <h2 class="cta-title">Ready to Hit the Road?</h2>
+                    <p class="cta-text">Book your perfect vehicle today and enjoy the freedom to explore at your own pace.</p>
+                    <div class="cta-buttons">
+                        <a href="#" class="btn btn-primary">Book Now</a>
+                        <a href="#" class="btn btn-outline">Contact Us</a>
+                    </div>
+                </div>
+                <div class="cta-image">
+                    <img src="/placeholder.svg?height=300&width=400" alt="Happy travelers with rental car">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        <span>Travel Agency</span>
+                    </div>
+                    <p class="footer-description">Your trusted partner for travel experiences and vehicle rentals worldwide.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="Twitter">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="original-destinations.html">Destinations</a></li>
+                        <li><a href="guides.html">Travel Guides</a></li>
+                        <li><a href="universities.html">Universities</a></li>
+                        <li><a href="job-vacancies.html">Job Vacancies</a></li>
+                        <li><a href="vehicle-rentals.html">Vehicle Rentals</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Vehicle Categories</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Economy Cars</a></li>
+                        <li><a href="#">SUVs & Crossovers</a></li>
+                        <li><a href="#">Luxury Vehicles</a></li>
+                        <li><a href="#">Convertibles</a></li>
+                        <li><a href="#">Vans & Minivans</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3 class="footer-heading">Contact Us</h3>
+                    <address class="contact-info">
+                        <p>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            <span>123 Travel Street, City, Country</span>
+                        </p>
+                        <p>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                            <span>+1 (555) 123-4567</span>
+                        </p>
+                        <p>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            <span>info@travelagency.com</span>
+                        </p>
+                    </address>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="copyright">&copy; 2023 Travel Agency. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <script src="js/vehicle-rentals.js"></script>
+</body>
+</html>
