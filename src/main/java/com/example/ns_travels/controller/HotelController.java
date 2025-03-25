@@ -1,7 +1,7 @@
 package com.example.ns_travels.controller;
 
-import com.example.ns_travels.dto.GuideDTO;
-import com.example.ns_travels.service.GuideService;
+import com.example.ns_travels.dto.HotelDTO;
+import com.example.ns_travels.service.HotelService;
 import com.example.ns_travels.util.ResponseUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,74 +10,74 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/guides")
-public class GuideController {
+@RequestMapping("/api/hotels")
+public class HotelController {
 
-    private final GuideService guideService;
+    private final HotelService hotelService;
 
-    public GuideController(GuideService guideService) {
-        this.guideService = guideService;
+    public HotelController(HotelService hotelService) {
+        this.hotelService = hotelService;
     }
 
-    // Get guide by ID
+    // Get hotel by ID
     @GetMapping("/getById/{id}")
-    public ResponseEntity<ResponseUtil> getGuideById(@PathVariable Long id) {
+    public ResponseEntity<ResponseUtil> getHotelById(@PathVariable Long id) {
         try {
-            GuideDTO guideDTO = guideService.getGuideById(id);
+            HotelDTO hotelDTO = hotelService.getHotelById(id);
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseUtil(200, "Guide fetched successfully", guideDTO));
+                    .body(new ResponseUtil(200, "Hotel fetched successfully", hotelDTO));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseUtil(500, e.getMessage(), null));
         }
     }
 
-    // Get all guides
+    // Get all hotels
     @GetMapping("/getAll")
-    public ResponseEntity<ResponseUtil> getAllGuides() {
+    public ResponseEntity<ResponseUtil> getAllHotels() {
         try {
-            List<GuideDTO> guides = guideService.getAllGuides();
+            List<HotelDTO> hotels = hotelService.getAllHotels();
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseUtil(200, "Guides fetched successfully", guides));
+                    .body(new ResponseUtil(200, "Hotels fetched successfully", hotels));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseUtil(500, e.getMessage(), null));
         }
     }
 
-    // Add a new guide
-    @PostMapping("/addGuide")
-    public ResponseEntity<ResponseUtil> addGuide(@RequestBody GuideDTO guideDTO) {
+    // Add a new hotel
+    @PostMapping("/addHotel")
+    public ResponseEntity<ResponseUtil> addHotel(@RequestBody HotelDTO hotelDTO) {
         try {
-            guideService.save(guideDTO);
+            hotelService.save(hotelDTO);
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(new ResponseUtil(201, "Guide added successfully", null));
+                    .body(new ResponseUtil(201, "Hotel added successfully", null));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseUtil(500, e.getMessage(), null));
         }
     }
 
-    // Update guide
-    @PutMapping("/updateGuide")
-    public ResponseEntity<ResponseUtil> updateGuide(@RequestBody GuideDTO guideDTO) {
+    // Update hotel
+    @PutMapping("/updateHotel")
+    public ResponseEntity<ResponseUtil> updateHotel(@RequestBody HotelDTO hotelDTO) {
         try {
-            guideService.update(guideDTO);
+            hotelService.update(hotelDTO);
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseUtil(200, "Guide updated successfully", null));
+                    .body(new ResponseUtil(200, "Hotel updated successfully", null));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseUtil(500, e.getMessage(), null));
         }
     }
 
-    // Delete guide
-    @DeleteMapping("/deleteGuide/{id}")
-    public ResponseEntity<ResponseUtil> deleteGuide(@PathVariable Long id) {
+    // Delete hotel
+    @DeleteMapping("/deleteHotel/{id}")
+    public ResponseEntity<ResponseUtil> deleteHotel(@PathVariable Long id) {
         try {
-            guideService.delete(id);
+            hotelService.delete(id);
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseUtil(200, "Guide deleted successfully", null));
+                    .body(new ResponseUtil(200, "Hotel deleted successfully", null));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseUtil(500, e.getMessage(), null));

@@ -1,7 +1,7 @@
 package com.example.ns_travels.controller;
 
-import com.example.ns_travels.dto.GuideDTO;
-import com.example.ns_travels.service.GuideService;
+import com.example.ns_travels.dto.VehicleDTO;
+import com.example.ns_travels.service.VehicleService;
 import com.example.ns_travels.util.ResponseUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,74 +10,74 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/guides")
-public class GuideController {
+@RequestMapping("/api/vehicles")
+public class VehicleController {
 
-    private final GuideService guideService;
+    private final VehicleService vehicleService;
 
-    public GuideController(GuideService guideService) {
-        this.guideService = guideService;
+    public VehicleController(VehicleService vehicleService) {
+        this.vehicleService = vehicleService;
     }
 
-    // Get guide by ID
+    // Get vehicle by ID
     @GetMapping("/getById/{id}")
-    public ResponseEntity<ResponseUtil> getGuideById(@PathVariable Long id) {
+    public ResponseEntity<ResponseUtil> getVehicleById(@PathVariable Long id) {
         try {
-            GuideDTO guideDTO = guideService.getGuideById(id);
+            VehicleDTO vehicleDTO = vehicleService.getVehicleById(id);
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseUtil(200, "Guide fetched successfully", guideDTO));
+                    .body(new ResponseUtil(200, "Vehicle fetched successfully", vehicleDTO));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseUtil(500, e.getMessage(), null));
         }
     }
 
-    // Get all guides
+    // Get all vehicles
     @GetMapping("/getAll")
-    public ResponseEntity<ResponseUtil> getAllGuides() {
+    public ResponseEntity<ResponseUtil> getAllVehicles() {
         try {
-            List<GuideDTO> guides = guideService.getAllGuides();
+            List<VehicleDTO> vehicles = vehicleService.getAllVehicles();
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseUtil(200, "Guides fetched successfully", guides));
+                    .body(new ResponseUtil(200, "Vehicles fetched successfully", vehicles));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseUtil(500, e.getMessage(), null));
         }
     }
 
-    // Add a new guide
-    @PostMapping("/addGuide")
-    public ResponseEntity<ResponseUtil> addGuide(@RequestBody GuideDTO guideDTO) {
+    // Add a new vehicle
+    @PostMapping("/addVehicle")
+    public ResponseEntity<ResponseUtil> addVehicle(@RequestBody VehicleDTO vehicleDTO) {
         try {
-            guideService.save(guideDTO);
+            vehicleService.save(vehicleDTO);
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(new ResponseUtil(201, "Guide added successfully", null));
+                    .body(new ResponseUtil(201, "Vehicle added successfully", null));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseUtil(500, e.getMessage(), null));
         }
     }
 
-    // Update guide
-    @PutMapping("/updateGuide")
-    public ResponseEntity<ResponseUtil> updateGuide(@RequestBody GuideDTO guideDTO) {
+    // Update vehicle
+    @PutMapping("/updateVehicle")
+    public ResponseEntity<ResponseUtil> updateVehicle(@RequestBody VehicleDTO vehicleDTO) {
         try {
-            guideService.update(guideDTO);
+            vehicleService.update(vehicleDTO);
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseUtil(200, "Guide updated successfully", null));
+                    .body(new ResponseUtil(200, "Vehicle updated successfully", null));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseUtil(500, e.getMessage(), null));
         }
     }
 
-    // Delete guide
-    @DeleteMapping("/deleteGuide/{id}")
-    public ResponseEntity<ResponseUtil> deleteGuide(@PathVariable Long id) {
+    // Delete vehicle
+    @DeleteMapping("/deleteVehicle/{id}")
+    public ResponseEntity<ResponseUtil> deleteVehicle(@PathVariable Long id) {
         try {
-            guideService.delete(id);
+            vehicleService.delete(id);
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseUtil(200, "Guide deleted successfully", null));
+                    .body(new ResponseUtil(200, "Vehicle deleted successfully", null));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseUtil(500, e.getMessage(), null));
