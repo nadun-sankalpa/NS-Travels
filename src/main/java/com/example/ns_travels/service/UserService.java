@@ -1,6 +1,8 @@
 package com.example.ns_travels.service;
 
+import com.example.ns_travels.dto.AuthTokenDTO;
 import com.example.ns_travels.dto.UserDTO;
+import com.example.ns_travels.dto.UserLoginDTO;
 
 import java.util.List;
 
@@ -12,4 +14,5 @@ public interface UserService {
     List<UserDTO> getAllUsers();
     List<UserDTO> getUsersByRole(String role);
     UserDTO getUserByEmail(String email);
+    AuthTokenDTO verifyUser(UserLoginDTO userDTO);
 }

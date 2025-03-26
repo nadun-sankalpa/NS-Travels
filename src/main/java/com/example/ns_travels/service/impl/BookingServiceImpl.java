@@ -6,7 +6,7 @@ import com.example.ns_travels.entity.Hotel;
 import com.example.ns_travels.entity.User;
 import com.example.ns_travels.repository.BookingRepo;
 import com.example.ns_travels.repository.HotelRepo;
-import com.example.ns_travels.repository.UserRepo;
+import com.example.ns_travels.repository.UsersRepo;
 import com.example.ns_travels.service.BookingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class BookingServiceImpl implements BookingService {
     private BookingRepo bookingRepo;
 
     @Autowired
-    private UserRepo userRepo;
+    private UsersRepo userRepo;
 
     @Autowired
     private HotelRepo hotelRepo;

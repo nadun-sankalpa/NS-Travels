@@ -4,7 +4,7 @@ import com.example.ns_travels.dto.PaymentDTO;
 import com.example.ns_travels.entity.Payment;
 import com.example.ns_travels.entity.User;
 import com.example.ns_travels.repository.PaymentRepo;
-import com.example.ns_travels.repository.UserRepo;
+import com.example.ns_travels.repository.UsersRepo;
 import com.example.ns_travels.service.PaymentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class PaymentServiceImpl implements PaymentService {
     private PaymentRepo paymentRepo;
 
     @Autowired
-    private UserRepo userRepo;
+    private UsersRepo userRepo;
 
     @Autowired
     private ModelMapper modelMapper;

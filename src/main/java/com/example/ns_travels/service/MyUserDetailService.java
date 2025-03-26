@@ -1,11 +1,7 @@
 package com.example.ns_travels.service;
 
-import com.example.ns_travels.entity.Guide;
 import com.example.ns_travels.entity.User;
-import com.example.ns_travels.repository.GuideRepo;
-import com.example.ns_travels.repository.UserRepo;
-import com.sun.security.auth.UserPrincipal;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.ns_travels.repository.UsersRepo;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,9 +12,9 @@ import java.util.Optional;
 @Service
 public class MyUserDetailService implements UserDetailsService {
 
-    private final UserRepo userRepo;
+    private final UsersRepo userRepo;
 
-    public MyUserDetailService(UserRepo userRepo) {
+    public MyUserDetailService(UsersRepo userRepo) {
         this.userRepo = userRepo;
     }
 

@@ -4,7 +4,7 @@ import com.example.ns_travels.dto.ReviewDTO;
 import com.example.ns_travels.entity.Review;
 import com.example.ns_travels.entity.User;
 import com.example.ns_travels.repository.ReviewRepo;
-import com.example.ns_travels.repository.UserRepo;
+import com.example.ns_travels.repository.UsersRepo;
 import com.example.ns_travels.service.ReviewService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class ReviewServiceImpl implements ReviewService {
     private ReviewRepo reviewRepo;
 
     @Autowired
-    private UserRepo userRepo;
+    private UsersRepo userRepo;
 
     @Autowired
     private ModelMapper modelMapper;
