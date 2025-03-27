@@ -1,0 +1,2573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NS Travel - Admin Guides Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    /* ===== Base Styles ===== */
+    :root {
+        /* Colors */
+        --primary: #3b82f6;
+        --primary-light: #93c5fd;
+        --primary-dark: #1d4ed8;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --error: #ef4444;
+        --bg: #000000;
+        --bg-card: #111827;
+        --bg-sidebar: #000000;
+        --text: #f1f5f9;
+        --text-light: #94a3b8;
+        --border: #334155;
+        
+        /* Dark Mode Colors */
+        --dark-bg: #000000;
+        --dark-bg-card: #111827;
+        --dark-text: #f1f5f9;
+        --dark-text-light: #94a3b8;
+        --dark-border: #334155;
+        
+        /* Gradients */
+        --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        --warning-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        --error-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        
+        /* Shadows */
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+        --shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+        
+        /* Border Radius */
+        --border-radius-sm: 0.25rem;
+        --border-radius: 0.5rem;
+        --border-radius-lg: 1rem;
+        --border-radius-full: 9999px;
+        
+        /* Transitions */
+        --transition: all 0.3s ease;
+
+        /* Sidebar */
+        --sidebar-width: 220px;
+    }
+
+    /* Reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+        min-height: 100vh;
+        overflow-x: hidden;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 600;
+        line-height: 1.2;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    button {
+        cursor: pointer;
+        font-family: inherit;
+    }
+
+    /* Particles */
+    .particles-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    .particle {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(circle at center, rgba(59, 130, 246, 0.6) 0%, rgba(59, 130, 246, 0) 70%);
+        animation: float 15s infinite ease-in-out;
+        opacity: 0.5;
+        filter: blur(8px);
+    }
+
+    /* Layout */
+    .layout {
+        display: flex;
+        min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: var(--sidebar-width);
+        background-color: var(--bg-sidebar);
+        border-right: 1px solid var(--border);
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        height: 100vh;
+        z-index: 10;
+        transition: var(--transition);
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: var(--primary);
+    }
+
+    .logo-icon {
+        width: 36px;
+        height: 36px;
+        background: var(--primary);
+        color: white;
+        border-radius: var(--border-radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+    }
+
+    .nav-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        flex-grow: 1;
+    }
+
+    .nav-item {
+        margin-bottom: 0.5rem;
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        border-radius: var(--border-radius);
+        transition: var(--transition);
+        color: var(--text-light);
+    }
+
+    .nav-link:hover {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: var(--primary);
+    }
+
+    .nav-link.active {
+        background-color: rgba(59, 130, 246, 0.15);
+        color: var(--primary);
+    }
+
+    .nav-icon {
+        font-size: 1.25rem;
+        width: 20px;
+        text-align: center;
+    }
+
+    /* Main Content */
+    .main-content {
+        flex: 1;
+        margin-left: var(--sidebar-width);
+        padding: 0;
+        transition: var(--transition);
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Header */
+    .main-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        border-bottom: 1px solid var(--border);
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 5;
+    }
+
+    .page-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--primary);
+    }
+
+    .header-time {
+        font-size: 1.25rem;
+        color: var(--text-light);
+    }
+
+    .header-actions {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .search-bar {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: rgba(17, 24, 39, 0.8);
+        border: 1px solid var(--border);
+        border-radius: var(--border-radius-full);
+        padding: 0.5rem 1rem;
+        width: 300px;
+        transition: var(--transition);
+    }
+
+    .search-bar:focus-within {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    .search-icon {
+        color: var(--text-light);
+    }
+
+    .search-input {
+        border: none;
+        background: none;
+        outline: none;
+        width: 100%;
+        color: var(--text);
+        font-size: 0.875rem;
+    }
+
+    .search-input::placeholder {
+        color: var(--text-light);
+    }
+
+    .notification-bell {
+        position: relative;
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--border-radius-full);
+        background-color: rgba(17, 24, 39, 0.8);
+        transition: var(--transition);
+    }
+
+    .notification-bell:hover {
+        background-color: rgba(59, 130, 246, 0.1);
+    }
+
+    .notification-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        width: 18px;
+        height: 18px;
+        background-color: var(--error);
+        color: white;
+        border-radius: 50%;
+        font-size: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+    }
+
+    .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+    }
+
+    .user-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: var(--primary);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+    }
+
+    /* Content Container */
+    .content-container {
+        padding: 2rem;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background-color: var(--bg-card);
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        box-shadow: var(--shadow);
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: var(--border-radius);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        z-index: 1;
+    }
+
+    .stat-icon.blue {
+        background-color: rgba(59, 130, 246, 0.2);
+        color: var(--primary);
+    }
+
+    .stat-icon.green {
+        background-color: rgba(16, 185, 129, 0.2);
+        color: var(--success);
+    }
+
+    .stat-icon.yellow {
+        background-color: rgba(245, 158, 11, 0.2);
+        color: var(--warning);
+    }
+
+    .stat-icon.red {
+        background-color: rgba(239, 68, 68, 0.2);
+        color: var(--error);
+    }
+
+    .stat-value {
+        font-size: 1.75rem;
+        font-weight: 700;
+        z-index: 1;
+    }
+
+    .stat-label {
+        font-size: 0.875rem;
+        color: var(--text-light);
+        z-index: 1;
+    }
+
+    .stat-change {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+        z-index: 1;
+    }
+
+    .stat-change.positive {
+        color: var(--success);
+    }
+
+    .stat-change.negative {
+        color: var(--error);
+    }
+
+    .stat-bg {
+        position: absolute;
+        bottom: -20px;
+        right: -20px;
+        width: 100px;
+        height: 100px;
+        opacity: 0.1;
+        z-index: 0;
+    }
+
+    /* Progress bar */
+    .progress-bar {
+        height: 4px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: var(--border-radius-full);
+        margin-top: 0.5rem;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        border-radius: var(--border-radius-full);
+    }
+
+    .progress-fill.blue {
+        background-color: var(--primary);
+        width: 75%;
+    }
+
+    .progress-fill.green {
+        background-color: var(--success);
+        width: 65%;
+    }
+
+    .progress-fill.yellow {
+        background-color: var(--warning);
+        width: 45%;
+    }
+
+    .progress-fill.red {
+        background-color: var(--error);
+        width: 25%;
+    }
+
+    /* Dashboard Card */
+    .dashboard-card {
+        background-color: var(--bg-card);
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        box-shadow: var(--shadow);
+        animation: fadeIn 0.5s ease;
+        margin-bottom: 2rem;
+    }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+
+    .card-actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    .btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--border-radius);
+        font-weight: 500;
+        transition: var(--transition);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .btn-primary {
+        background: var(--primary-gradient);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .btn-outline {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text);
+    }
+
+    .btn-outline:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+
+    .btn-success {
+        background: var(--success-gradient);
+        color: white;
+    }
+
+    .btn-success:hover {
+        background: var(--success);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .btn-warning {
+        background: var(--warning-gradient);
+        color: white;
+    }
+
+    .btn-warning:hover {
+        background: var(--warning);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .btn-error {
+        background: var(--error-gradient);
+        color: white;
+    }
+
+    .btn-error:hover {
+        background: var(--error);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .btn-icon {
+        padding: 0.5rem;
+        border-radius: var(--border-radius);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+    }
+
+    /* Table Styles */
+    .table-container {
+        overflow-x: auto;
+        border-radius: var(--border-radius);
+    }
+
+    .guides-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.875rem;
+    }
+
+    .guides-table th {
+        background-color: rgba(59, 130, 246, 0.1);
+        padding: 1rem;
+        text-align: left;
+        font-weight: 600;
+        color: var(--primary);
+        border-bottom: 1px solid var(--border);
+        position: relative;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .guides-table th:hover {
+        background-color: rgba(59, 130, 246, 0.15);
+    }
+
+    .guides-table th.sorted:after {
+        content: '↓';
+        position: absolute;
+        right: 0.5rem;
+        color: var(--primary);
+    }
+
+    .guides-table th.sorted.desc:after {
+        content: '↑';
+    }
+
+    .guides-table td {
+        padding: 1rem;
+        border-bottom: 1px solid var(--border);
+        transition: var(--transition);
+    }
+
+    .guides-table tr:hover td {
+        background-color: rgba(59, 130, 246, 0.05);
+    }
+
+    .guides-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .guide-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .guide-image-small {
+        width: 48px;
+        height: 48px;
+        border-radius: var(--border-radius-sm);
+        object-fit: cover;
+    }
+
+    .guide-title {
+        font-weight: 500;
+    }
+
+    .guide-category {
+        font-size: 0.75rem;
+        color: var(--text-light);
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: var(--border-radius-full);
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    .status-badge.published {
+        background-color: rgba(16, 185, 129, 0.1);
+        color: var(--success);
+    }
+
+    .status-badge.draft {
+        background-color: rgba(245, 158, 11, 0.1);
+        color: var(--warning);
+    }
+
+    .status-badge.archived {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: var(--error);
+    }
+
+    .difficulty-badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: var(--border-radius-full);
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    .difficulty-badge.beginner {
+        background-color: rgba(16, 185, 129, 0.1);
+        color: var(--success);
+    }
+
+    .difficulty-badge.intermediate {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: var(--primary);
+    }
+
+    .difficulty-badge.advanced {
+        background-color: rgba(245, 158, 11, 0.1);
+        color: var(--warning);
+    }
+
+    .difficulty-badge.expert {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: var(--error);
+    }
+
+    .row-actions {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .action-btn {
+        width: 28px;
+        height: 28px;
+        border-radius: var(--border-radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.875rem;
+        transition: var(--transition);
+        background: none;
+        border: none;
+        color: var(--text);
+    }
+
+    .action-btn:hover {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: var(--primary);
+    }
+
+    .action-btn.view:hover {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: var(--primary);
+    }
+
+    .action-btn.edit:hover {
+        background-color: rgba(245, 158, 11, 0.1);
+        color: var(--warning);
+    }
+
+    .action-btn.delete:hover {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: var(--error);
+    }
+
+    /* Pagination */
+    .pagination {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1.5rem;
+        font-size: 0.875rem;
+    }
+
+    .pagination-info {
+        color: var(--text-light);
+    }
+
+    .pagination-controls {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .pagination-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: var(--border-radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--bg-card);
+        border: 1px solid var(--border);
+        transition: var(--transition);
+        color: var(--text);
+    }
+
+    .pagination-btn:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+
+    .pagination-btn.active {
+        background-color: var(--primary);
+        color: white;
+        border-color: var(--primary);
+    }
+
+    .pagination-btn.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    /* Filter Controls */
+    .filter-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .filter-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .filter-label {
+        font-size: 0.875rem;
+        color: var(--text-light);
+    }
+
+    .filter-select {
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--border);
+        border-radius: var(--border-radius);
+        background-color: var(--bg-card);
+        color: var(--text);
+        font-size: 0.875rem;
+        transition: var(--transition);
+    }
+
+    .filter-select:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    /* Modal */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal {
+        background-color: var(--bg-card);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-xl);
+        width: 90%;
+        max-width: 600px;
+        max-height: 90vh;
+        overflow-y: auto;
+        transform: scale(0.9);
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .modal-overlay.active .modal {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .modal-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+
+    .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--text-light);
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .modal-close:hover {
+        color: var(--error);
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        padding: 1.5rem;
+        border-top: 1px solid var(--border);
+    }
+
+    /* Form Styles */
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        font-size: 0.875rem;
+    }
+
+    .form-input, .form-select, .form-textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--border);
+        border-radius: var(--border-radius);
+        background-color: var(--bg);
+        color: var(--text);
+        font-size: 0.875rem;
+        transition: var(--transition);
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    .form-input::placeholder, .form-textarea::placeholder {
+        color: var(--text-light);
+    }
+
+    .form-textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .form-row {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .form-col {
+        flex: 1;
+    }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-check-input {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    /* Guide Details */
+    .guide-details {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .detail-group {
+        margin-bottom: 1rem;
+    }
+
+    .detail-label {
+        font-size: 0.75rem;
+        color: var(--text-light);
+        margin-bottom: 0.25rem;
+    }
+
+    .detail-value {
+        font-weight: 500;
+    }
+
+    .detail-content {
+        grid-column: span 2;
+    }
+
+    /* Confirmation Dialog */
+    .confirm-dialog {
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .confirm-icon {
+        font-size: 3rem;
+        color: var(--error);
+        margin-bottom: 1rem;
+    }
+
+    .confirm-message {
+        margin-bottom: 1.5rem;
+    }
+
+    /* Notification */
+    .notification {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: var(--success);
+        color: white;
+        padding: 1rem;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-lg);
+        z-index: 1000;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    /* Animations */
+    @keyframes float {
+        0%, 100% {
+            transform: translate(0, 0);
+        }
+        25% {
+            transform: translate(10px, -10px);
+        }
+        50% {
+            transform: translate(20px, 10px);
+        }
+        75% {
+            transform: translate(-10px, 15px);
+        }
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.7;
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes breathe {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.3);
+        }
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 992px) {
+        .sidebar {
+            transform: translateX(-100%);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .main-content {
+            margin-left: 0;
+        }
+
+        .mobile-menu-toggle {
+            display: block;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .content-container {
+            padding: 1rem;
+        }
+        
+        .main-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+        }
+        
+        .header-actions {
+            width: 100%;
+            justify-content: space-between;
+        }
+        
+        .search-bar {
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .guide-details {
+            grid-template-columns: 1fr;
+        }
+        
+        .detail-content {
+            grid-column: span 1;
+        }
+        
+        .form-row {
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .card-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .card-actions {
+            width: 100%;
+        }
+        
+        .pagination {
+            flex-direction: column;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        
+        .filter-controls {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+</style>
+</head>
+<body>
+<!-- Particle Background -->
+<div class="particles-container" id="particles-container"></div>
+
+<div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">NS</div>
+            <span>NS Travel</span>
+        </div>
+        
+        <ul class="nav-list">
+            <li class="nav-item">
+                <a href="admin-dashboard.html" class="nav-link">
+                    <span class="nav-icon">🏠</span>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="booking.html" class="nav-link">
+                    <span class="nav-icon">✈️</span>
+                    <span>Bookings</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="admin-destinations.html" class="nav-link">
+                    <span class="nav-icon">🌍</span>
+                    <span>Destinations</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="admin-customers.html" class="nav-link">
+                    <span class="nav-icon">👥</span>
+                    <span>Customers</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">📊</span>
+                    <span>Reports</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="admin-guides.html" class="nav-link active">
+                    <span class="nav-icon">📚</span>
+                    <span>Guides</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">⚙️</span>
+                    <span>Settings</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="header-left">
+                <h1 class="page-title">Guides</h1>
+                <span class="header-time" id="current-time">11:59:45</span>
+            </div>
+            
+            <div class="header-actions">
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" id="search-input" placeholder="Search guides...">
+                </div>
+                
+                <div class="notification-bell">
+                    <span>🔔</span>
+                    <span class="notification-badge">3</span>
+                </div>
+                
+                <div class="user-profile">
+                    <div class="user-avatar">A</div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="content-container">
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">📚</div>
+                    <div>
+                        <div class="stat-value" id="total-guides">124</div>
+                        <div class="stat-label">Total Guides</div>
+                    </div>
+                    <div class="stat-change positive">
+                        <span>↑</span>
+                        <span>12.5% from last month</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill blue"></div>
+                    </div>
+                    <div class="stat-bg">📚</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon green">✓</div>
+                    <div>
+                        <div class="stat-value" id="published-guides">98</div>
+                        <div class="stat-label">Published Guides</div>
+                    </div>
+                    <div class="stat-change positive">
+                        <span>↑</span>
+                        <span>8.2% from last month</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill green"></div>
+                    </div>
+                    <div class="stat-bg">✓</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon yellow">👁️</div>
+                    <div>
+                        <div class="stat-value" id="guide-views">45.2K</div>
+                        <div class="stat-label">Total Views</div>
+                    </div>
+                    <div class="stat-change positive">
+                        <span>↑</span>
+                        <span>15.7% from last month</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill yellow"></div>
+                    </div>
+                    <div class="stat-bg">👁️</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon red">⭐</div>
+                    <div>
+                        <div class="stat-value" id="avg-rating">4.7</div>
+                        <div class="stat-label">Average Rating</div>
+                    </div>
+                    <div class="stat-change positive">
+                        <span>↑</span>
+                        <span>0.3 from last month</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill red"></div>
+                    </div>
+                    <div class="stat-bg">⭐</div>
+                </div>
+            </div>
+            
+            <!-- Guides Management -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h2 class="card-title">Guide Management</h2>
+                    
+                    <div class="card-actions">
+                        <button class="btn btn-outline" id="filter-btn">
+                            <span>🔍</span>
+                            <span>Filter</span>
+                        </button>
+                        
+                        <button class="btn btn-outline" id="export-btn">
+                            <span>📥</span>
+                            <span>Export</span>
+                        </button>
+                        
+                        <button class="btn btn-primary" id="add-guide-btn">
+                            <span>+</span>
+                            <span>Add Guide</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="filter-controls" id="filter-controls">
+                    <div class="filter-group">
+                        <label class="filter-label">Status:</label>
+                        <select class="filter-select" id="status-filter">
+                            <option value="">All Statuses</option>
+                            <option value="published">Published</option>
+                            <option value="draft">Draft</option>
+                            <option value="archived">Archived</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Category:</label>
+                        <select class="filter-select" id="category-filter">
+                            <option value="">All Categories</option>
+                            <option value="destination">Destination Guides</option>
+                            <option value="travel-tips">Travel Tips</option>
+                            <option value="packing">Packing Guides</option>
+                            <option value="food">Food & Cuisine</option>
+                            <option value="culture">Culture & History</option>
+                            <option value="adventure">Adventure Travel</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Difficulty:</label>
+                        <select class="filter-select" id="difficulty-filter">
+                            <option value="">All Difficulties</option>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                            <option value="expert">Expert</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Sort By:</label>
+                        <select class="filter-select" id="sort-filter">
+                            <option value="title-asc">Title (A-Z)</option>
+                            <option value="title-desc">Title (Z-A)</option>
+                            <option value="date-desc">Date Created (Newest)</option>
+                            <option value="date-asc">Date Created (Oldest)</option>
+                            <option value="views-desc">Views (High to Low)</option>
+                            <option value="rating-desc">Rating (High to Low)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="guides-table" id="guides-table">
+                        <thead>
+                            <tr>
+                                <th data-sort="id">ID</th>
+                                <th data-sort="title">Guide</th>
+                                <th data-sort="category">Category</th>
+                                <th data-sort="author">Author</th>
+                                <th data-sort="difficulty">Difficulty</th>
+                                <th data-sort="created">Created</th>
+                                <th data-sort="views">Views</th>
+                                <th data-sort="status">Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="guides-table-body">
+                            <!-- Table rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination">
+                    <div class="pagination-info" id="pagination-info">
+                        Showing <span id="showing-start">1</span> to <span id="showing-end">10</span> of <span id="total-items">124</span> guides
+                    </div>
+                    
+                    <div class="pagination-controls" id="pagination-controls">
+                        <!-- Pagination buttons will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Add/Edit Guide Modal -->
+<div class="modal-overlay" id="guide-modal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title" id="guide-modal-title">Add New Guide</h3>
+            <button class="modal-close" id="guide-modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="guide-form">
+                <input type="hidden" id="guide-id">
+                
+                <div class="form-group">
+                    <label for="guide-title" class="form-label">Guide Title</label>
+                    <input type="text" id="guide-title" class="form-input" placeholder="e.g. Ultimate Guide to Paris" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="guide-category" class="form-label">Category</label>
+                            <select id="guide-category" class="form-select" required>
+                                <option value="">Select Category</option>
+                                <option value="destination">Destination Guides</option>
+                                <option value="travel-tips">Travel Tips</option>
+                                <option value="packing">Packing Guides</option>
+                                <option value="food">Food & Cuisine</option>
+                                <option value="culture">Culture & History</option>
+                                <option value="adventure">Adventure Travel</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="guide-difficulty" class="form-label">Difficulty Level</label>
+                            <select id="guide-difficulty" class="form-select" required>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                                <option value="expert">Expert</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="guide-author" class="form-label">Author</label>
+                            <input type="text" id="guide-author" class="form-input" placeholder="e.g. John Smith" required>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="guide-status" class="form-label">Status</label>
+                            <select id="guide-status" class="form-select" required>
+                                <option value="published">Published</option>
+                                <option value="draft">Draft</option>
+                                <option value="archived">Archived</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="guide-image" class="form-label">Featured Image URL</label>
+                    <input type="text" id="guide-image" class="form-input" placeholder="https://example.com/image.jpg" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="guide-excerpt" class="form-label">Excerpt</label>
+                    <textarea id="guide-excerpt" class="form-textarea" placeholder="Write a brief summary of this guide..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="guide-content" class="form-label">Content</label>
+                    <textarea id="guide-content" class="form-textarea" placeholder="Write the full content of the guide..." required></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="guide-duration" class="form-label">Reading Time (minutes)</label>
+                            <input type="number" id="guide-duration" class="form-input" min="1" placeholder="10" required>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="guide-tags" class="form-label">Tags (comma separated)</label>
+                            <input type="text" id="guide-tags" class="form-input" placeholder="e.g. paris, france, travel">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-check">
+                    <input type="checkbox" id="guide-featured" class="form-check-input">
+                    <label for="guide-featured" class="form-label">Featured Guide</label>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="guide-modal-cancel">Cancel</button>
+            <button class="btn btn-primary" id="guide-modal-save">Save Guide</button>
+        </div>
+    </div>
+</div>
+
+<!-- View Guide Details Modal -->
+<div class="modal-overlay" id="view-guide-modal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title">Guide Details</h3>
+            <button class="modal-close" id="view-guide-modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="guide-details" id="guide-details">
+                <!-- Guide details will be populated by JavaScript -->
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="view-guide-modal-close-btn">Close</button>
+            <button class="btn btn-warning" id="view-guide-edit-btn">Edit</button>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal-overlay" id="delete-modal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title">Confirm Delete</h3>
+            <button class="modal-close" id="delete-modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="confirm-dialog">
+                <div class="confirm-icon">⚠️</div>
+                <h4>Are you sure you want to delete this guide?</h4>
+                <p class="confirm-message">This action cannot be undone. All data associated with this guide will be permanently removed.</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="delete-modal-cancel">Cancel</button>
+            <button class="btn btn-error" id="delete-modal-confirm">Delete</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize the page
+        initGuidesPage();
+    });
+    
+    function initGuidesPage() {
+        // Create particles
+        createParticles();
+        
+        // Initialize guide data
+        initGuideData();
+        
+        // Initialize modals
+        initModals();
+        
+        // Initialize event listeners
+        initEventListeners();
+        
+        // Initialize clock
+        initClock();
+    }
+    
+    // Initialize clock
+    function initClock() {
+        const updateClock = () => {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            
+            document.getElementById('current-time').textContent = `${hours}:${minutes}:${seconds}`;
+        };
+        
+        // Update immediately and then every second
+        updateClock();
+        setInterval(updateClock, 1000);
+    }
+    
+    // Create particles for background
+    function createParticles() {
+        const container = document.getElementById('particles-container');
+        const particleCount = 15;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            // Random size between 100px and 300px
+            const size = Math.random() * 200 + 100;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            
+            // Random position
+            const posX = Math.random() * 100;
+            const posY = Math.random() * 100;
+            particle.style.left = `${posX}%`;
+            particle.style.top = `${posY}%`;
+            
+            // Random animation delay
+            const delay = Math.random() * 5;
+            particle.style.animationDelay = `${delay}s`;
+            
+            // Random animation duration
+            const duration = Math.random() * 10 + 10;
+            particle.style.animationDuration = `${duration}s`;
+            
+            // Add glow effect
+            const glowIntensity = Math.random() * 15 + 10;
+            particle.style.boxShadow = `0 0 ${glowIntensity}px rgba(59, 130, 246, 0.7)`;
+            
+            // Add color variation
+            const hue = Math.random() * 30 + 210; // Blue range
+            particle.style.background = `radial-gradient(circle at center, hsla(${hue}, 100%, 70%, 0.8) 0%, hsla(${hue}, 100%, 70%, 0) 70%)`;
+            
+            // Add size animation
+            const breatheDuration = Math.random() * 5 + 5;
+            particle.style.animation = `float 15s infinite ease-in-out, breathe ${breatheDuration}s infinite ease-in-out`;
+            
+            container.appendChild(particle);
+        }
+    }
+    
+    // Sample guide data
+    let guides = [
+        {
+            id: 'GUIDE-001',
+            title: 'Ultimate Guide to Paris',
+            category: 'destination',
+            author: 'Emma Wilson',
+            difficulty: 'beginner',
+            created: '2023-03-15',
+            views: 12500,
+            rating: 4.8,
+            status: 'published',
+            image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=600&q=80',
+            excerpt: 'Discover the magic of Paris with our comprehensive guide to the City of Light. From iconic landmarks to hidden gems, we cover everything you need to know.',
+            content: 'Paris, the capital of France, is known worldwide for its stunning architecture, art museums, historical landmarks, and romantic atmosphere. This guide will help you navigate the city like a local...',
+            duration: 15,
+            tags: 'paris, france, europe, travel',
+            featured: true
+        },
+        {
+            id: 'GUIDE-002',
+            title: 'Packing Essentials for Southeast Asia',
+            category: 'packing',
+            author: 'Michael Chen',
+            difficulty: 'intermediate',
+            created: '2023-04-22',
+            views: 8750,
+            rating: 4.6,
+            status: 'published',
+            image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=600&q=80',
+            excerpt: 'Planning a trip to Southeast Asia? Our comprehensive packing guide covers everything you need for a comfortable and hassle-free journey.',
+            content: 'Southeast Asia presents unique packing challenges due to its tropical climate, diverse activities, and varying cultural norms. This guide breaks down exactly what to bring...',
+            duration: 12,
+            tags: 'packing, southeast asia, travel tips, backpacking',
+            featured: false
+        },
+        {
+            id: 'GUIDE-003',
+            title: 'Japanese Street Food: A Culinary Adventure',
+            category: 'food',
+            author: 'Sophia Garcia',
+            difficulty: 'beginner',
+            created: '2023-02-10',
+            views: 15200,
+            rating: 4.9,
+            status: 'published',
+            image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=600&q=80',
+            excerpt: 'Explore the vibrant world of Japanese street food with our expert guide. Discover must-try dishes, where to find them, and essential etiquette tips.',
+            content: 'Japanese street food offers an incredible array of flavors, textures, and culinary traditions. From takoyaki to taiyaki, this guide will introduce you to the best street food Japan has to offer...',
+            duration: 18,
+            tags: 'japan, food, cuisine, street food, tokyo',
+            featured: true
+        },
+        {
+            id: 'GUIDE-004',
+            title: 'Advanced Hiking in the Swiss Alps',
+            category: 'adventure',
+            author: 'David Miller',
+            difficulty: 'expert',
+            created: '2023-05-05',
+            views: 6300,
+            rating: 4.7,
+            status: 'published',
+            image: 'https://images.unsplash.com/photo-1527254432234-a36e2c5aba92?auto=format&fit=crop&w=600&q=80',
+            excerpt: 'Take your hiking adventures to new heights with our expert guide to the Swiss Alps. Detailed trail information, safety tips, and equipment recommendations.',
+            content: 'The Swiss Alps offer some of the most challenging and rewarding hiking experiences in the world. This guide is designed for experienced hikers looking to tackle advanced alpine routes...',
+            duration: 25,
+            tags: 'hiking, swiss alps, adventure, mountains, switzerland',
+            featured: false
+        },
+        {
+            id: 'GUIDE-005',
+            title: 'Ancient Temples of Cambodia',
+            category: 'culture',
+            author: 'James Wong',
+            difficulty: 'intermediate',
+            created: '2023-01-18',
+            views: 9800,
+            rating: 4.5,
+            status: 'published',
+            image: 'https://images.unsplash.com/photo-1540526425131-b3d27260c7e1?auto=format&fit=crop&w=600&q=80',
+            excerpt: 'Explore the rich history and architectural wonders of Cambodia\'s ancient temples. From Angkor Wat to lesser-known sites, this guide has it all.',
+            content: 'Cambodia\'s ancient temples represent one of humanity\'s most impressive architectural achievements. This guide explores the history, significance, and practical details for visiting these remarkable sites...',
+            duration: 20,
+            tags: 'cambodia, temples, angkor wat, history, culture',
+            featured: true
+        },
+        {
+            id: 'GUIDE-006',
+            title: 'Budget Travel Tips for Europe',
+            category: 'travel-tips',
+            author: 'Anna Kowalski',
+            difficulty: 'beginner',
+            created: '2023-06-12',
+            views: 11200,
+            rating: 4.4,
+            status: 'published',
+            image: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=600&q=80',
+            excerpt: 'Travel through Europe without breaking the bank. Our comprehensive guide covers accommodation, transportation, dining, and sightseeing on a budget.',
+            content: 'Europe is often perceived as an expensive travel destination, but with the right strategies, it can be surprisingly affordable. This guide shares proven methods for experiencing the best of Europe on a limited budget...',
+            duration: 15,
+            tags: 'europe, budget travel, travel tips, backpacking',
+            featured: false
+        },
+        {
+            id: 'GUIDE-007',
+            title: 'Wildlife Photography in African Safaris',
+            category: 'adventure',
+            author: 'Robert Johnson',
+            difficulty: 'advanced',
+            created: '2023-04-03',
+            views: 7500,
+            rating: 4.8,
+            status: 'published',
+            image: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=600&q=80',
+            excerpt: 'Capture stunning wildlife photographs on your African safari adventure. Expert tips on equipment, techniques, and ethical photography practices.',
+            content: 'African safaris offer unparalleled opportunities for wildlife photography. This guide covers everything from selecting the right equipment to mastering specialized techniques for capturing animals in their natural habitat...',
+            duration: 22,
+            tags: 'photography, africa, safari, wildlife, adventure',
+            featured: true
+        },
+        {
+            id: 'GUIDE-008',
+            title: 'Island Hopping in Greece',
+            category: 'destination',
+            author: 'Maria Papadopoulos',
+            difficulty: 'intermediate',
+            created: '2023-02-28',
+            views: 10300,
+            rating: 4.6,
+            status: 'draft',
+            image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=600&q=80',
+            excerpt: 'Experience the beauty of the Greek islands with our comprehensive island-hopping guide. Ferry routes, accommodation recommendations, and must-visit destinations.',
+            content: 'The Greek islands offer a perfect blend of stunning beaches, ancient history, and vibrant culture. This guide will help you plan the perfect island-hopping adventure through the Aegean and Ionian seas...',
+            duration: 18,
+            tags: 'greece, islands, mediterranean, beaches, santorini, mykonos',
+            featured: false
+        },
+        {
+            id: 'GUIDE-009',
+            title: 'Traditional Cooking Classes Around the World',
+            category: 'food',
+            author: 'Carlos Rodriguez',
+            difficulty: 'beginner',
+            created: '2023-05-20',
+            views: 5800,
+            rating: 4.3,
+            status: 'published',
+            image: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=600&q=80',
+            excerpt: 'Enhance your culinary skills and cultural understanding with cooking classes around the world. Discover the best classes and what to expect.',
+            content: 'Participating in cooking classes while traveling is one of the best ways to deeply engage with local culture. This guide highlights outstanding cooking classes across different continents and cuisines...',
+            duration: 14,
+            tags: 'cooking, food, classes, culinary, cultural experience',
+            featured: false
+        },
+        {
+            id: 'GUIDE-010',
+            title: 'Winter Survival Guide for Arctic Expeditions',
+            category: 'adventure',
+            author: 'Erik Larsson',
+            difficulty: 'expert',
+            created: '2023-01-05',
+            views: 4200,
+            rating: 4.9,
+            status: 'archived',
+            image: 'https://images.unsplash.com/photo-1517299321609-52687d1bc55a?auto=format&fit=crop&w=600&q=80',
+            excerpt: 'Prepare for extreme conditions with our comprehensive Arctic expedition guide. Essential gear, survival techniques, and safety protocols for experienced adventurers.',
+            content: 'Arctic expeditions present some of the most challenging conditions on Earth. This expert guide covers critical survival skills, specialized equipment, and safety protocols necessary for safely navigating these extreme environments...',
+            duration: 30,
+            tags: 'arctic, winter, survival, expedition, extreme adventure',
+            featured: false
+        }
+    ];
+    
+    // Pagination variables
+    let currentPage = 1;
+    const itemsPerPage = 5;
+    let filteredGuides = [...guides];
+    
+    // Sorting variables
+    let currentSort = {
+        column: 'id',
+        direction: 'asc'
+    };
+    
+    // Initialize guide data
+    function initGuideData() {
+        updateStats();
+        renderTable();
+        renderPagination();
+    }
+    
+    // Update stats
+    function updateStats() {
+        document.getElementById('total-guides').textContent = guides.length;
+        
+        const publishedCount = guides.filter(guide => guide.status === 'published').length;
+        document.getElementById('published-guides').textContent = publishedCount;
+        
+        // Calculate total views
+        const totalViews = guides.reduce((sum, guide) => sum + guide.views, 0);
+        document.getElementById('guide-views').textContent = totalViews >= 1000 ? (totalViews / 1000).toFixed(1) + 'K' : totalViews;
+        
+        // Calculate average rating
+        const totalRating = guides.reduce((sum, guide) => sum + guide.rating, 0);
+        const avgRating = totalRating / guides.length;
+        document.getElementById('avg-rating').textContent = avgRating.toFixed(1);
+    }
+    
+    // Render table
+    function renderTable() {
+        const tableBody = document.getElementById('guides-table-body');
+        tableBody.innerHTML = '';
+        
+        // Sort guides
+        sortGuides();
+        
+        // Get current page items
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const currentItems = filteredGuides.slice(startIndex, endIndex);
+        
+        // Render table rows
+        currentItems.forEach(guide => {
+            const row = document.createElement('tr');
+            
+            // Format date
+            const createdDate = new Date(guide.created);
+            const formattedDate = createdDate.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+            
+            // Format views
+            const formattedViews = guide.views.toLocaleString();
+            
+            // Format category display
+            let categoryDisplay = '';
+            switch (guide.category) {
+                case 'destination':
+                    categoryDisplay = 'Destination Guides';
+                    break;
+                case 'travel-tips':
+                    categoryDisplay = 'Travel Tips';
+                    break;
+                case 'packing':
+                    categoryDisplay = 'Packing Guides';
+                    break;
+                case 'food':
+                    categoryDisplay = 'Food & Cuisine';
+                    break;
+                case 'culture':
+                    categoryDisplay = 'Culture & History';
+                    break;
+                case 'adventure':
+                    categoryDisplay = 'Adventure Travel';
+                    break;
+                default:
+                    categoryDisplay = guide.category;
+            }
+            
+            row.innerHTML = `
+                <td>${guide.id}</td>
+                <td>
+                    <div class="guide-info">
+                        <img src="${guide.image}" alt="${guide.title}" class="guide-image-small">
+                        <div>
+                            <div class="guide-title">${guide.title}</div>
+                            <div class="guide-category">${guide.featured ? '⭐ Featured' : ''}</div>
+                        </div>
+                    </div>
+                </td>
+                <td>${categoryDisplay}</td>
+                <td>${guide.author}</td>
+                <td><span class="difficulty-badge ${guide.difficulty}">${guide.difficulty.charAt(0).toUpperCase() + guide.difficulty.slice(1)}</span></td>
+                <td>${formattedDate}</td>
+                <td>${formattedViews}</td>
+                <td><span class="status-badge ${guide.status}">${guide.status.charAt(0).toUpperCase() + guide.status.slice(1)}</span></td>
+                <td>
+                    <div class="row-actions">
+                        <button class="action-btn view" data-id="${guide.id}" title="View Details">👁️</button>
+                        <button class="action-btn edit" data-id="${guide.id}" title="Edit Guide">✏️</button>
+                        <button class="action-btn delete" data-id="${guide.id}" title="Delete Guide">🗑️</button>
+                    </div>
+                </td>
+            `;
+            
+            tableBody.appendChild(row);
+        });
+        
+        // Update pagination info
+        const totalItems = filteredGuides.length;
+        const showingStart = totalItems === 0 ? 0 : startIndex + 1;
+        const showingEnd = Math.min(endIndex, totalItems);
+        
+        document.getElementById('showing-start').textContent = showingStart;
+        document.getElementById('showing-end').textContent = showingEnd;
+        document.getElementById('total-items').textContent = totalItems;
+        
+        // Add event listeners to action buttons
+        addActionButtonListeners();
+    }
+    
+    // Sort guides
+    function sortGuides() {
+        filteredGuides.sort((a, b) => {
+            let valueA, valueB;
+            
+            switch (currentSort.column) {
+                case 'id':
+                    valueA = a.id;
+                    valueB = b.id;
+                    break;
+                case 'title':
+                    valueA = a.title;
+                    valueB = b.title;
+                    break;
+                case 'category':
+                    valueA = a.category;
+                    valueB = b.category;
+                    break;
+                case 'author':
+                    valueA = a.author;
+                    valueB = b.author;
+                    break;
+                case 'difficulty':
+                    const difficultyOrder = { 'beginner': 1, 'intermediate': 2, 'advanced': 3, 'expert': 4 };
+                    valueA = difficultyOrder[a.difficulty];
+                    valueB = difficultyOrder[b.difficulty];
+                    break;
+                case 'created':
+                    valueA = new Date(a.created);
+                    valueB = new Date(b.created);
+                    break;
+                case 'views':
+                    valueA = a.views;
+                    valueB = b.views;
+                    break;
+                case 'status':
+                    valueA = a.status;
+                    valueB = b.status;
+                    break;
+                default:
+                    valueA = a.id;
+                    valueB = b.id;
+            }
+            
+            if (currentSort.direction === 'asc') {
+                return valueA > valueB ? 1 : -1;
+            } else {
+                return valueA < valueB ? 1 : -1;
+            }
+        });
+    }
+    
+    // Render pagination
+    function renderPagination() {
+        const paginationControls = document.getElementById('pagination-controls');
+        paginationControls.innerHTML = '';
+        
+        const totalPages = Math.ceil(filteredGuides.length / itemsPerPage);
+        
+        // Previous button
+        const prevButton = document.createElement('button');
+        prevButton.className = `pagination-btn ${currentPage === 1 ? 'disabled' : ''}`;
+        prevButton.innerHTML = '&lt;';
+        prevButton.disabled = currentPage === 1;
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable();
+                renderPagination();
+            }
+        });
+        paginationControls.appendChild(prevButton);
+        
+        // Page buttons
+        const maxButtons = 5;
+        const startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+        const endPage = Math.min(totalPages, startPage + maxButtons - 1);
+        
+        for (let i = startPage; i <= endPage; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+            pageButton.textContent = i;
+            pageButton.addEventListener('click', () => {
+                currentPage = i;
+                renderTable();
+                renderPagination();
+            });
+            paginationControls.appendChild(pageButton);
+        }
+        
+        // Next button
+        const nextButton = document.createElement('button');
+        nextButton.className = `pagination-btn ${currentPage === totalPages ? 'disabled' : ''}`;
+        nextButton.innerHTML = '&gt;';
+        nextButton.disabled = currentPage === totalPages;
+        nextButton.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable();
+                renderPagination();
+            }
+        });
+        paginationControls.appendChild(nextButton);
+    }
+    
+    // Initialize modals
+    function initModals() {
+        // Guide modal
+        const guideModal = document.getElementById('guide-modal');
+        const guideModalClose = document.getElementById('guide-modal-close');
+        const guideModalCancel = document.getElementById('guide-modal-cancel');
+        
+        guideModalClose.addEventListener('click', () => {
+            guideModal.classList.remove('active');
+        });
+        
+        guideModalCancel.addEventListener('click', () => {
+            guideModal.classList.remove('active');
+        });
+        
+        // View guide modal
+        const viewGuideModal = document.getElementById('view-guide-modal');
+        const viewGuideModalClose = document.getElementById('view-guide-modal-close');
+        const viewGuideModalCloseBtn = document.getElementById('view-guide-modal-close-btn');
+        
+        viewGuideModalClose.addEventListener('click', () => {
+            viewGuideModal.classList.remove('active');
+        });
+        
+        viewGuideModalCloseBtn.addEventListener('click', () => {
+            viewGuideModal.classList.remove('active');
+        });
+        
+        // Delete modal
+        const deleteModal = document.getElementById('delete-modal');
+        const deleteModalClose = document.getElementById('delete-modal-close');
+        const deleteModalCancel = document.getElementById('delete-modal-cancel');
+        
+        deleteModalClose.addEventListener('click', () => {
+            deleteModal.classList.remove('active');
+        });
+        
+        deleteModalCancel.addEventListener('click', () => {
+            deleteModal.classList.remove('active');
+        });
+    }
+    
+    // Initialize event listeners
+    function initEventListeners() {
+        // Add guide button
+        const addGuideBtn = document.getElementById('add-guide-btn');
+        addGuideBtn.addEventListener('click', () => {
+            openAddGuideModal();
+        });
+        
+        // Save guide button
+        const saveGuideBtn = document.getElementById('guide-modal-save');
+        saveGuideBtn.addEventListener('click', () => {
+            saveGuide();
+        });
+        
+        // Delete guide confirmation
+        const deleteConfirmBtn = document.getElementById('delete-modal-confirm');
+        deleteConfirmBtn.addEventListener('click', () => {
+            const guideId = deleteConfirmBtn.getAttribute('data-id');
+            deleteGuide(guideId);
+        });
+        
+        // Edit from view modal
+        const viewGuideEditBtn = document.getElementById('view-guide-edit-btn');
+        viewGuideEditBtn.addEventListener('click', () => {
+            const guideId = viewGuideEditBtn.getAttribute('data-id');
+            document.getElementById('view-guide-modal').classList.remove('active');
+            openEditGuideModal(guideId);
+        });
+        
+        // Search input
+        const searchInput = document.getElementById('search-input');
+        searchInput.addEventListener('input', () => {
+            searchGuides(searchInput.value);
+        });
+        
+        // Filter controls
+        const statusFilter = document.getElementById('status-filter');
+        const categoryFilter = document.getElementById('category-filter');
+        const difficultyFilter = document.getElementById('difficulty-filter');
+        const sortFilter = document.getElementById('sort-filter');
+        
+        statusFilter.addEventListener('change', applyFilters);
+        categoryFilter.addEventListener('change', applyFilters);
+        difficultyFilter.addEventListener('change', applyFilters);
+        sortFilter.addEventListener('change', applyFilters);
+        
+        // Table header sorting
+        const tableHeaders = document.querySelectorAll('.guides-table th[data-sort]');
+        tableHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const column = header.getAttribute('data-sort');
+                
+                // Update sort direction
+                if (currentSort.column === column) {
+                    currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                } else {
+                    currentSort.column = column;
+                    currentSort.direction = 'asc';
+                }
+                
+                // Update header classes
+                tableHeaders.forEach(h => h.classList.remove('sorted', 'desc'));
+                header.classList.add('sorted');
+                if (currentSort.direction === 'desc') {
+                    header.classList.add('desc');
+                }
+                
+                // Re-render table
+                renderTable();
+            });
+        });
+        
+        // Export button
+        const exportBtn = document.getElementById('export-btn');
+        exportBtn.addEventListener('click', () => {
+            exportGuides();
+        });
+    }
+    
+    // Add event listeners to action buttons
+    function addActionButtonListeners() {
+        // View buttons
+        const viewButtons = document.querySelectorAll('.action-btn.view');
+        viewButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const guideId = button.getAttribute('data-id');
+                openViewGuideModal(guideId);
+            });
+        });
+        
+        // Edit buttons
+        const editButtons = document.querySelectorAll('.action-btn.edit');
+        editButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const guideId = button.getAttribute('data-id');
+                openEditGuideModal(guideId);
+            });
+        });
+        
+        // Delete buttons
+        const deleteButtons = document.querySelectorAll('.action-btn.delete');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const guideId = button.getAttribute('data-id');
+                openDeleteConfirmationModal(guideId);
+            });
+        });
+    }
+    
+    // Open add guide modal
+    function openAddGuideModal() {
+        // Reset form
+        document.getElementById('guide-form').reset();
+        document.getElementById('guide-id').value = '';
+        
+        // Set modal title
+        document.getElementById('guide-modal-title').textContent = 'Add New Guide';
+        
+        // Set today as default date
+        const today = new Date().toISOString().split('T')[0];
+        
+        // Show modal
+        document.getElementById('guide-modal').classList.add('active');
+    }
+    
+    // Open edit guide modal
+    function openEditGuideModal(guideId) {
+        // Find guide
+        const guide = guides.find(g => g.id === guideId);
+        
+        if (guide) {
+            // Set form values
+            document.getElementById('guide-id').value = guide.id;
+            document.getElementById('guide-title').value = guide.title;
+            document.getElementById('guide-category').value = guide.category;
+            document.getElementById('guide-difficulty').value = guide.difficulty;
+            document.getElementById('guide-author').value = guide.author;
+            document.getElementById('guide-status').value = guide.status;
+            document.getElementById('guide-image').value = guide.image;
+            document.getElementById('guide-excerpt').value = guide.excerpt;
+            document.getElementById('guide-content').value = guide.content;
+            document.getElementById('guide-duration').value = guide.duration;
+            document.getElementById('guide-tags').value = guide.tags;
+            document.getElementById('guide-featured').checked = guide.featured;
+            
+            // Set modal title
+            document.getElementById('guide-modal-title').textContent = `Edit Guide: ${guide.title}`;
+            
+            // Show modal
+            document.getElementById('guide-modal').classList.add('active');
+        }
+    }
+    
+    // Open view guide modal
+    function openViewGuideModal(guideId) {
+        // Find guide
+        const guide = guides.find(g => g.id === guideId);
+        
+        if (guide) {
+            // Format date
+            const createdDate = new Date(guide.created);
+            const formattedDate = createdDate.toLocaleDateString('en-US', {
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric'
+            });
+            
+            // Format category display
+            let categoryDisplay = '';
+            switch (guide.category) {
+                case 'destination':
+                    categoryDisplay = 'Destination Guides';
+                    break;
+                case 'travel-tips':
+                    categoryDisplay = 'Travel Tips';
+                    break;
+                case 'packing':
+                    categoryDisplay = 'Packing Guides';
+                    break;
+                case 'food':
+                    categoryDisplay = 'Food & Cuisine';
+                    break;
+                case 'culture':
+                    categoryDisplay = 'Culture & History';
+                    break;
+                case 'adventure':
+                    categoryDisplay = 'Adventure Travel';
+                    break;
+                default:
+                    categoryDisplay = guide.category;
+            }
+            
+            // Format tags
+            const tagsArray = guide.tags.split(',').map(tag => tag.trim());
+            const formattedTags = tagsArray.map(tag => `<span class="status-badge">${tag}</span>`).join(' ');
+            
+            // Populate guide details
+            const guideDetails = document.getElementById('guide-details');
+            guideDetails.innerHTML = `
+                <div style="grid-column: span 2; margin-bottom: 1rem;">
+                    <img src="${guide.image}" alt="${guide.title}" style="width: 100%; height: 200px; object-fit: cover; border-radius: var(--border-radius);">
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Guide ID</div>
+                    <div class="detail-value">${guide.id}</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Status</div>
+                    <div class="detail-value"><span class="status-badge ${guide.status}">${guide.status.charAt(0).toUpperCase() + guide.status.slice(1)}</span></div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Title</div>
+                    <div class="detail-value">${guide.title}</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Author</div>
+                    <div class="detail-value">${guide.author}</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Category</div>
+                    <div class="detail-value">${categoryDisplay}</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Difficulty</div>
+                    <div class="detail-value"><span class="difficulty-badge ${guide.difficulty}">${guide.difficulty.charAt(0).toUpperCase() + guide.difficulty.slice(1)}</span></div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Date Created</div>
+                    <div class="detail-value">${formattedDate}</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Reading Time</div>
+                    <div class="detail-value">${guide.duration} minutes</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Views</div>
+                    <div class="detail-value">${guide.views.toLocaleString()}</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Rating</div>
+                    <div class="detail-value">★ ${guide.rating.toFixed(1)}/5.0</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Featured</div>
+                    <div class="detail-value">${guide.featured ? 'Yes' : 'No'}</div>
+                </div>
+                <div class="detail-group detail-content">
+                    <div class="detail-label">Excerpt</div>
+                    <div class="detail-value">${guide.excerpt}</div>
+                </div>
+                <div class="detail-group detail-content">
+                    <div class="detail-label">Content Preview</div>
+                    <div class="detail-value">${guide.content.substring(0, 300)}${guide.content.length > 300 ? '...' : ''}</div>
+                </div>
+                <div class="detail-group detail-content">
+                    <div class="detail-label">Tags</div>
+                    <div class="detail-value">${formattedTags}</div>
+                </div>
+            `;
+            
+            // Set guide ID for edit button
+            document.getElementById('view-guide-edit-btn').setAttribute('data-id', guide.id);
+            
+            // Show modal
+            document.getElementById('view-guide-modal').classList.add('active');
+        }
+    }
+    
+    // Open delete confirmation modal
+    function openDeleteConfirmationModal(guideId) {
+        // Set guide ID for delete button
+        document.getElementById('delete-modal-confirm').setAttribute('data-id', guideId);
+        
+        // Show modal
+        document.getElementById('delete-modal').classList.add('active');
+    }
+    
+    // Save guide
+    function saveGuide() {
+        // Get form values
+        const guideId = document.getElementById('guide-id').value;
+        const title = document.getElementById('guide-title').value;
+        const category = document.getElementById('guide-category').value;
+        const difficulty = document.getElementById('guide-difficulty').value;
+        const author = document.getElementById('guide-author').value;
+        const status = document.getElementById('guide-status').value;
+        const image = document.getElementById('guide-image').value;
+        const excerpt = document.getElementById('guide-excerpt').value;
+        const content = document.getElementById('guide-content').value;
+        const duration = parseInt(document.getElementById('guide-duration').value);
+        const tags = document.getElementById('guide-tags').value;
+        const featured = document.getElementById('guide-featured').checked;
+        
+        // Validate form
+        if (!title || !category || !difficulty || !author || !status || !image || !excerpt || !content || !duration) {
+            alert('Please fill in all required fields');
+            return;
+        }
+        
+        // Create guide object
+        const guideData = {
+            title,
+            category,
+            difficulty,
+            author,
+            status,
+            image,
+            excerpt,
+            content,
+            duration,
+            tags,
+            featured
+        };
+        
+        if (guideId) {
+            // Update existing guide
+            const index = guides.findIndex(g => g.id === guideId);
+            if (index !== -1) {
+                guideData.id = guideId;
+                guideData.created = guides[index].created;
+                guideData.views = guides[index].views;
+                guideData.rating = guides[index].rating;
+                guides[index] = guideData;
+            }
+        } else {
+            // Add new guide
+            const newId = `GUIDE-${(guides.length + 1).toString().padStart(3, '0')}`;
+            const today = new Date().toISOString().split('T')[0];
+            guideData.id = newId;
+            guideData.created = today;
+            guideData.views = 0;
+            guideData.rating = 0;
+            guides.push(guideData);
+        }
+        
+        // Update filtered guides
+        applyFilters();
+        
+        // Update UI
+        updateStats();
+        
+        // Close modal
+        document.getElementById('guide-modal').classList.remove('active');
+        
+        // Show success message
+        showNotification(guideId ? 'Guide updated successfully' : 'New guide added successfully');
+    }
+    
+    // Delete guide
+    function deleteGuide(guideId) {
+        // Remove guide from array
+        guides = guides.filter(g => g.id !== guideId);
+        
+        // Update filtered guides
+        applyFilters();
+        
+        // Update UI
+        updateStats();
+        
+        // Close modal
+        document.getElementById('delete-modal').classList.remove('active');
+        
+        // Show success message
+        showNotification('Guide deleted successfully');
+    }
+    
+    // Search guides
+    function searchGuides(query) {
+        if (!query) {
+            applyFilters();
+        } else {
+            query = query.toLowerCase();
+            
+            // First apply other filters
+            applyFilters(false);
+            
+            // Then apply search filter
+            filteredGuides = filteredGuides.filter(guide => 
+                guide.id.toLowerCase().includes(query) ||
+                guide.title.toLowerCase().includes(query) ||
+                guide.author.toLowerCase().includes(query) ||
+                guide.excerpt.toLowerCase().includes(query) ||
+                guide.content.toLowerCase().includes(query) ||
+                guide.tags.toLowerCase().includes(query)
+            );
+            
+            // Reset to first page
+            currentPage = 1;
+            
+            renderTable();
+            renderPagination();
+        }
+    }
+    
+    // Apply filters
+    function applyFilters(render = true) {
+        const statusFilter = document.getElementById('status-filter').value;
+        const categoryFilter = document.getElementById('category-filter').value;
+        const difficultyFilter = document.getElementById('difficulty-filter').value;
+        
+        // Apply filters
+        filteredGuides = guides.filter(guide => {
+            // Status filter
+            if (statusFilter && guide.status !== statusFilter) {
+                return false;
+            }
+            
+            // Category filter
+            if (categoryFilter && guide.category !== categoryFilter) {
+                return false;
+            }
+            
+            // Difficulty filter
+            if (difficultyFilter && guide.difficulty !== difficultyFilter) {
+                return false;
+            }
+            
+            return true;
+        });
+        
+        // Reset to first page
+        currentPage = 1;
+        
+        if (render) {
+            renderTable();
+            renderPagination();
+        }
+    }
+    
+    // Export guides
+    function exportGuides() {
+        // Create CSV content
+        let csvContent = 'ID,Title,Category,Author,Difficulty,Created,Views,Rating,Status,Featured,Tags\n';
+        
+        filteredGuides.forEach(guide => {
+            csvContent += `${guide.id},`;
+            csvContent += `"${guide.title.replace(/"/g, '""')}",`;
+            csvContent += `${guide.category},`;
+            csvContent += `"${guide.author.replace(/"/g, '""')}",`;
+            csvContent += `${guide.difficulty},`;
+            csvContent += `${guide.created},`;
+            csvContent += `${guide.views},`;
+            csvContent += `${guide.rating},`;
+            csvContent += `${guide.status},`;
+            csvContent += `${guide.featured},`;
+            csvContent += `"${guide.tags.replace(/"/g, '""')}"\n`;
+        });
+        
+        // Create download link
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'ns_travel_guides.csv');
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Show success message
+        showNotification('Guides exported successfully');
+    }
+    
+    // Show notification
+    function showNotification(message) {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.textContent = message;
+        
+        // Add to document
+        document.body.appendChild(notification);
+        
+        // Show notification
+        setTimeout(() => {
+            notification.style.opacity = '1';
+            notification.style.transform = 'translateY(0)';
+        }, 10);
+        
+        // Hide and remove after delay
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,2437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NS Travel - Admin Customers Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    /* ===== Base Styles ===== */
+    :root {
+        /* Colors */
+        --primary: #3b82f6;
+        --primary-light: #93c5fd;
+        --primary-dark: #1d4ed8;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --error: #ef4444;
+        --bg: #000000;
+        --bg-card: #111827;
+        --bg-sidebar: #000000;
+        --text: #f1f5f9;
+        --text-light: #94a3b8;
+        --border: #334155;
+        
+        /* Dark Mode Colors */
+        --dark-bg: #000000;
+        --dark-bg-card: #111827;
+        --dark-text: #f1f5f9;
+        --dark-text-light: #94a3b8;
+        --dark-border: #334155;
+        
+        /* Gradients */
+        --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        --warning-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        --error-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        
+        /* Shadows */
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+        --shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+        
+        /* Border Radius */
+        --border-radius-sm: 0.25rem;
+        --border-radius: 0.5rem;
+        --border-radius-lg: 1rem;
+        --border-radius-full: 9999px;
+        
+        /* Transitions */
+        --transition: all 0.3s ease;
+
+        /* Sidebar */
+        --sidebar-width: 220px;
+    }
+
+    /* Reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+        min-height: 100vh;
+        overflow-x: hidden;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 600;
+        line-height: 1.2;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    button {
+        cursor: pointer;
+        font-family: inherit;
+    }
+
+    /* Particles */
+    .particles-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    .particle {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(circle at center, rgba(59, 130, 246, 0.6) 0%, rgba(59, 130, 246, 0) 70%);
+        animation: float 15s infinite ease-in-out;
+        opacity: 0.5;
+        filter: blur(8px);
+    }
+
+    /* Layout */
+    .layout {
+        display: flex;
+        min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: var(--sidebar-width);
+        background-color: var(--bg-sidebar);
+        border-right: 1px solid var(--border);
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        height: 100vh;
+        z-index: 10;
+        transition: var(--transition);
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: var(--primary);
+    }
+
+    .logo-icon {
+        width: 36px;
+        height: 36px;
+        background: var(--primary);
+        color: white;
+        border-radius: var(--border-radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+    }
+
+    .nav-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        flex-grow: 1;
+    }
+
+    .nav-item {
+        margin-bottom: 0.5rem;
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        border-radius: var(--border-radius);
+        transition: var(--transition);
+        color: var(--text-light);
+    }
+
+    .nav-link:hover {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: var(--primary);
+    }
+
+    .nav-link.active {
+        background-color: rgba(59, 130, 246, 0.15);
+        color: var(--primary);
+    }
+
+    .nav-icon {
+        font-size: 1.25rem;
+        width: 20px;
+        text-align: center;
+    }
+
+    /* Main Content */
+    .main-content {
+        flex: 1;
+        margin-left: var(--sidebar-width);
+        padding: 0;
+        transition: var(--transition);
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Header */
+    .main-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        border-bottom: 1px solid var(--border);
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 5;
+    }
+
+    .page-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--primary);
+    }
+
+    .header-time {
+        font-size: 1.25rem;
+        color: var(--text-light);
+    }
+
+    .header-actions {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .search-bar {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: rgba(17, 24, 39, 0.8);
+        border: 1px solid var(--border);
+        border-radius: var(--border-radius-full);
+        padding: 0.5rem 1rem;
+        width: 300px;
+        transition: var(--transition);
+    }
+
+    .search-bar:focus-within {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    .search-icon {
+        color: var(--text-light);
+    }
+
+    .search-input {
+        border: none;
+        background: none;
+        outline: none;
+        width: 100%;
+        color: var(--text);
+        font-size: 0.875rem;
+    }
+
+    .search-input::placeholder {
+        color: var(--text-light);
+    }
+
+    .notification-bell {
+        position: relative;
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--border-radius-full);
+        background-color: rgba(17, 24, 39, 0.8);
+        transition: var(--transition);
+    }
+
+    .notification-bell:hover {
+        background-color: rgba(59, 130, 246, 0.1);
+    }
+
+    .notification-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        width: 18px;
+        height: 18px;
+        background-color: var(--error);
+        color: white;
+        border-radius: 50%;
+        font-size: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+    }
+
+    .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+    }
+
+    .user-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: var(--primary);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+    }
+
+    /* Content Container */
+    .content-container {
+        padding: 2rem;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background-color: var(--bg-card);
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        box-shadow: var(--shadow);
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: var(--border-radius);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        z-index: 1;
+    }
+
+    .stat-icon.blue {
+        background-color: rgba(59, 130, 246, 0.2);
+        color: var(--primary);
+    }
+
+    .stat-icon.green {
+        background-color: rgba(16, 185, 129, 0.2);
+        color: var(--success);
+    }
+
+    .stat-icon.yellow {
+        background-color: rgba(245, 158, 11, 0.2);
+        color: var(--warning);
+    }
+
+    .stat-icon.red {
+        background-color: rgba(239, 68, 68, 0.2);
+        color: var(--error);
+    }
+
+    .stat-value {
+        font-size: 1.75rem;
+        font-weight: 700;
+        z-index: 1;
+    }
+
+    .stat-label {
+        font-size: 0.875rem;
+        color: var(--text-light);
+        z-index: 1;
+    }
+
+    .stat-change {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+        z-index: 1;
+    }
+
+    .stat-change.positive {
+        color: var(--success);
+    }
+
+    .stat-change.negative {
+        color: var(--error);
+    }
+
+    .stat-bg {
+        position: absolute;
+        bottom: -20px;
+        right: -20px;
+        width: 100px;
+        height: 100px;
+        opacity: 0.1;
+        z-index: 0;
+    }
+
+    /* Progress bar */
+    .progress-bar {
+        height: 4px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: var(--border-radius-full);
+        margin-top: 0.5rem;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        border-radius: var(--border-radius-full);
+    }
+
+    .progress-fill.blue {
+        background-color: var(--primary);
+        width: 75%;
+    }
+
+    .progress-fill.green {
+        background-color: var(--success);
+        width: 65%;
+    }
+
+    .progress-fill.yellow {
+        background-color: var(--warning);
+        width: 45%;
+    }
+
+    .progress-fill.red {
+        background-color: var(--error);
+        width: 25%;
+    }
+
+    /* Dashboard Card */
+    .dashboard-card {
+        background-color: var(--bg-card);
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        box-shadow: var(--shadow);
+        animation: fadeIn 0.5s ease;
+        margin-bottom: 2rem;
+    }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+
+    .card-actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    .btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--border-radius);
+        font-weight: 500;
+        transition: var(--transition);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .btn-primary {
+        background: var(--primary-gradient);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .btn-outline {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text);
+    }
+
+    .btn-outline:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+
+    .btn-success {
+        background: var(--success-gradient);
+        color: white;
+    }
+
+    .btn-success:hover {
+        background: var(--success);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .btn-warning {
+        background: var(--warning-gradient);
+        color: white;
+    }
+
+    .btn-warning:hover {
+        background: var(--warning);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .btn-error {
+        background: var(--error-gradient);
+        color: white;
+    }
+
+    .btn-error:hover {
+        background: var(--error);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .btn-icon {
+        padding: 0.5rem;
+        border-radius: var(--border-radius);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+    }
+
+    /* Table Styles */
+    .table-container {
+        overflow-x: auto;
+        border-radius: var(--border-radius);
+    }
+
+    .customers-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.875rem;
+    }
+
+    .customers-table th {
+        background-color: rgba(59, 130, 246, 0.1);
+        padding: 1rem;
+        text-align: left;
+        font-weight: 600;
+        color: var(--primary);
+        border-bottom: 1px solid var(--border);
+        position: relative;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .customers-table th:hover {
+        background-color: rgba(59, 130, 246, 0.15);
+    }
+
+    .customers-table th.sorted:after {
+        content: '↓';
+        position: absolute;
+        right: 0.5rem;
+        color: var(--primary);
+    }
+
+    .customers-table th.sorted.desc:after {
+        content: '↑';
+    }
+
+    .customers-table td {
+        padding: 1rem;
+        border-bottom: 1px solid var(--border);
+        transition: var(--transition);
+    }
+
+    .customers-table tr:hover td {
+        background-color: rgba(59, 130, 246, 0.05);
+    }
+
+    .customers-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .customer-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .customer-avatar {
+        width: 40px;
+        height: 40px;
+        background-color: var(--primary-light);
+        color: var(--primary-dark);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .customer-name {
+        font-weight: 500;
+    }
+
+    .customer-email {
+        font-size: 0.75rem;
+        color: var(--text-light);
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: var(--border-radius-full);
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    .status-badge.active {
+        background-color: rgba(16, 185, 129, 0.1);
+        color: var(--success);
+    }
+
+    .status-badge.inactive {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: var(--error);
+    }
+
+    .status-badge.pending {
+        background-color: rgba(245, 158, 11, 0.1);
+        color: var(--warning);
+    }
+
+    .row-actions {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .action-btn {
+        width: 28px;
+        height: 28px;
+        border-radius: var(--border-radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.875rem;
+        transition: var(--transition);
+        background: none;
+        border: none;
+        color: var(--text);
+    }
+
+    .action-btn:hover {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: var(--primary);
+    }
+
+    .action-btn.view:hover {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: var(--primary);
+    }
+
+    .action-btn.edit:hover {
+        background-color: rgba(245, 158, 11, 0.1);
+        color: var(--warning);
+    }
+
+    .action-btn.delete:hover {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: var(--error);
+    }
+
+    /* Pagination */
+    .pagination {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1.5rem;
+        font-size: 0.875rem;
+    }
+
+    .pagination-info {
+        color: var(--text-light);
+    }
+
+    .pagination-controls {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .pagination-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: var(--border-radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--bg-card);
+        border: 1px solid var(--border);
+        transition: var(--transition);
+        color: var(--text);
+    }
+
+    .pagination-btn:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+
+    .pagination-btn.active {
+        background-color: var(--primary);
+        color: white;
+        border-color: var(--primary);
+    }
+
+    .pagination-btn.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    /* Filter Controls */
+    .filter-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .filter-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .filter-label {
+        font-size: 0.875rem;
+        color: var(--text-light);
+    }
+
+    .filter-select {
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--border);
+        border-radius: var(--border-radius);
+        background-color: var(--bg-card);
+        color: var(--text);
+        font-size: 0.875rem;
+        transition: var(--transition);
+    }
+
+    .filter-select:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    /* Modal */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal {
+        background-color: var(--bg-card);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-xl);
+        width: 90%;
+        max-width: 600px;
+        max-height: 90vh;
+        overflow-y: auto;
+        transform: scale(0.9);
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .modal-overlay.active .modal {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .modal-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+
+    .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--text-light);
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .modal-close:hover {
+        color: var(--error);
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        padding: 1.5rem;
+        border-top: 1px solid var(--border);
+    }
+
+    /* Form Styles */
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        font-size: 0.875rem;
+    }
+
+    .form-input, .form-select, .form-textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--border);
+        border-radius: var(--border-radius);
+        background-color: var(--bg);
+        color: var(--text);
+        font-size: 0.875rem;
+        transition: var(--transition);
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    .form-input::placeholder, .form-textarea::placeholder {
+        color: var(--text-light);
+    }
+
+    .form-textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .form-row {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .form-col {
+        flex: 1;
+    }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-check-input {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    /* Customer Details */
+    .customer-details {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .detail-group {
+        margin-bottom: 1rem;
+    }
+
+    .detail-label {
+        font-size: 0.75rem;
+        color: var(--text-light);
+        margin-bottom: 0.25rem;
+    }
+
+    .detail-value {
+        font-weight: 500;
+    }
+
+    .detail-notes {
+        grid-column: span 2;
+    }
+
+    /* Confirmation Dialog */
+    .confirm-dialog {
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .confirm-icon {
+        font-size: 3rem;
+        color: var(--error);
+        margin-bottom: 1rem;
+    }
+
+    .confirm-message {
+        margin-bottom: 1.5rem;
+    }
+
+    /* Notification */
+    .notification {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: var(--success);
+        color: white;
+        padding: 1rem;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-lg);
+        z-index: 1000;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    /* Animations */
+    @keyframes float {
+        0%, 100% {
+            transform: translate(0, 0);
+        }
+        25% {
+            transform: translate(10px, -10px);
+        }
+        50% {
+            transform: translate(20px, 10px);
+        }
+        75% {
+            transform: translate(-10px, 15px);
+        }
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.7;
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes breathe {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.3);
+        }
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 992px) {
+        .sidebar {
+            transform: translateX(-100%);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .main-content {
+            margin-left: 0;
+        }
+
+        .mobile-menu-toggle {
+            display: block;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .content-container {
+            padding: 1rem;
+        }
+        
+        .main-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+        }
+        
+        .header-actions {
+            width: 100%;
+            justify-content: space-between;
+        }
+        
+        .search-bar {
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .customer-details {
+            grid-template-columns: 1fr;
+        }
+        
+        .detail-notes {
+            grid-column: span 1;
+        }
+        
+        .form-row {
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .card-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .card-actions {
+            width: 100%;
+        }
+        
+        .pagination {
+            flex-direction: column;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        
+        .filter-controls {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+</style>
+</head>
+<body>
+<!-- Particle Background -->
+<div class="particles-container" id="particles-container"></div>
+
+<div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">NS</div>
+            <span>NS Travel</span>
+        </div>
+        
+        <ul class="nav-list">
+            <li class="nav-item">
+                <a href="admin-dashboard.html" class="nav-link">
+                    <span class="nav-icon">🏠</span>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="booking.html" class="nav-link">
+                    <span class="nav-icon">✈️</span>
+                    <span>Bookings</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="admin-destinations.html" class="nav-link">
+                    <span class="nav-icon">🌍</span>
+                    <span>Destinations</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="admin-customers.html" class="nav-link">
+                    <span class="nav-icon">👥</span>
+                    <span>Customers</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">📊</span>
+                    <span>Reports</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="admin-guides.html" class="nav-link active">
+                    <span class="nav-icon">📚</span>
+                    <span>Guides</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <span class="nav-icon">⚙️</span>
+                    <span>Settings</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="header-left">
+                <h1 class="page-title">Customers</h1>
+                <span class="header-time" id="current-time">11:59:45</span>
+            </div>
+            
+            <div class="header-actions">
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" id="search-input" placeholder="Search customers...">
+                </div>
+                
+                <div class="notification-bell">
+                    <span>🔔</span>
+                    <span class="notification-badge">3</span>
+                </div>
+                
+                <div class="user-profile">
+                    <div class="user-avatar">A</div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="content-container">
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">👥</div>
+                    <div>
+                        <div class="stat-value" id="total-customers">2,458</div>
+                        <div class="stat-label">Total Customers</div>
+                    </div>
+                    <div class="stat-change positive">
+                        <span>↑</span>
+                        <span>15.3% from last month</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill blue"></div>
+                    </div>
+                    <div class="stat-bg">👥</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon green">✓</div>
+                    <div>
+                        <div class="stat-value" id="active-customers">1,876</div>
+                        <div class="stat-label">Active Customers</div>
+                    </div>
+                    <div class="stat-change positive">
+                        <span>↑</span>
+                        <span>8.7% from last month</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill green"></div>
+                    </div>
+                    <div class="stat-bg">✓</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon yellow">🆕</div>
+                    <div>
+                        <div class="stat-value" id="new-customers">342</div>
+                        <div class="stat-label">New Customers</div>
+                    </div>
+                    <div class="stat-change positive">
+                        <span>↑</span>
+                        <span>12.4% from last month</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill yellow"></div>
+                    </div>
+                    <div class="stat-bg">🆕</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon red">💰</div>
+                    <div>
+                        <div class="stat-value" id="avg-spend">$1,250</div>
+                        <div class="stat-label">Avg. Spend per Customer</div>
+                    </div>
+                    <div class="stat-change positive">
+                        <span>↑</span>
+                        <span>5.2% from last month</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill red"></div>
+                    </div>
+                    <div class="stat-bg">💰</div>
+                </div>
+            </div>
+            
+            <!-- Customers Management -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h2 class="card-title">Customer Management</h2>
+                    
+                    <div class="card-actions">
+                        <button class="btn btn-outline" id="filter-btn">
+                            <span>🔍</span>
+                            <span>Filter</span>
+                        </button>
+                        
+                        <button class="btn btn-outline" id="export-btn">
+                            <span>📥</span>
+                            <span>Export</span>
+                        </button>
+                        
+                        <button class="btn btn-primary" id="add-customer-btn">
+                            <span>+</span>
+                            <span>Add Customer</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="filter-controls" id="filter-controls">
+                    <div class="filter-group">
+                        <label class="filter-label">Status:</label>
+                        <select class="filter-select" id="status-filter">
+                            <option value="">All Statuses</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="pending">Pending</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Country:</label>
+                        <select class="filter-select" id="country-filter">
+                            <option value="">All Countries</option>
+                            <option value="United States">United States</option>
+                            <option value="United Kingdom">United Kingdom</option>
+                            <option value="Canada">Canada</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Germany">Germany</option>
+                            <option value="France">France</option>
+                            <option value="Japan">Japan</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Membership:</label>
+                        <select class="filter-select" id="membership-filter">
+                            <option value="">All Memberships</option>
+                            <option value="standard">Standard</option>
+                            <option value="premium">Premium</option>
+                            <option value="vip">VIP</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Sort By:</label>
+                        <select class="filter-select" id="sort-filter">
+                            <option value="name-asc">Name (A-Z)</option>
+                            <option value="name-desc">Name (Z-A)</option>
+                            <option value="date-desc">Date Joined (Newest)</option>
+                            <option value="date-asc">Date Joined (Oldest)</option>
+                            <option value="spend-desc">Total Spend (High to Low)</option>
+                            <option value="spend-asc">Total Spend (Low to High)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="customers-table" id="customers-table">
+                        <thead>
+                            <tr>
+                                <th data-sort="id">ID</th>
+                                <th data-sort="name">Customer</th>
+                                <th data-sort="email">Email</th>
+                                <th data-sort="phone">Phone</th>
+                                <th data-sort="country">Country</th>
+                                <th data-sort="joined">Date Joined</th>
+                                <th data-sort="spend">Total Spend</th>
+                                <th data-sort="status">Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customers-table-body">
+                            <!-- Table rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination">
+                    <div class="pagination-info" id="pagination-info">
+                        Showing <span id="showing-start">1</span> to <span id="showing-end">10</span> of <span id="total-items">2,458</span> customers
+                    </div>
+                    
+                    <div class="pagination-controls" id="pagination-controls">
+                        <!-- Pagination buttons will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Add/Edit Customer Modal -->
+<div class="modal-overlay" id="customer-modal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title" id="customer-modal-title">Add New Customer</h3>
+            <button class="modal-close" id="customer-modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="customer-form">
+                <input type="hidden" id="customer-id">
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="first-name" class="form-label">First Name</label>
+                            <input type="text" id="first-name" class="form-input" placeholder="John" required>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="last-name" class="form-label">Last Name</label>
+                            <input type="text" id="last-name" class="form-input" placeholder="Doe" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" class="form-input" placeholder="john.doe@example.com" required>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input type="tel" id="phone" class="form-input" placeholder="+1 (555) 123-4567">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="country" class="form-label">Country</label>
+                            <select id="country" class="form-select" required>
+                                <option value="">Select Country</option>
+                                <option value="United States">United States</option>
+                                <option value="United Kingdom">United Kingdom</option>
+                                <option value="Canada">Canada</option>
+                                <option value="Australia">Australia</option>
+                                <option value="Germany">Germany</option>
+                                <option value="France">France</option>
+                                <option value="Japan">Japan</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="membership" class="form-label">Membership</label>
+                            <select id="membership" class="form-select" required>
+                                <option value="standard">Standard</option>
+                                <option value="premium">Premium</option>
+                                <option value="vip">VIP</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="date-joined" class="form-label">Date Joined</label>
+                            <input type="date" id="date-joined" class="form-input" required>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="status" class="form-label">Status</label>
+                            <select id="status" class="form-select" required>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                                <option value="pending">Pending</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes" class="form-label">Notes</label>
+                    <textarea id="notes" class="form-textarea" placeholder="Add any additional notes about this customer"></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="customer-modal-cancel">Cancel</button>
+            <button class="btn btn-primary" id="customer-modal-save">Save Customer</button>
+        </div>
+    </div>
+</div>
+
+<!-- View Customer Details Modal -->
+<div class="modal-overlay" id="view-customer-modal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title">Customer Details</h3>
+            <button class="modal-close" id="view-customer-modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="customer-details" id="customer-details">
+                <!-- Customer details will be populated by JavaScript -->
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="view-customer-modal-close-btn">Close</button>
+            <button class="btn btn-warning" id="view-customer-edit-btn">Edit</button>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal-overlay" id="delete-modal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title">Confirm Delete</h3>
+            <button class="modal-close" id="delete-modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="confirm-dialog">
+                <div class="confirm-icon">⚠️</div>
+                <h4>Are you sure you want to delete this customer?</h4>
+                <p class="confirm-message">This action cannot be undone. All data associated with this customer will be permanently removed.</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="delete-modal-cancel">Cancel</button>
+            <button class="btn btn-error" id="delete-modal-confirm">Delete</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize the page
+        initCustomersPage();
+    });
+    
+    function initCustomersPage() {
+        // Create particles
+        createParticles();
+        
+        // Initialize customer data
+        initCustomerData();
+        
+        // Initialize modals
+        initModals();
+        
+        // Initialize event listeners
+        initEventListeners();
+        
+        // Initialize clock
+        initClock();
+    }
+    
+    // Initialize clock
+    function initClock() {
+        const updateClock = () => {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            
+            document.getElementById('current-time').textContent = `${hours}:${minutes}:${seconds}`;
+        };
+        
+        // Update immediately and then every second
+        updateClock();
+        setInterval(updateClock, 1000);
+    }
+    
+    // Create particles for background
+    function createParticles() {
+        const container = document.getElementById('particles-container');
+        const particleCount = 15;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            // Random size between 100px and 300px
+            const size = Math.random() * 200 + 100;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            
+            // Random position
+            const posX = Math.random() * 100;
+            const posY = Math.random() * 100;
+            particle.style.left = `${posX}%`;
+            particle.style.top = `${posY}%`;
+            
+            // Random animation delay
+            const delay = Math.random() * 5;
+            particle.style.animationDelay = `${delay}s`;
+            
+            // Random animation duration
+            const duration = Math.random() * 10 + 10;
+            particle.style.animationDuration = `${duration}s`;
+            
+            // Add glow effect
+            const glowIntensity = Math.random() * 15 + 10;
+            particle.style.boxShadow = `0 0 ${glowIntensity}px rgba(59, 130, 246, 0.7)`;
+            
+            // Add color variation
+            const hue = Math.random() * 30 + 210; // Blue range
+            particle.style.background = `radial-gradient(circle at center, hsla(${hue}, 100%, 70%, 0.8) 0%, hsla(${hue}, 100%, 70%, 0) 70%)`;
+            
+            // Add size animation
+            const breatheDuration = Math.random() * 5 + 5;
+            particle.style.animation = `float 15s infinite ease-in-out, breathe ${breatheDuration}s infinite ease-in-out`;
+            
+            container.appendChild(particle);
+        }
+    }
+    
+    // Sample customer data
+    let customers = [
+        {
+            id: 'CUST-1001',
+            firstName: 'John',
+            lastName: 'Doe',
+            email: 'john.doe@example.com',
+            phone: '+1 (555) 123-4567',
+            country: 'United States',
+            dateJoined: '2023-01-15',
+            totalSpend: 3250,
+            status: 'active',
+            membership: 'premium',
+            notes: 'Frequent traveler, prefers luxury accommodations.'
+        },
+        {
+            id: 'CUST-1002',
+            firstName: 'Emma',
+            lastName: 'Smith',
+            email: 'emma.smith@example.com',
+            phone: '+44 20 1234 5678',
+            country: 'United Kingdom',
+            dateJoined: '2023-02-22',
+            totalSpend: 1850,
+            status: 'active',
+            membership: 'standard',
+            notes: 'Interested in European destinations.'
+        },
+        {
+            id: 'CUST-1003',
+            firstName: 'Michael',
+            lastName: 'Johnson',
+            email: 'michael.j@example.com',
+            phone: '+1 (555) 987-6543',
+            country: 'Canada',
+            dateJoined: '2023-03-10',
+            totalSpend: 4750,
+            status: 'active',
+            membership: 'vip',
+            notes: 'VIP customer, prefers personalized travel packages.'
+        },
+        {
+            id: 'CUST-1004',
+            firstName: 'Sophia',
+            lastName: 'Garcia',
+            email: 'sophia.g@example.com',
+            phone: '+61 2 9876 5432',
+            country: 'Australia',
+            dateJoined: '2023-01-30',
+            totalSpend: 2100,
+            status: 'inactive',
+            membership: 'standard',
+            notes: 'Currently inactive due to relocation.'
+        },
+        {
+            id: 'CUST-1005',
+            firstName: 'David',
+            lastName: 'Kim',
+            email: 'david.kim@example.com',
+            phone: '+1 (555) 234-5678',
+            country: 'United States',
+            dateJoined: '2023-04-05',
+            totalSpend: 950,
+            status: 'active',
+            membership: 'standard',
+            notes: 'Prefers budget-friendly options.'
+        },
+        {
+            id: 'CUST-1006',
+            firstName: 'Olivia',
+            lastName: 'Brown',
+            email: 'olivia.b@example.com',
+            phone: '+44 20 9876 5432',
+            country: 'United Kingdom',
+            dateJoined: '2023-02-15',
+            totalSpend: 3600,
+            status: 'active',
+            membership: 'premium',
+            notes: 'Frequent traveler to Asia.'
+        },
+        {
+            id: 'CUST-1007',
+            firstName: 'James',
+            lastName: 'Wilson',
+            email: 'james.w@example.com',
+            phone: '+1 (555) 345-6789',
+            country: 'United States',
+            dateJoined: '2023-03-22',
+            totalSpend: 1200,
+            status: 'pending',
+            membership: 'standard',
+            notes: 'Awaiting verification of account details.'
+        },
+        {
+            id: 'CUST-1008',
+            firstName: 'Ava',
+            lastName: 'Martinez',
+            email: 'ava.m@example.com',
+            phone: '+49 30 1234 5678',
+            country: 'Germany',
+            dateJoined: '2023-04-10',
+            totalSpend: 2800,
+            status: 'active',
+            membership: 'premium',
+            notes: 'Interested in cultural tours.'
+        },
+        {
+            id: 'CUST-1009',
+            firstName: 'Ethan',
+            lastName: 'Taylor',
+            email: 'ethan.t@example.com',
+            phone: '+1 (555) 456-7890',
+            country: 'Canada',
+            dateJoined: '2023-01-20',
+            totalSpend: 5200,
+            status: 'active',
+            membership: 'vip',
+            notes: 'VIP customer, prefers luxury travel experiences.'
+        },
+        {
+            id: 'CUST-1010',
+            firstName: 'Isabella',
+            lastName: 'Anderson',
+            email: 'isabella.a@example.com',
+            phone: '+33 1 2345 6789',
+            country: 'France',
+            dateJoined: '2023-02-28',
+            totalSpend: 1750,
+            status: 'active',
+            membership: 'standard',
+            notes: 'Frequent traveler to Mediterranean destinations.'
+        }
+    ];
+    
+    // Pagination variables
+    let currentPage = 1;
+    const itemsPerPage = 5;
+    let filteredCustomers = [...customers];
+    
+    // Sorting variables
+    let currentSort = {
+        column: 'id',
+        direction: 'asc'
+    };
+    
+    // Initialize customer data
+    function initCustomerData() {
+        updateStats();
+        renderTable();
+        renderPagination();
+    }
+    
+    // Update stats
+    function updateStats() {
+        document.getElementById('total-customers').textContent = customers.length.toLocaleString();
+        
+        const activeCount = customers.filter(customer => customer.status === 'active').length;
+        document.getElementById('active-customers').textContent = activeCount.toLocaleString();
+        
+        // For demo purposes, we'll just show a fixed number for new customers
+        document.getElementById('new-customers').textContent = '342';
+        
+        // Calculate average spend
+        const totalSpend = customers.reduce((sum, customer) => sum + customer.totalSpend, 0);
+        const avgSpend = totalSpend / customers.length;
+        document.getElementById('avg-spend').textContent = `$${avgSpend.toFixed(0).toLocaleString()}`;
+    }
+    
+    // Render table
+    function renderTable() {
+        const tableBody = document.getElementById('customers-table-body');
+        tableBody.innerHTML = '';
+        
+        // Sort customers
+        sortCustomers();
+        
+        // Get current page items
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const currentItems = filteredCustomers.slice(startIndex, endIndex);
+        
+        // Render table rows
+        currentItems.forEach(customer => {
+            const row = document.createElement('tr');
+            
+            // Format date
+            const joinedDate = new Date(customer.dateJoined);
+            const formattedDate = joinedDate.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+            
+            // Format amount
+            const formattedAmount = `$${customer.totalSpend.toLocaleString()}`;
+            
+            // Get initials for avatar
+            const initials = getInitials(customer.firstName, customer.lastName);
+            
+            row.innerHTML = `
+                <td>${customer.id}</td>
+                <td>
+                    <div class="customer-info">
+                        <div class="customer-avatar">${initials}</div>
+                        <div>
+                            <div class="customer-name">${customer.firstName} ${customer.lastName}</div>
+                            <div class="customer-email">${customer.membership.charAt(0).toUpperCase() + customer.membership.slice(1)} Member</div>
+                        </div>
+                    </div>
+                </td>
+                <td>${customer.email}</td>
+                <td>${customer.phone || 'N/A'}</td>
+                <td>${customer.country}</td>
+                <td>${formattedDate}</td>
+                <td>${formattedAmount}</td>
+                <td><span class="status-badge ${customer.status}">${customer.status.charAt(0).toUpperCase() + customer.status.slice(1)}</span></td>
+                <td>
+                    <div class="row-actions">
+                        <button class="action-btn view" data-id="${customer.id}" title="View Details">👁️</button>
+                        <button class="action-btn edit" data-id="${customer.id}" title="Edit Customer">✏️</button>
+                        <button class="action-btn delete" data-id="${customer.id}" title="Delete Customer">🗑️</button>
+                    </div>
+                </td>
+            `;
+            
+            tableBody.appendChild(row);
+        });
+        
+        // Update pagination info
+        const totalItems = filteredCustomers.length;
+        const showingStart = totalItems === 0 ? 0 : startIndex + 1;
+        const showingEnd = Math.min(endIndex, totalItems);
+        
+        document.getElementById('showing-start').textContent = showingStart.toLocaleString();
+        document.getElementById('showing-end').textContent = showingEnd.toLocaleString();
+        document.getElementById('total-items').textContent = totalItems.toLocaleString();
+        
+        // Add event listeners to action buttons
+        addActionButtonListeners();
+    }
+    
+    // Sort customers
+    function sortCustomers() {
+        filteredCustomers.sort((a, b) => {
+            let valueA, valueB;
+            
+            switch (currentSort.column) {
+                case 'id':
+                    valueA = a.id;
+                    valueB = b.id;
+                    break;
+                case 'name':
+                    valueA = a.firstName + ' ' + a.lastName;
+                    valueB = b.firstName + ' ' + b.lastName;
+                    break;
+                case 'email':
+                    valueA = a.email;
+                    valueB = b.email;
+                    break;
+                case 'phone':
+                    valueA = a.phone || '';
+                    valueB = b.phone || '';
+                    break;
+                case 'country':
+                    valueA = a.country;
+                    valueB = b.country;
+                    break;
+                case 'joined':
+                    valueA = new Date(a.dateJoined);
+                    valueB = new Date(b.dateJoined);
+                    break;
+                case 'spend':
+                    valueA = a.totalSpend;
+                    valueB = b.totalSpend;
+                    break;
+                case 'status':
+                    valueA = a.status;
+                    valueB = b.status;
+                    break;
+                default:
+                    valueA = a.id;
+                    valueB = b.id;
+            }
+            
+            if (currentSort.direction === 'asc') {
+                return valueA > valueB ? 1 : -1;
+            } else {
+                return valueA < valueB ? 1 : -1;
+            }
+        });
+    }
+    
+    // Render pagination
+    function renderPagination() {
+        const paginationControls = document.getElementById('pagination-controls');
+        paginationControls.innerHTML = '';
+        
+        const totalPages = Math.ceil(filteredCustomers.length / itemsPerPage);
+        
+        // Previous button
+        const prevButton = document.createElement('button');
+        prevButton.className = `pagination-btn ${currentPage === 1 ? 'disabled' : ''}`;
+        prevButton.innerHTML = '&lt;';
+        prevButton.disabled = currentPage === 1;
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable();
+                renderPagination();
+            }
+        });
+        paginationControls.appendChild(prevButton);
+        
+        // Page buttons
+        const maxButtons = 5;
+        const startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+        const endPage = Math.min(totalPages, startPage + maxButtons - 1);
+        
+        for (let i = startPage; i <= endPage; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+            pageButton.textContent = i;
+            pageButton.addEventListener('click', () => {
+                currentPage = i;
+                renderTable();
+                renderPagination();
+            });
+            paginationControls.appendChild(pageButton);
+        }
+        
+        // Next button
+        const nextButton = document.createElement('button');
+        nextButton.className = `pagination-btn ${currentPage === totalPages ? 'disabled' : ''}`;
+        nextButton.innerHTML = '&gt;';
+        nextButton.disabled = currentPage === totalPages;
+        nextButton.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable();
+                renderPagination();
+            }
+        });
+        paginationControls.appendChild(nextButton);
+    }
+    
+    // Initialize modals
+    function initModals() {
+        // Customer modal
+        const customerModal = document.getElementById('customer-modal');
+        const customerModalClose = document.getElementById('customer-modal-close');
+        const customerModalCancel = document.getElementById('customer-modal-cancel');
+        
+        customerModalClose.addEventListener('click', () => {
+            customerModal.classList.remove('active');
+        });
+        
+        customerModalCancel.addEventListener('click', () => {
+            customerModal.classList.remove('active');
+        });
+        
+        // View customer modal
+        const viewCustomerModal = document.getElementById('view-customer-modal');
+        const viewCustomerModalClose = document.getElementById('view-customer-modal-close');
+        const viewCustomerModalCloseBtn = document.getElementById('view-customer-modal-close-btn');
+        
+        viewCustomerModalClose.addEventListener('click', () => {
+            viewCustomerModal.classList.remove('active');
+        });
+        
+        viewCustomerModalCloseBtn.addEventListener('click', () => {
+            viewCustomerModal.classList.remove('active');
+        });
+        
+        // Delete modal
+        const deleteModal = document.getElementById('delete-modal');
+        const deleteModalClose = document.getElementById('delete-modal-close');
+        const deleteModalCancel = document.getElementById('delete-modal-cancel');
+        
+        deleteModalClose.addEventListener('click', () => {
+            deleteModal.classList.remove('active');
+        });
+        
+        deleteModalCancel.addEventListener('click', () => {
+            deleteModal.classList.remove('active');
+        });
+    }
+    
+    // Initialize event listeners
+    function initEventListeners() {
+        // Add customer button
+        const addCustomerBtn = document.getElementById('add-customer-btn');
+        addCustomerBtn.addEventListener('click', () => {
+            openAddCustomerModal();
+        });
+        
+        // Save customer button
+        const saveCustomerBtn = document.getElementById('customer-modal-save');
+        saveCustomerBtn.addEventListener('click', () => {
+            saveCustomer();
+        });
+        
+        // Delete customer confirmation
+        const deleteConfirmBtn = document.getElementById('delete-modal-confirm');
+        deleteConfirmBtn.addEventListener('click', () => {
+            const customerId = deleteConfirmBtn.getAttribute('data-id');
+            deleteCustomer(customerId);
+        });
+        
+        // Edit from view modal
+        const viewCustomerEditBtn = document.getElementById('view-customer-edit-btn');
+        viewCustomerEditBtn.addEventListener('click', () => {
+            const customerId = viewCustomerEditBtn.getAttribute('data-id');
+            document.getElementById('view-customer-modal').classList.remove('active');
+            openEditCustomerModal(customerId);
+        });
+        
+        // Search input
+        const searchInput = document.getElementById('search-input');
+        searchInput.addEventListener('input', () => {
+            searchCustomers(searchInput.value);
+        });
+        
+        // Filter controls
+        const statusFilter = document.getElementById('status-filter');
+        const countryFilter = document.getElementById('country-filter');
+        const membershipFilter = document.getElementById('membership-filter');
+        const sortFilter = document.getElementById('sort-filter');
+        
+        statusFilter.addEventListener('change', applyFilters);
+        countryFilter.addEventListener('change', applyFilters);
+        membershipFilter.addEventListener('change', applyFilters);
+        sortFilter.addEventListener('change', applyFilters);
+        
+        // Table header sorting
+        const tableHeaders = document.querySelectorAll('.customers-table th[data-sort]');
+        tableHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const column = header.getAttribute('data-sort');
+                
+                // Update sort direction
+                if (currentSort.column === column) {
+                    currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                } else {
+                    currentSort.column = column;
+                    currentSort.direction = 'asc';
+                }
+                
+                // Update header classes
+                tableHeaders.forEach(h => h.classList.remove('sorted', 'desc'));
+                header.classList.add('sorted');
+                if (currentSort.direction === 'desc') {
+                    header.classList.add('desc');
+                }
+                
+                // Re-render table
+                renderTable();
+            });
+        });
+        
+        // Export button
+        const exportBtn = document.getElementById('export-btn');
+        exportBtn.addEventListener('click', () => {
+            exportCustomers();
+        });
+    }
+    
+    // Add event listeners to action buttons
+    function addActionButtonListeners() {
+        // View buttons
+        const viewButtons = document.querySelectorAll('.action-btn.view');
+        viewButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const customerId = button.getAttribute('data-id');
+                openViewCustomerModal(customerId);
+            });
+        });
+        
+        // Edit buttons
+        const editButtons = document.querySelectorAll('.action-btn.edit');
+        editButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const customerId = button.getAttribute('data-id');
+                openEditCustomerModal(customerId);
+            });
+        });
+        
+        // Delete buttons
+        const deleteButtons = document.querySelectorAll('.action-btn.delete');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const customerId = button.getAttribute('data-id');
+                openDeleteConfirmationModal(customerId);
+            });
+        });
+    }
+    
+    // Open add customer modal
+    function openAddCustomerModal() {
+        // Reset form
+        document.getElementById('customer-form').reset();
+        document.getElementById('customer-id').value = '';
+        
+        // Set today as default date joined
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('date-joined').value = today;
+        
+        // Set modal title
+        document.getElementById('customer-modal-title').textContent = 'Add New Customer';
+        
+        // Show modal
+        document.getElementById('customer-modal').classList.add('active');
+    }
+    
+    // Open edit customer modal
+    function openEditCustomerModal(customerId) {
+        // Find customer
+        const customer = customers.find(c => c.id === customerId);
+        
+        if (customer) {
+            // Set form values
+            document.getElementById('customer-id').value = customer.id;
+            document.getElementById('first-name').value = customer.firstName;
+            document.getElementById('last-name').value = customer.lastName;
+            document.getElementById('email').value = customer.email;
+            document.getElementById('phone').value = customer.phone || '';
+            document.getElementById('country').value = customer.country;
+            document.getElementById('membership').value = customer.membership;
+            document.getElementById('date-joined').value = customer.dateJoined;
+            document.getElementById('status').value = customer.status;
+            document.getElementById('notes').value = customer.notes || '';
+            
+            // Set modal title
+            document.getElementById('customer-modal-title').textContent = `Edit Customer: ${customer.firstName} ${customer.lastName}`;
+            
+            // Show modal
+            document.getElementById('customer-modal').classList.add('active');
+        }
+    }
+    
+    // Open view customer modal
+    function openViewCustomerModal(customerId) {
+        // Find customer
+        const customer = customers.find(c => c.id === customerId);
+        
+        if (customer) {
+            // Format date
+            const joinedDate = new Date(customer.dateJoined);
+            const formattedDate = joinedDate.toLocaleDateString('en-US', {
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric'
+            });
+            
+            // Format amount
+            const formattedAmount = `$${customer.totalSpend.toLocaleString()}`;
+            
+            // Populate customer details
+            const customerDetails = document.getElementById('customer-details');
+            customerDetails.innerHTML = `
+                <div class="detail-group">
+                    <div class="detail-label">Customer ID</div>
+                    <div class="detail-value">${customer.id}</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Status</div>
+                    <div class="detail-value"><span class="status-badge ${customer.status}">${customer.status.charAt(0).toUpperCase() + customer.status.slice(1)}</span></div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">First Name</div>
+                    <div class="detail-value">${customer.firstName}</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Last Name</div>
+                    <div class="detail-value">${customer.lastName}</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Email</div>
+                    <div class="detail-value">${customer.email}</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Phone</div>
+                    <div class="detail-value">${customer.phone || 'N/A'}</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Country</div>
+                    <div class="detail-value">${customer.country}</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Membership</div>
+                    <div class="detail-value">${customer.membership.charAt(0).toUpperCase() + customer.membership.slice(1)}</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Date Joined</div>
+                    <div class="detail-value">${formattedDate}</div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Total Spend</div>
+                    <div class="detail-value">${formattedAmount}</div>
+                </div>
+                <div class="detail-group detail-notes">
+                    <div class="detail-label">Notes</div>
+                    <div class="detail-value">${customer.notes || 'No notes available'}</div>
+                </div>
+            `;
+            
+            // Set customer ID for edit button
+            document.getElementById('view-customer-edit-btn').setAttribute('data-id', customer.id);
+            
+            // Show modal
+            document.getElementById('view-customer-modal').classList.add('active');
+        }
+    }
+    
+    // Open delete confirmation modal
+    function openDeleteConfirmationModal(customerId) {
+        // Set customer ID for delete button
+        document.getElementById('delete-modal-confirm').setAttribute('data-id', customerId);
+        
+        // Show modal
+        document.getElementById('delete-modal').classList.add('active');
+    }
+    
+    // Save customer
+    function saveCustomer() {
+        // Get form values
+        const customerId = document.getElementById('customer-id').value;
+        const firstName = document.getElementById('first-name').value;
+        const lastName = document.getElementById('last-name').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const country = document.getElementById('country').value;
+        const membership = document.getElementById('membership').value;
+        const dateJoined = document.getElementById('date-joined').value;
+        const status = document.getElementById('status').value;
+        const notes = document.getElementById('notes').value;
+        
+        // Validate form
+        if (!firstName || !lastName || !email || !country || !dateJoined || !status) {
+            alert('Please fill in all required fields');
+            return;
+        }
+        
+        // Create customer object
+        const customerData = {
+            firstName,
+            lastName,
+            email,
+            phone,
+            country,
+            membership,
+            dateJoined,
+            status,
+            notes
+        };
+        
+        if (customerId) {
+            // Update existing customer
+            const index = customers.findIndex(c => c.id === customerId);
+            if (index !== -1) {
+                customerData.id = customerId;
+                customerData.totalSpend = customers[index].totalSpend;
+                customers[index] = customerData;
+            }
+        } else {
+            // Add new customer
+            const newId = `CUST-${1000 + customers.length + 1}`;
+            customerData.id = newId;
+            customerData.totalSpend = 0; // New customers start with 0 spend
+            customers.push(customerData);
+        }
+        
+        // Update filtered customers
+        applyFilters();
+        
+        // Update UI
+        updateStats();
+        
+        // Close modal
+        document.getElementById('customer-modal').classList.remove('active');
+        
+        // Show success message
+        showNotification(customerId ? 'Customer updated successfully' : 'New customer added successfully');
+    }
+    
+    // Delete customer
+    function deleteCustomer(customerId) {
+        // Remove customer from array
+        customers = customers.filter(c => c.id !== customerId);
+        
+        // Update filtered customers
+        applyFilters();
+        
+        // Update UI
+        updateStats();
+        
+        // Close modal
+        document.getElementById('delete-modal').classList.remove('active');
+        
+        // Show success message
+        showNotification('Customer deleted successfully');
+    }
+    
+    // Search customers
+    function searchCustomers(query) {
+        if (!query) {
+            applyFilters();
+        } else {
+            query = query.toLowerCase();
+            
+            // First apply other filters
+            applyFilters(false);
+            
+            // Then apply search filter
+            filteredCustomers = filteredCustomers.filter(customer => 
+                customer.id.toLowerCase().includes(query) ||
+                customer.firstName.toLowerCase().includes(query) ||
+                customer.lastName.toLowerCase().includes(query) ||
+                customer.email.toLowerCase().includes(query) ||
+                (customer.phone && customer.phone.toLowerCase().includes(query)) ||
+                customer.country.toLowerCase().includes(query)
+            );
+            
+            // Reset to first page
+            currentPage = 1;
+            
+            renderTable();
+            renderPagination();
+        }
+    }
+    
+    // Apply filters
+    function applyFilters(render = true) {
+        const statusFilter = document.getElementById('status-filter').value;
+        const countryFilter = document.getElementById('country-filter').value;
+        const membershipFilter = document.getElementById('membership-filter').value;
+        
+        // Apply filters
+        filteredCustomers = customers.filter(customer => {
+            // Status filter
+            if (statusFilter && customer.status !== statusFilter) {
+                return false;
+            }
+            
+            // Country filter
+            if (countryFilter && customer.country !== countryFilter) {
+                return false;
+            }
+            
+            // Membership filter
+            if (membershipFilter && customer.membership !== membershipFilter) {
+                return false;
+            }
+            
+            return true;
+        });
+        
+        // Reset to first page
+        currentPage = 1;
+        
+        if (render) {
+            renderTable();
+            renderPagination();
+        }
+    }
+    
+    // Export customers
+    function exportCustomers() {
+        // Create CSV content
+        let csvContent = 'ID,First Name,Last Name,Email,Phone,Country,Date Joined,Total Spend,Status,Membership,Notes\n';
+        
+        filteredCustomers.forEach(customer => {
+            csvContent += `${customer.id},`;
+            csvContent += `"${customer.firstName}",`;
+            csvContent += `"${customer.lastName}",`;
+            csvContent += `"${customer.email}",`;
+            csvContent += `"${customer.phone || ''}",`;
+            csvContent += `"${customer.country}",`;
+            csvContent += `${customer.dateJoined},`;
+            csvContent += `${customer.totalSpend},`;
+            csvContent += `${customer.status},`;
+            csvContent += `${customer.membership},`;
+            csvContent += `"${(customer.notes || '').replace(/"/g, '""')}"\n`;
+        });
+        
+        // Create download link
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'ns_travel_customers.csv');
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Show success message
+        showNotification('Customers exported successfully');
+    }
+    
+    // Helper function to get initials from name
+    function getInitials(firstName, lastName) {
+        return (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
+    }
+    
+    // Show notification
+    function showNotification(message) {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.textContent = message;
+        
+        // Add to document
+        document.body.appendChild(notification);
+        
+        // Show notification
+        setTimeout(() => {
+            notification.style.opacity = '1';
+            notification.style.transform = 'translateY(0)';
+        }, 10);
+        
+        // Hide and remove after delay
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
+    }
+</script>
+</body>
+</html>

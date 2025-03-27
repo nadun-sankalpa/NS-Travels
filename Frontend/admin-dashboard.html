@@ -3,1010 +3,420 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - NS Travels</title>
+    <title>NS Travel Dashboard</title>
     <link rel="stylesheet" href="css/admin-dashboard.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="dashboard-container">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <div class="logo">
-                <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                </svg>
-                <span class="logo-text">NS Travels</span>
-            </div>
-            <button class="sidebar-toggle" id="sidebarToggle">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button>
-        </div>
-
-        <nav class="sidebar-nav">
-            <ul>
-                <li class="nav-item active">
-                    <a href="#dashboard">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="3" width="7" height="7"></rect>
-                            <rect x="14" y="3" width="7" height="7"></rect>
-                            <rect x="14" y="14" width="7" height="7"></rect>
-                            <rect x="3" y="14" width="7" height="7"></rect>
-                        </svg>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#bookings">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                            <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                        </svg>
-                        <span>Bookings</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#destinations">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                        <span>Destinations</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#vehicles">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C1.4 11.3 1 12.1 1 13v3c0 .6.4 1 1 1h2"></path>
-                            <circle cx="7" cy="17" r="2"></circle>
-                            <circle cx="17" cy="17" r="2"></circle>
-                        </svg>
-                        <span>Vehicles</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#users">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="9" cy="7" r="4"></circle>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                        </svg>
-                        <span>Users</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#guides">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                        </svg>
-                        <span>Travel Guides</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#universities">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                        </svg>
-                        <span>Universities</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#jobs">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                        </svg>
-                        <span>Job Vacancies</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#reviews">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                        </svg>
-                        <span>Reviews</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#reports">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="18" y1="20" x2="18" y2="10"></line>
-                            <line x1="12" y1="20" x2="12" y2="4"></line>
-                            <line x1="6" y1="20" x2="6" y2="14"></line>
-                        </svg>
-                        <span>Reports</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#settings">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="3"></circle>
-                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                        </svg>
-                        <span>Settings</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
-        <div class="sidebar-footer">
-            <a href="#help" class="help-link">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                </svg>
-                <span>Help & Support</span>
-            </a>
-            <a href="login-select.html" class="logout-link">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                    <polyline points="16 17 21 12 16 7"></polyline>
-                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                </svg>
-                <span>Logout</span>
-            </a>
-        </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Header -->
-        <header class="dashboard-header">
-            <div class="header-left">
-                <button class="menu-toggle" id="menuToggle">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="3" y1="12" x2="21" y2="12"></line>
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <line x1="3" y1="18" x2="21" y2="18"></line>
-                    </svg>
-                </button>
-                <div class="search-bar">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                    <input type="text" placeholder="Search...">
-                </div>
-            </div>
-
-            <div class="header-right">
-                <button class="theme-toggle" id="themeToggle">
-                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-
-                <div class="notifications">
-                    <button class="notification-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                        </svg>
-                        <span class="notification-badge">5</span>
-                    </button>
-                    <div class="notification-dropdown">
-                        <div class="dropdown-header">
-                            <h3>Notifications</h3>
-                            <button class="mark-all-read">Mark all as read</button>
-                        </div>
-                        <div class="notification-list">
-                            <div class="notification-item unread">
-                                <div class="notification-icon booking">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                                    </svg>
-                                </div>
-                                <div class="notification-content">
-                                    <p>New booking: <strong>John Smith</strong> booked a trip to Bali</p>
-                                    <span class="notification-time">5 minutes ago</span>
-                                </div>
-                            </div>
-                            <div class="notification-item unread">
-                                <div class="notification-icon review">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                    </svg>
-                                </div>
-                                <div class="notification-content">
-                                    <p>New review: <strong>Sarah Johnson</strong> gave 5 stars</p>
-                                    <span class="notification-time">1 hour ago</span>
-                                </div>
-                            </div>
-                            <div class="notification-item unread">
-                                <div class="notification-icon user">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="12" cy="7" r="4"></circle>
-                                    </svg>
-                                </div>
-                                <div class="notification-content">
-                                    <p>New user registration: <strong>Michael Chen</strong></p>
-                                    <span class="notification-time">3 hours ago</span>
-                                </div>
-                            </div>
-                            <div class="notification-item">
-                                <div class="notification-icon alert">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <line x1="12" y1="8" x2="12" y2="12"></line>
-                                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                                    </svg>
-                                </div>
-                                <div class="notification-content">
-                                    <p>System alert: Database backup completed</p>
-                                    <span class="notification-time">Yesterday</span>
-                                </div>
-                            </div>
-                            <div class="notification-item">
-                                <div class="notification-icon booking">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                                    </svg>
-                                </div>
-                                <div class="notification-content">
-                                    <p>Booking update: <strong>Emma Wilson</strong> modified reservation</p>
-                                    <span class="notification-time">2 days ago</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="dropdown-footer">
-                            <a href="#all-notifications">View all notifications</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="user-profile">
-                    <button class="profile-btn">
-                        <img src="/placeholder.svg?height=40&width=40" alt="Admin User">
-                        <span class="user-name">Admin User</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
-                    </button>
-                    <div class="profile-dropdown">
-                        <div class="dropdown-header">
-                            <img src="/placeholder.svg?height=60&width=60" alt="Admin User">
-                            <div>
-                                <h3>Admin User</h3>
-                                <p>admin@nsstravel.com</p>
-                            </div>
-                        </div>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="#profile">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="12" cy="7" r="4"></circle>
-                                    </svg>
-                                    <span>My Profile</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#account">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                                    </svg>
-                                    <span>Account Settings</span>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="login-select.html" class="logout-menu-item">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                                        <polyline points="16 17 21 12 16 7"></polyline>
-                                        <line x1="21" y1="12" x2="9" y2="12"></line>
-                                    </svg>
-                                    <span>Logout</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- Dashboard Content -->
-        <div class="dashboard-content">
-            <div class="page-header">
-                <h1>Dashboard Overview</h1>
-                <div class="date-filter">
-                    <button class="date-btn active">Today</button>
-                    <button class="date-btn">Week</button>
-                    <button class="date-btn">Month</button>
-                    <button class="date-btn">Year</button>
-                    <button class="custom-date-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                            <line x1="16" y1="2" x2="16" y2="6"></line>
-                            <line x1="8" y1="2" x2="8" y2="6"></line>
-                            <line x1="3" y1="10" x2="21" y2="10"></line>
-                        </svg>
-                        <span>Custom Range</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Stats Cards -->
-            <div class="stats-grid">
-                <div class="stat-card bookings">
-                    <div class="stat-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                            <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                        </svg>
-                    </div>
-                    <div class="stat-details">
-                        <h3>Total Bookings</h3>
-                        <p class="stat-value">1,284</p>
-                        <p class="stat-change positive">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="18 15 12 9 6 15"></polyline>
-                            </svg>
-                            <span>12.5% increase</span>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="stat-card revenue">
-                    <div class="stat-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="12" y1="1" x2="12" y2="23"></line>
-                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                        </svg>
-                    </div>
-                    <div class="stat-details">
-                        <h3>Total Revenue</h3>
-                        <p class="stat-value">$248,520</p>
-                        <p class="stat-change positive">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="18 15 12 9 6 15"></polyline>
-                            </svg>
-                            <span>8.2% increase</span>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="stat-card users">
-                    <div class="stat-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="9" cy="7" r="4"></circle>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                        </svg>
-                    </div>
-                    <div class="stat-details">
-                        <h3>Total Users</h3>
-                        <p class="stat-value">3,672</p>
-                        <p class="stat-change positive">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="18 15 12 9 6 15"></polyline>
-                            </svg>
-                            <span>5.3% increase</span>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="stat-card reviews">
-                    <div class="stat-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                        </svg>
-                    </div>
-                    <div class="stat-details">
-                        <h3>Average Rating</h3>
-                        <p class="stat-value">4.8/5</p>
-                        <p class="stat-change positive">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="18 15 12 9 6 15"></polyline>
-                            </svg>
-                            <span>0.2 increase</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Charts Section -->
-            <div class="charts-section">
-                <div class="chart-container revenue-chart">
-                    <div class="chart-header">
-                        <h2>Revenue Overview</h2>
-                        <div class="chart-actions">
-                            <button class="chart-action-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="1"></circle>
-                                    <circle cx="19" cy="12" r="1"></circle>
-                                    <circle cx="5" cy="12" r="1"></circle>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="chart-content">
-                        <canvas id="revenueChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="chart-container bookings-chart">
-                    <div class="chart-header">
-                        <h2>Bookings by Category</h2>
-                        <div class="chart-actions">
-                            <button class="chart-action-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="1"></circle>
-                                    <circle cx="19" cy="12" r="1"></circle>
-                                    <circle cx="5" cy="12" r="1"></circle>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="chart-content">
-                        <canvas id="bookingsChart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Recent Bookings -->
-            <div class="recent-bookings-section">
-                <div class="section-header">
-                    <h2>Recent Bookings</h2>
-                    <a href="#all-bookings" class="view-all-link">View All</a>
-                </div>
-                <div class="table-container">
-                    <table class="data-table">
-                        <thead>
-                        <tr>
-                            <th>Booking ID</th>
-                            <th>Customer</th>
-                            <th>Destination</th>
-                            <th>Date</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>#BK-1024</td>
-                            <td class="customer-cell">
-                                <img src="/placeholder.svg?height=32&width=32" alt="John Smith">
-                                <span>John Smith</span>
-                            </td>
-                            <td>Bali, Indonesia</td>
-                            <td>May 15, 2023</td>
-                            <td>$1,850</td>
-                            <td><span class="status-badge confirmed">Confirmed</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn view-btn" title="View Details">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                            <circle cx="12" cy="12" r="3"></circle>
-                                        </svg>
-                                    </button>
-                                    <button class="action-btn edit-btn" title="Edit">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                                        </svg>
-                                    </button>
-                                    <button class="action-btn delete-btn" title="Delete">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="3 6 5 6 21 6"></polyline>
-                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#BK-1023</td>
-                            <td class="customer-cell">
-                                <img src="/placeholder.svg?height=32&width=32" alt="Sarah Johnson">
-                                <span>Sarah Johnson</span>
-                            </td>
-                            <td>Paris, France</td>
-                            <td>May 12, 2023</td>
-                            <td>$2,450</td>
-                            <td><span class="status-badge confirmed">Confirmed</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn view-btn" title="View Details">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                            <circle cx="12" cy="12" r="3"></circle>
-                                        </svg>
-                                    </button>
-                                    <button class="action-btn edit-btn" title="Edit">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                                        </svg>
-                                    </button>
-                                    <button class="action-btn delete-btn" title="Delete">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="3 6 5 6 21 6"></polyline>
-                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#BK-1022</td>
-                            <td class="customer-cell">
-                                <img src="/placeholder.svg?height=32&width=32" alt="Michael Chen">
-                                <span>Michael Chen</span>
-                            </td>
-                            <td>Tokyo, Japan</td>
-                            <td>May 10, 2023</td>
-                            <td>$3,200</td>
-                            <td><span class="status-badge pending">Pending</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn view-btn" title="View Details">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                            <circle cx="12" cy="12" r="3"></circle>
-                                        </svg>
-                                    </button>
-                                    <button class="action-btn edit-btn" title="Edit">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                                        </svg>
-                                    </button>
-                                    <button class="action-btn delete-btn" title="Delete">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="3 6 5 6 21 6"></polyline>
-                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#BK-1021</td>
-                            <td class="customer-cell">
-                                <img src="/placeholder.svg?height=32&width=32" alt="Emma Wilson">
-                                <span>Emma Wilson</span>
-                            </td>
-                            <td>New York, USA</td>
-                            <td>May 8, 2023</td>
-                            <td>$1,950</td>
-                            <td><span class="status-badge cancelled">Cancelled</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn view-btn" title="View Details">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                            <circle cx="12" cy="12" r="3"></circle>
-                                        </svg>
-                                    </button>
-                                    <button class="action-btn edit-btn" title="Edit">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                                        </svg>
-                                    </button>
-                                    <button class="action-btn delete-btn" title="Delete">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="3 6 5 6 21 6"></polyline>
-                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#BK-1020</td>
-                            <td class="customer-cell">
-                                <img src="/placeholder.svg?height=32&width=32" alt="David Lee">
-                                <span>David Lee</span>
-                            </td>
-                            <td>Sydney, Australia</td>
-                            <td>May 5, 2023</td>
-                            <td>$2,750</td>
-                            <td><span class="status-badge completed">Completed</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn view-btn" title="View Details">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                            <circle cx="12" cy="12" r="3"></circle>
-                                        </svg>
-                                    </button>
-                                    <button class="action-btn edit-btn" title="Edit">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                                        </svg>
-                                    </button>
-                                    <button class="action-btn delete-btn" title="Delete">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="3 6 5 6 21 6"></polyline>
-                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Bottom Widgets -->
-            <div class="bottom-widgets">
-                <div class="widget popular-destinations">
-                    <div class="widget-header">
-                        <h2>Popular Destinations</h2>
-                        <button class="widget-action-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="1"></circle>
-                                <circle cx="19" cy="12" r="1"></circle>
-                                <circle cx="5" cy="12" r="1"></circle>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="destinations-list">
-                        <div class="destination-item">
-                            <img src="/placeholder.svg?height=80&width=120" alt="Bali, Indonesia">
-                            <div class="destination-details">
-                                <h3>Bali, Indonesia</h3>
-                                <p>245 bookings this month</p>
-                                <div class="progress-bar">
-                                    <div class="progress" style="width: 85%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="destination-item">
-                            <img src="/placeholder.svg?height=80&width=120" alt="Paris, France">
-                            <div class="destination-details">
-                                <h3>Paris, France</h3>
-                                <p>189 bookings this month</p>
-                                <div class="progress-bar">
-                                    <div class="progress" style="width: 72%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="destination-item">
-                            <img src="/placeholder.svg?height=80&width=120" alt="Tokyo, Japan">
-                            <div class="destination-details">
-                                <h3>Tokyo, Japan</h3>
-                                <p>157 bookings this month</p>
-                                <div class="progress-bar">
-                                    <div class="progress" style="width: 65%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="destination-item">
-                            <img src="/placeholder.svg?height=80&width=120" alt="New York, USA">
-                            <div class="destination-details">
-                                <h3>New York, USA</h3>
-                                <p>132 bookings this month</p>
-                                <div class="progress-bar">
-                                    <div class="progress" style="width: 58%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="widget recent-reviews">
-                    <div class="widget-header">
-                        <h2>Recent Reviews</h2>
-                        <button class="widget-action-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="1"></circle>
-                                <circle cx="19" cy="12" r="1"></circle>
-                                <circle cx="5" cy="12" r="1"></circle>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="reviews-list">
-                        <div class="review-item">
-                            <div class="reviewer-info">
-                                <img src="/placeholder.svg?height=40&width=40" alt="John Smith">
-                                <div>
-                                    <h3>John Smith</h3>
-                                    <div class="review-rating">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="review-text">"Amazing experience in Bali! The accommodations were perfect and the tour guide was knowledgeable and friendly."</p>
-                            <p class="review-date">May 15, 2023</p>
-                        </div>
-                        <div class="review-item">
-                            <div class="reviewer-info">
-                                <img src="/placeholder.svg?height=40&width=40" alt="Sarah Johnson">
-                                <div>
-                                    <h3>Sarah Johnson</h3>
-                                    <div class="review-rating">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="half-star">
-                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="review-text">"Paris was beautiful! The hotel was in a perfect location. Only issue was a slight delay with the airport transfer."</p>
-                            <p class="review-date">May 12, 2023</p>
-                        </div>
-                        <div class="review-item">
-                            <div class="reviewer-info">
-                                <img src="/placeholder.svg?height=40&width=40" alt="Michael Chen">
-                                <div>
-                                    <h3>Michael Chen</h3>
-                                    <div class="review-rating">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="review-text">"Tokyo exceeded all expectations! The itinerary was perfectly planned and gave us a great mix of traditional and modern Japan."</p>
-                            <p class="review-date">May 10, 2023</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+    <!-- Particle Background -->
+    <div class="particles-container">
+        <div id="particles"></div>
+    </div>
+    <!-- Particle Background - Windows 11 Style -->
+<div class="particles-container">
+    <div id="particles"></div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Theme Toggle
-        const themeToggle = document.getElementById('themeToggle');
-        const htmlElement = document.documentElement;
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">NS</div>
+                <span>NS Travel</span>
+            </div>
+            <nav>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="admin-dashboard.html" class="nav-link">
+                            <span class="nav-icon">🏠</span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="booking.html" class="nav-link">
+                            <span class="nav-icon">✈️</span>
+                            <span>Bookings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="admin-destinations.html" class="nav-link">
+                            <span class="nav-icon">🌍</span>
+                            <span>Destinations</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="admin-customers.html" class="nav-link">
+                            <span class="nav-icon">👥</span>
+                            <span>Customers</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">📊</span>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="admin-guides.html" class="nav-link active">
+                            <span class="nav-icon">📚</span>
+                            <span>Guides</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">⚙️</span>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                  
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <div class="avatar">
+                    <span>JD</span>
+                    <span class="status-indicator online"></span>
+                </div>
+                <div class="user-info">
+                    <div class="user-name">John Doe</div>
+                    <div class="user-role">Admin</div>
+                </div>
+            </div>
+        </aside>
 
-        // Check for saved theme preference or use system preference
-        const savedTheme = localStorage.getItem('theme');
-        const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <div class="header-left">
+                    <h1 class="page-title">Dashboard</h1>
+                    <div id="live-clock" class="live-clock">00:00:00</div>
+                </div>
+                <div class="header-right">
+                    <div class="search-bar">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" class="search-input" placeholder="Search...">
+                    </div>
+                    <div class="notification-bell">
+                        <span class="bell-icon">🔔</span>
+                        <span class="notification-badge pulse">3</span>
+                        <div class="notification-dropdown">
+                            <div class="notification-header">
+                                <h3>Notifications</h3>
+                                <span class="mark-all-read">Mark all as read</span>
+                            </div>
+                            <div class="notification-list">
+                                <div class="notification-item unread">
+                                    <div class="notification-icon booking">✈️</div>
+                                    <div class="notification-content">
+                                        <div class="notification-title">New Booking</div>
+                                        <div class="notification-text">New booking for Tokyo, Japan</div>
+                                        <div class="notification-time">5 minutes ago</div>
+                                    </div>
+                                </div>
+                                <div class="notification-item unread">
+                                    <div class="notification-icon review">⭐</div>
+                                    <div class="notification-content">
+                                        <div class="notification-title">New Review</div>
+                                        <div class="notification-text">Sarah M. left a 5-star review</div>
+                                        <div class="notification-time">1 hour ago</div>
+                                    </div>
+                                </div>
+                                <div class="notification-item unread">
+                                    <div class="notification-icon system">🔔</div>
+                                    <div class="notification-content">
+                                        <div class="notification-title">System Update</div>
+                                        <div class="notification-text">System maintenance scheduled</div>
+                                        <div class="notification-time">2 hours ago</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="notification-footer">
+                                <a href="#">View all notifications</a>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="theme-toggle" id="theme-toggle">
+                        <span class="sun-icon">☀️</span>
+                        <span class="moon-icon">🌙</span>
+                        <div class="toggle-track"></div>
+                    </button>
+                </div>
+            </header>
 
-        // Set initial theme
-        if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
-            htmlElement.classList.add('dark-mode');
-        }
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card animate-in glass">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-content">
+                        <div class="stat-title">Total Bookings</div>
+                        <div class="stat-value" data-value="1248">0</div>
+                        <div class="stat-change positive">
+                            <span class="change-icon">↑</span>
+                            <span>12.5% from last month</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card animate-in glass" style="animation-delay: 0.1s">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-content">
+                        <div class="stat-title">Revenue</div>
+                        <div class="stat-value" data-value="86429">$0</div>
+                        <div class="stat-change positive">
+                            <span class="change-icon">↑</span>
+                            <span>8.2% from last month</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 82%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card animate-in glass" style="animation-delay: 0.2s">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-content">
+                        <div class="stat-title">Active Customers</div>
+                        <div class="stat-value" data-value="892">0</div>
+                        <div class="stat-change positive">
+                            <span class="change-icon">↑</span>
+                            <span>4.3% from last month</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 65%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card animate-in glass" style="animation-delay: 0.3s">
+                    <div class="stat-icon">❌</div>
+                    <div class="stat-content">
+                        <div class="stat-title">Cancellations</div>
+                        <div class="stat-value" data-value="24">0</div>
+                        <div class="stat-change negative">
+                            <span class="change-icon">↓</span>
+                            <span>2.1% from last month</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress negative" style="width: 15%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        // Toggle theme when button is clicked
-        if (themeToggle) {
-            themeToggle.addEventListener('click', function() {
-                htmlElement.classList.toggle('dark-mode');
+            <!-- Two Column Grid -->
+            <div class="grid-2-cols">
+                <!-- Recent Bookings -->
+                <div class="card animate-in glass" style="animation-delay: 0.4s">
+                    <div class="card-header">
+                        <h2 class="card-title">Recent Bookings</h2>
+                        <a href="#" class="card-action">View All</a>
+                    </div>
+                    <ul class="bookings-list">
+                        <li class="booking-item">
+                            <div class="booking-icon">✈️</div>
+                            <div class="booking-details">
+                                <div class="booking-destination">Paris, France</div>
+                                <div class="booking-date">May 15 - May 22, 2025</div>
+                            </div>
+                            <div class="booking-price">$1,250</div>
+                        </li>
+                        <li class="booking-item">
+                            <div class="booking-icon">✈️</div>
+                            <div class="booking-details">
+                                <div class="booking-destination">Bali, Indonesia</div>
+                                <div class="booking-date">Jun 3 - Jun 10, 2025</div>
+                            </div>
+                            <div class="booking-price">$1,850</div>
+                        </li>
+                        <li class="booking-item">
+                            <div class="booking-icon">✈️</div>
+                            <div class="booking-details">
+                                <div class="booking-destination">Tokyo, Japan</div>
+                                <div class="booking-date">Jun 12 - Jun 20, 2025</div>
+                            </div>
+                            <div class="booking-price">$2,100</div>
+                        </li>
+                        <li class="booking-item">
+                            <div class="booking-icon">✈️</div>
+                            <div class="booking-details">
+                                <div class="booking-destination">New York, USA</div>
+                                <div class="booking-date">Jul 5 - Jul 12, 2025</div>
+                            </div>
+                            <div class="booking-price">$1,750</div>
+                        </li>
+                        <li class="booking-item">
+                            <div class="booking-icon">✈️</div>
+                            <div class="booking-details">
+                                <div class="booking-destination">Rome, Italy</div>
+                                <div class="booking-date">Jul 18 - Jul 25, 2025</div>
+                            </div>
+                            <div class="booking-price">$1,650</div>
+                        </li>
+                    </ul>
+                </div>
 
-                // Save theme preference
-                if (htmlElement.classList.contains('dark-mode')) {
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    localStorage.setItem('theme', 'light');
-                }
-            });
-        }
+                <!-- Customer Reviews -->
+                <div class="card animate-in glass" style="animation-delay: 0.5s">
+                    <div class="card-header">
+                        <h2 class="card-title">Customer Reviews</h2>
+                        <a href="#" class="card-action">View All</a>
+                    </div>
+                    <ul class="reviews-list">
+                        <li class="review-item">
+                            <div class="review-header">
+                                <div class="review-avatar">SM</div>
+                                <div class="review-author">Sarah M.</div>
+                                <div class="review-rating">★★★★★</div>
+                            </div>
+                            <p class="review-text">Amazing service! The trip to Bali was perfectly organized and exceeded all expectations.</p>
+                        </li>
+                        <li class="review-item">
+                            <div class="review-header">
+                                <div class="review-avatar">RJ</div>
+                                <div class="review-author">Robert J.</div>
+                                <div class="review-rating">★★★★☆</div>
+                            </div>
+                            <p class="review-text">Great experience overall. The hotel in Paris was wonderful, though the flight had a slight delay.</p>
+                        </li>
+                        <li class="review-item">
+                            <div class="review-header">
+                                <div class="review-avatar">LT</div>
+                                <div class="review-author">Lisa T.</div>
+                                <div class="review-rating">★★★★★</div>
+                            </div>
+                            <p class="review-text">The guided tour in Rome was exceptional! Our guide was knowledgeable and friendly.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-        // Mobile Menu Toggle
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.querySelector('.sidebar');
+            <!-- Popular Destinations -->
+            <div class="card animate-in glass" style="animation-delay: 0.6s">
+                <div class="card-header">
+                    <h2 class="card-title">Popular Destinations</h2>
+                    <a href="#" class="card-action">View All</a>
+                </div>
+                <div class="destinations-grid">
+                    <div class="destination-card">
+                        <div class="destination-img-container">
+                            <img src="https://placeholder.svg?height=120&width=200" alt="Paris" class="destination-img">
+                            <div class="destination-overlay">
+                                <button class="view-btn ripple">View Details</button>
+                            </div>
+                        </div>
+                        <div class="destination-info">
+                            <div class="destination-name">Paris, France</div>
+                            <div class="destination-price">From $899</div>
+                        </div>
+                    </div>
+                    <div class="destination-card">
+                        <div class="destination-img-container">
+                            <img src="https://placeholder.svg?height=120&width=200" alt="Bali" class="destination-img">
+                            <div class="destination-overlay">
+                                <button class="view-btn ripple">View Details</button>
+                            </div>
+                        </div>
+                        <div class="destination-info">
+                            <div class="destination-name">Bali, Indonesia</div>
+                            <div class="destination-price">From $1,199</div>
+                        </div>
+                    </div>
+                    <div class="destination-card">
+                        <div class="destination-img-container">
+                            <img src="https://placeholder.svg?height=120&width=200" alt="Tokyo" class="destination-img">
+                            <div class="destination-overlay">
+                                <button class="view-btn ripple">View Details</button>
+                            </div>
+                        </div>
+                        <div class="destination-info">
+                            <div class="destination-name">Tokyo, Japan</div>
+                            <div class="destination-price">From $1,299</div>
+                        </div>
+                    </div>
+                    <div class="destination-card">
+                        <div class="destination-img-container">
+                            <img src="https://placeholder.svg?height=120&width=200" alt="New York" class="destination-img">
+                            <div class="destination-overlay">
+                                <button class="view-btn ripple">View Details</button>
+                            </div>
+                        </div>
+                        <div class="destination-info">
+                            <div class="destination-name">New York, USA</div>
+                            <div class="destination-price">From $999</div>
+                        </div>
+                    </div>
+                    <div class="destination-card">
+                        <div class="destination-img-container">
+                            <img src="https://placeholder.svg?height=120&width=200" alt="Rome" class="destination-img">
+                            <div class="destination-overlay">
+                                <button class="view-btn ripple">View Details</button>
+                            </div>
+                        </div>
+                        <div class="destination-info">
+                            <div class="destination-name">Rome, Italy</div>
+                            <div class="destination-price">From $849</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        if (menuToggle) {
-            menuToggle.addEventListener('click', function() {
-                sidebar.classList.toggle('active');
-            });
-        }
+            <!-- Sales Chart -->
+            <div class="card animate-in glass" style="animation-delay: 0.7s">
+                <div class="card-header">
+                    <h2 class="card-title">Monthly Sales</h2>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: #3b82f6;"></span>
+                            <span>2025</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: #93c5fd;"></span>
+                            <span>2024</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="sales-chart" height="250"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
 
-        // Sidebar Toggle (for closing)
-        const sidebarToggle = document.getElementById('sidebarToggle');
+    <div class="floating-chat">
+        <button class="chat-button ripple">
+            <span class="chat-icon">💬</span>
+        </button>
+        <div class="chat-popup glass">
+            <div class="chat-header">
+                <h3>Live Support</h3>
+                <button class="close-chat">×</button>
+            </div>
+            <div class="chat-messages">
+                <div class="message system">
+                    <div class="typing-indicator">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="message-content">
+                        Welcome to NS Travel support! How can we help you today?
+                    </div>
+                </div>
+                <div class="message-time">Just now</div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" placeholder="Type your message...">
+                <button class="send-button ripple">Send</button>
+            </div>
+        </div>
+    </div>
 
-        if (sidebarToggle) {
-            sidebarToggle.addEventListener('click', function() {
-                sidebar.classList.remove('active');
-            });
-        }
+    <div class="loader-overlay" id="loader">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-text">Loading NS Travel Dashboard</div>
+        </div>
+    </div>
 
-        // Notification Dropdown
-        const notificationBtn = document.querySelector('.notification-btn');
-        const notificationDropdown = document.querySelector('.notification-dropdown');
-
-        if (notificationBtn && notificationDropdown) {
-            notificationBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                notificationDropdown.classList.toggle('active');
-                profileDropdown.classList.remove('active');
-            });
-        }
-
-        // Profile Dropdown
-        const profileBtn = document.querySelector('.profile-btn');
-        const profileDropdown = document.querySelector('.profile-dropdown');
-
-        if (profileBtn && profileDropdown) {
-            profileBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                profileDropdown.classList.toggle('active');
-                notificationDropdown.classList.remove('active');
-            });
-        }
-
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', function() {
-            if (notificationDropdown) notificationDropdown.classList.remove('active');
-            if (profileDropdown) profileDropdown.classList.remove('active');
-        });
-
-        // Mark all notifications as read
-        const markAllReadBtn = document.querySelector('.mark-all-read');
-        const unreadNotifications = document.querySelectorAll('.notification-item.unread');
-
-        if (markAllReadBtn && unreadNotifications.length > 0) {
-            markAllReadBtn.addEventListener('click', function() {
-                unreadNotifications.forEach(notification => {
-                    notification.classList.remove('unread');
-                });
-
-                // Update notification badge
-                const notificationBadge = document.querySelector('.notification-badge');
-                if (notificationBadge) {
-                    notificationBadge.textContent = '0';
-                    notificationBadge.style.display = 'none';
-                }
-            });
-        }
-
-        // Date Filter Buttons
-        const dateButtons = document.querySelectorAll('.date-btn');
-
-        if (dateButtons.length > 0) {
-            dateButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    dateButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-        }
-
-        // Initialize Charts
-        if (typeof Chart !== 'undefined') {
-            // Revenue Chart
-            const revenueChartCtx = document.getElementById('revenueChart');
-            if (revenueChartCtx) {
-                new Chart(revenueChartCtx, {
-                    type: 'line',
-                    data: {
-                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                        datasets: [{
-                            label: 'Revenue',
-                            data: [18500, 22000, 19500, 24000, 25500, 28000, 30000, 31500, 29000, 33000, 36000, 38000],
-                            borderColor: '#0077b6',
-                            backgroundColor: 'rgba(0, 119, 182, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                grid: {
-                                    display: true,
-                                    drawBorder: false
-                                },
-                                ticks: {
-                                    callback: function(value) {
-                                        return '$' + value.toLocaleString();
-                                    }
-                                }
-                            },
-                            x: {
-                                grid: {
-                                    display: false
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-
-            // Bookings Chart
-            const bookingsChartCtx = document.getElementById('bookingsChart');
-            if (bookingsChartCtx) {
-                new Chart(bookingsChartCtx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Flights', 'Hotels', 'Packages', 'Activities', 'Car Rentals'],
-                        datasets: [{
-                            data: [35, 25, 20, 15, 5],
-                            backgroundColor: [
-                                '#0077b6',
-                                '#00b4d8',
-                                '#06d6a0',
-                                '#118ab2',
-                                '#073b4c'
-                            ],
-                            borderWidth: 0
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'right'
-                            }
-                        },
-                        cutout: '70%'
-                    }
-                });
-            }
-        }
-    });
-</script>
+    <script src="js/admin-dashboard.js"></script>
 </body>
 </html>
