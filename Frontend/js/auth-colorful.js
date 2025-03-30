@@ -180,135 +180,191 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (adminLoginForm) {
     adminLoginForm.addEventListener("submit", function (e) {
-      e.preventDefault()
+      e.preventDefault();
 
-      const username = document.getElementById("adminUsername")
-      const password = document.getElementById("adminPassword")
-      const usernameError = document.getElementById("usernameError")
-      const passwordError = document.getElementById("adminPasswordError")
+      const usernameInput = document.getElementById("adminUsername");
+      const passwordInput = document.getElementById("adminPassword");
+      const usernameError = document.getElementById("usernameError");
+      const passwordError = document.getElementById("adminPasswordError");
 
       // Reset errors
-      usernameError.textContent = ""
-      passwordError.textContent = ""
+      usernameError.textContent = "";
+      passwordError.textContent = "";
 
-      let isValid = true
+      let isValid = true;
 
       // Username validation
-      if (!username.value) {
-        usernameError.textContent = "Username is required"
-        isValid = false
+      if (!usernameInput.value) {
+        usernameError.textContent = "Username is required";
+        isValid = false;
       }
 
       // Password validation
-      if (!password.value) {
-        passwordError.textContent = "Password is required"
-        isValid = false
+      if (!passwordInput.value) {
+        passwordError.textContent = "Password is required";
+        isValid = false;
       }
 
       if (isValid) {
-        // Show loading state
-        this.querySelector(".btn-submit").classList.add("loading")
+        // Show loading state by adding the 'loading' class to the submit button
+        const btnSubmit = this.querySelector(".btn-submit");
+        btnSubmit.classList.add("loading");
 
-        // Simulate API call
-        setTimeout(() => {
-          // Redirect to admin dashboard (in a real app, this would happen after successful login)
-          window.location.href = "index.html"
-        }, 2000)
+        // Prepare login data
+        const loginData = {
+          username: usernameInput.value,
+          password: passwordInput.value,
+          role: "ADMIN" // add role if your backend requires it
+        };
+
+        // Send AJAX request using Fetch API
+        fetch("http://localhost:8080/auth/login/verify", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(loginData)
+        })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error("Invalid username or password");
+              }
+              return response.json();
+            })
+            .then(data => {
+              // If a token is received, store it and redirect to the admin dashboard
+              if (data.token) {
+                localStorage.setItem("jwtToken", data.token);
+                window.location.href = "admin-dashboard.html";
+              } else {
+                // If authentication fails, display an error message
+                usernameError.textContent = data.message || "Login failed";
+              }
+            })
+            .catch(error => {
+              passwordError.textContent = error.message;
+            })
+            .finally(() => {
+              // Remove the loading state
+              btnSubmit.classList.remove("loading");
+            });
       }
-    })
+    });
+  }
+
+
+// Simple email validation function
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 
   if (signupForm) {
     signupForm.addEventListener("submit", function (e) {
-      e.preventDefault()
+      e.preventDefault();
 
-      const firstName = document.getElementById("firstName")
-      const lastName = document.getElementById("lastName")
-      const email = document.getElementById("signupEmail")
-      const password = document.getElementById("signupPassword")
-      const confirmPassword = document.getElementById("confirmPassword")
-      const termsAgree = document.getElementById("termsAgree")
+      // Get form fields
+      const userName = document.getElementById("userName");
+      const role = document.getElementById("role");
+      const email = document.getElementById("signupEmail");
+      const password = document.getElementById("signupPassword");
+      const termsAgree = document.getElementById("termsAgree");
 
-      const firstNameError = document.getElementById("firstNameError")
-      const lastNameError = document.getElementById("lastNameError")
-      const emailError = document.getElementById("signupEmailError")
-      const passwordError = document.getElementById("signupPasswordError")
-      const confirmPasswordError = document.getElementById("confirmPasswordError")
-      const termsError = document.getElementById("termsError")
+      // Get error message elements
+      const userNameError = document.getElementById("userNameError");
+      const roleError = document.getElementById("roleError");
+      const emailError = document.getElementById("signupEmailError");
+      const passwordError = document.getElementById("signupPasswordError");
+      const termsError = document.getElementById("termsError");
 
       // Reset errors
-      firstNameError.textContent = ""
-      lastNameError.textContent = ""
-      emailError.textContent = ""
-      passwordError.textContent = ""
-      confirmPasswordError.textContent = ""
-      termsError.textContent = ""
+      userNameError.textContent = "";
+      roleError.textContent = "";
+      emailError.textContent = "";
+      passwordError.textContent = "";
+      termsError.textContent = "";
 
-      let isValid = true
+      let isValid = true;
 
-      // First name validation
-      if (!firstName.value) {
-        firstNameError.textContent = "First name is required"
-        isValid = false
+      // Username validation
+      if (!userName.value) {
+        userNameError.textContent = "Username is required";
+        isValid = false;
       }
 
-      // Last name validation
-      if (!lastName.value) {
-        lastNameError.textContent = "Last name is required"
-        isValid = false
+      // Role validation
+      if (!role.value) {
+        roleError.textContent = "Role is required";
+        isValid = false;
       }
 
       // Email validation
       if (!email.value) {
-        emailError.textContent = "Email is required"
-        isValid = false
+        emailError.textContent = "Email is required";
+        isValid = false;
       } else if (!isValidEmail(email.value)) {
-        emailError.textContent = "Please enter a valid email address"
-        isValid = false
+        emailError.textContent = "Please enter a valid email address";
+        isValid = false;
       }
 
       // Password validation
       if (!password.value) {
-        passwordError.textContent = "Password is required"
-        isValid = false
+        passwordError.textContent = "Password is required";
+        isValid = false;
       } else if (password.value.length < 8) {
-        passwordError.textContent = "Password must be at least 8 characters"
-        isValid = false
-      }
-
-      // Confirm password validation
-      if (!confirmPassword.value) {
-        confirmPasswordError.textContent = "Please confirm your password"
-        isValid = false
-      } else if (confirmPassword.value !== password.value) {
-        confirmPasswordError.textContent = "Passwords do not match"
-        isValid = false
+        passwordError.textContent = "Password must be at least 8 characters";
+        isValid = false;
       }
 
       // Terms agreement validation
       if (!termsAgree.checked) {
-        termsError.textContent = "You must agree to the terms and conditions"
-        isValid = false
+        termsError.textContent = "You must agree to the terms and conditions";
+        isValid = false;
       }
 
       if (isValid) {
         // Show loading state
-        this.querySelector(".btn-submit").classList.add("loading")
+        const btnSubmit = this.querySelector(".btn-submit");
+        btnSubmit.classList.add("loading");
 
-        // Simulate API call
-        setTimeout(() => {
-          // Redirect to login page (in a real app, this might be a verification page)
-          window.location.href = "user-login.html"
-        }, 2000)
+        // Prepare signup data object (adjust keys as per your UserDTO)
+        const signupData = {
+          userName: userName.value,
+          role: role.value,
+          email: email.value,
+          password: password.value
+        };
+
+        // Send AJAX request using Fetch API
+        fetch("http://localhost:8080/api/user/addUser", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(signupData)
+        })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error("Failed to sign up");
+              }
+              return response.json();
+            })
+            .then(data => {
+              // On success, redirect to the login page (or show a success message)
+              window.location.href = "user-login.html";
+            })
+            .catch(error => {
+              // Display error message (you can also choose to display it in a different element)
+              termsError.textContent = error.message;
+            })
+            .finally(() => {
+              // Remove loading state
+              btnSubmit.classList.remove("loading");
+            });
       }
-    })
+    });
   }
 
-  // Helper function to validate email
-  function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
-  }
+
 
   // Floating elements animation
   const floatingElements = document.querySelectorAll(".float-element")

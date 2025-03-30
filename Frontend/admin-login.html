@@ -102,7 +102,7 @@
                             </label>
                         </div>
                         
-                        <button type="submit" class="btn-submit admin-submit">
+                        <button type="submit" id="btn-admin-login" class="btn-submit admin-submit">
                             <span class="btn-text">Login to Dashboard</span>
                             <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -170,6 +170,61 @@
     </div>
     
     <script src="js/auth-colorful.js"></script>
+<script>
+
+    $("#btn-admin-login").click(function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Get admin login values
+        const adminUsername = $("#adminUsername").val().trim();
+        const adminPassword = $("#adminPassword").val().trim();
+        const role = "ADMIN"; // specify the role for admin login
+        const rememberMe = $("#adminRememberMe").is(":checked");
+
+        // Prepare the data object
+        const loginData = {
+            username: adminUsername,
+            password: adminPassword,
+            role: role
+        };
+
+        console.log("Admin Login Data:", loginData);
+
+        // Send AJAX request to the backend
+        $.ajax({
+            url: "http://localhost:8080/auth/login/verify",
+            method: "POST",
+            data: JSON.stringify(loginData),
+            contentType: "application/json",
+            success: function (response) {
+                // Check if authentication was successful
+                if (response.authenticated) {
+                    const token = response.token;
+                    localStorage.setItem("jwtToken", token);
+                    // Optionally save username if 'remember me' is checked
+                    if (rememberMe) {
+                        localStorage.setItem("rememberedAdmin", adminUsername);
+                    }
+                    // Redirect to the admin dashboard page
+                    window.location.href = "admin-dashboard.html";
+                } else {
+                    // Show error message if authentication failed
+                    showError(response.message, "Error");
+                }
+            },
+            error: function (xhr, status, error) {
+                // Handle any errors from the AJAX request
+                showError("An error occurred while processing your request.", "Error");
+            }
+        });
+    });
+
+
+
+
+
+
+</script>
 </body>
 </html>
 

@@ -58,13 +58,13 @@
                     
                     <form class="auth-form" id="userLoginForm">
                         <div class="form-group">
-                            <label for="userEmail">Email Address</label>
+                            <label for="userName">User Name</label>
                             <div class="input-wrapper">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                                     <polyline points="22,6 12,13 2,6"></polyline>
                                 </svg>
-                                <input type="email" id="userEmail" placeholder="your.email@example.com" required>
+                                <input type="text" id="userName" placeholder="John Doe" required>
                             </div>
                             <div class="error-message" id="userEmailError"></div>
                         </div>
@@ -220,16 +220,16 @@
                 }
             });
         }
-        
+
         // Password Toggle
         const togglePasswordButtons = document.querySelectorAll(".toggle-password");
-        
+
         togglePasswordButtons.forEach((button) => {
             button.addEventListener("click", function () {
                 const input = this.previousElementSibling;
                 const eyeIcon = this.querySelector(".eye-icon");
                 const eyeOffIcon = this.querySelector(".eye-off-icon");
-                
+
                 if (input.type === "password") {
                     input.type = "text";
                     eyeIcon.style.display = "none";
@@ -241,62 +241,89 @@
                 }
             });
         });
-        
-        // Form Validation
-        const userLoginForm = document.getElementById("userLoginForm");
-        
-        if (userLoginForm) {
-            userLoginForm.addEventListener("submit", function (e) {
-                e.preventDefault();
-                
-                const email = document.getElementById("userEmail");
-                const password = document.getElementById("userPassword");
-                const emailError = document.getElementById("userEmailError");
-                const passwordError = document.getElementById("userPasswordError");
-                
-                // Reset errors
-                emailError.textContent = "";
-                passwordError.textContent = "";
-                
-                let isValid = true;
-                
-                // Email validation
-                if (!email.value) {
-                    emailError.textContent = "Email is required";
-                    isValid = false;
-                } else if (!isValidEmail(email.value)) {
-                    emailError.textContent = "Please enter a valid email address";
-                    isValid = false;
-                }
-                
-                // Password validation
-                if (!password.value) {
-                    passwordError.textContent = "Password is required";
-                    isValid = false;
-                } else if (password.value.length < 8) {
-                    passwordError.textContent = "Password must be at least 8 characters";
-                    isValid = false;
-                }
-                
-                if (isValid) {
-                    // Show loading state
-                    this.querySelector(".btn-submit").classList.add("loading");
-                    
-                    // Simulate API call
-                    setTimeout(() => {
-                        // Redirect to dashboard (in a real app, this would happen after successful login)
-                        window.location.href = "index.html";
-                    }, 2000);
-                }
-            });
-        }
-        
-        // Helper function to validate email
-        function isValidEmail(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-        }
-        
+
+// Form Validation and AJAX Login
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const userLoginForm = document.getElementById("userLoginForm");
+
+            if (userLoginForm) {
+                userLoginForm.addEventListener("submit", function (e) {
+                    e.preventDefault();
+
+                    const usernameInput = document.getElementById("userUsername");
+                    const passwordInput = document.getElementById("userPassword");
+                    const usernameError = document.getElementById("userUsernameError");
+                    const passwordError = document.getElementById("userPasswordError");
+
+                    // Reset errors
+                    usernameError.textContent = "";
+                    passwordError.textContent = "";
+
+                    let isValid = true;
+
+                    // Username validation
+                    if (!usernameInput.value.trim()) {
+                        usernameError.textContent = "Username is required";
+                        isValid = false;
+                    }
+
+                    // Password validation
+                    if (!passwordInput.value.trim()) {
+                        passwordError.textContent = "Password is required";
+                        isValid = false;
+                    }
+
+                    if (isValid) {
+                        // Show loading state by adding the 'loading' class to the submit button
+                        const btnSubmit = this.querySelector(".btn-submit");
+                        btnSubmit.classList.add("loading");
+
+                        // Prepare login data
+                        const loginData = {
+                            username: usernameInput.value.trim(),
+                            password: passwordInput.value.trim(),
+                            role: "USER" // Adjust role as necessary
+                        };
+
+                        // Send AJAX request using Fetch API
+                        fetch("http://localhost:8080/auth/login/verify", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(loginData)
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error("Invalid username or password");
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                // If a token is received, store it and redirect to the user dashboard
+                                if (data.token) {
+                                    localStorage.setItem("jwtToken", data.token);
+                                    window.location.href = "index.html";
+                                } else {
+                                    // If authentication fails, display an error message
+                                    usernameError.textContent = data.message || "Login failed";
+                                }
+                            })
+                            .catch(error => {
+                                passwordError.textContent = error.message;
+                            })
+                            .finally(() => {
+                                // Remove the loading state
+                                btnSubmit.classList.remove("loading");
+                            });
+                    }
+                });
+            }
+        });
+
+
+
         // Add ripple effect to buttons
         const buttons = document.querySelectorAll(".btn-submit, .social-btn");
         
