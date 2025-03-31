@@ -39,7 +39,7 @@ public class SecuirityConfig {
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login/verify","/api/register/user","/api/register/patient","/api/register/getAllProviders","/test/login","/swagger-ui/**",
+                        .requestMatchers("/auth/login/verify","/api/register/user","/api/register/patient","/api/register/getAllProviders","/test/login","/swagger-ui/",
                                 "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults())
@@ -83,7 +83,7 @@ public class SecuirityConfig {
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/", configuration);
         return source;
     }
 }

@@ -59,15 +59,11 @@
                     <form class="auth-form" id="signupForm">
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="userName">User Name</label>
+                                <label for="username">Username</label> <!-- Changed ID -->
                                 <div class="input-wrapper">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="12" cy="7" r="4"></circle>
-                                    </svg>
-                                    <input type="text" id="userName" placeholder="John" required>
+                                    <input type="text" id="username" placeholder="John" required> <!-- Fixed ID -->
                                 </div>
-                                <div class="error-message" id="userNameError"></div>
+                                <div class="error-message" id="usernameError"></div>
                             </div>
                             
                             <div class="form-group">
@@ -147,7 +143,7 @@
                             <div class="error-message" id="termsError"></div>
                         </div>
                         
-                        <button type="submit" class="btn-submit">
+                        <button type="submit" id="btn-submit" class="btn-submit">
                             <span class="btn-text">Create Account</span>
                             <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -231,6 +227,132 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const signupForm = document.getElementById('signupForm');
+
+            if (signupForm) {
+                signupForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+
+                    // Form elements - Fixed ID references
+                    const elements = {
+                        inputs: {
+                            username: document.getElementById('userName'), // Fixed ID reference
+                            role: document.getElementById('Role'),
+                            email: document.getElementById('signupEmail'),
+                            password: document.getElementById('signupPassword'),
+                            termsAgree: document.getElementById('termsAgree')
+                        },
+                        errors: {
+                            username: document.getElementById('userNameError'), // Match DTO field
+                            role: document.getElementById('roleError'),
+                            email: document.getElementById('signupEmailError'),
+                            password: document.getElementById('signupPasswordError'),
+                            terms: document.getElementById('termsError')
+                        }
+                    };
+
+                    // Clear errors
+                    Object.values(elements.errors).forEach(el => el.textContent = '');
+
+                    // Validation logic
+                    let isValid = true;
+
+                    // Username validation
+                    if (!elements.inputs.username.value.trim()) {
+                        elements.errors.username.textContent = 'Username is required';
+                        isValid = false;
+                    }
+
+                    // Role validation
+                    if (!elements.inputs.role.value.trim()) {
+                        elements.errors.role.textContent = 'Role is required';
+                        isValid = false;
+                    }
+
+                    // Email validation
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!elements.inputs.email.value.trim()) {
+                        elements.errors.email.textContent = 'Email is required';
+                        isValid = false;
+                    } else if (!emailRegex.test(elements.inputs.email.value.trim())) {
+                        elements.errors.email.textContent = 'Invalid email format';
+                        isValid = false;
+                    }
+
+                    // Password validation
+                    if (!elements.inputs.password.value) {
+                        elements.errors.password.textContent = 'Password is required';
+                        isValid = false;
+                    } else if (elements.inputs.password.value.length < 8) {
+                        elements.errors.password.textContent = 'Password must be at least 8 characters';
+                        isValid = false;
+                    }
+
+                    // Terms validation
+                    if (!elements.inputs.termsAgree.checked) {
+                        elements.errors.terms.textContent = 'You must agree to the terms';
+                        isValid = false;
+                    }
+
+                    if (!isValid) return;
+
+                    // Prepare payload - Fixed field names
+                    const payload = {
+                        username: elements.inputs.username.value.trim(), // Match DTO field
+                        role: elements.inputs.role.value.trim(),
+                        email: elements.inputs.email.value.trim(),
+                        password: elements.inputs.password.value
+                    };
+
+                    // Submit button - Fixed selector
+                    const submitBtn = this.querySelector('.btn-submit'); // Changed to class selector
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('loading');
+
+                    try {
+                        const response = await fetch('http://localhost:8080/api/user/addUser', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest'
+                            },
+                            credentials: 'include',
+                            body: JSON.stringify(payload)
+                        });
+
+                        const responseText = await response.text();
+                        const data = responseText ? JSON.parse(responseText) : {};
+
+                        if (!response.ok) {
+                            // Handle field-specific errors
+                            if (data.errors) {
+                                Object.entries(data.errors).forEach(([field, message]) => {
+                                    if (elements.errors[field]) {
+                                        elements.errors[field].textContent = message;
+                                    }
+                                });
+                                throw new Error('Please fix the form errors');
+                            }
+                            throw new Error(data.message || `HTTP Error ${response.status}`);
+                        }
+
+                        window.location.href = 'user-login.html';
+                    } catch (error) {
+                        console.error('Signup Failed:', error);
+                        // Show general error if no field-specific errors
+                        if (!elements.errors.terms.textContent) {
+                            elements.errors.terms.textContent = error.message;
+                        }
+                    } finally {
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('loading');
+                    }
+                });
+            }
+        });
+    </script>
     
     <script src="js/auth-colorful.js"></script>
 </body>

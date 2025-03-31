@@ -257,111 +257,130 @@ document.addEventListener("DOMContentLoaded", () => {
   function isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
+  document.addEventListener('DOMContentLoaded', function() {
+    const signupForm = document.getElementById('signupForm');
 
-  if (signupForm) {
-    signupForm.addEventListener("submit", function (e) {
-      e.preventDefault();
+    if (signupForm) {
+      signupForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
 
-      // Get form fields
-      const userName = document.getElementById("userName");
-      const role = document.getElementById("role");
-      const email = document.getElementById("signupEmail");
-      const password = document.getElementById("signupPassword");
-      const termsAgree = document.getElementById("termsAgree");
-
-      // Get error message elements
-      const userNameError = document.getElementById("userNameError");
-      const roleError = document.getElementById("roleError");
-      const emailError = document.getElementById("signupEmailError");
-      const passwordError = document.getElementById("signupPasswordError");
-      const termsError = document.getElementById("termsError");
-
-      // Reset errors
-      userNameError.textContent = "";
-      roleError.textContent = "";
-      emailError.textContent = "";
-      passwordError.textContent = "";
-      termsError.textContent = "";
-
-      let isValid = true;
-
-      // Username validation
-      if (!userName.value) {
-        userNameError.textContent = "Username is required";
-        isValid = false;
-      }
-
-      // Role validation
-      if (!role.value) {
-        roleError.textContent = "Role is required";
-        isValid = false;
-      }
-
-      // Email validation
-      if (!email.value) {
-        emailError.textContent = "Email is required";
-        isValid = false;
-      } else if (!isValidEmail(email.value)) {
-        emailError.textContent = "Please enter a valid email address";
-        isValid = false;
-      }
-
-      // Password validation
-      if (!password.value) {
-        passwordError.textContent = "Password is required";
-        isValid = false;
-      } else if (password.value.length < 8) {
-        passwordError.textContent = "Password must be at least 8 characters";
-        isValid = false;
-      }
-
-      // Terms agreement validation
-      if (!termsAgree.checked) {
-        termsError.textContent = "You must agree to the terms and conditions";
-        isValid = false;
-      }
-
-      if (isValid) {
-        // Show loading state
-        const btnSubmit = this.querySelector(".btn-submit");
-        btnSubmit.classList.add("loading");
-
-        // Prepare signup data object (adjust keys as per your UserDTO)
-        const signupData = {
-          userName: userName.value,
-          role: role.value,
-          email: email.value,
-          password: password.value
+        // Get form elements with EXACT IDs from HTML
+        const elements = {
+          userName: document.getElementById('userName'),
+          role: document.getElementById('Role'), // Match HTML's id="Role"
+          email: document.getElementById('signupEmail'),
+          password: document.getElementById('signupPassword'),
+          termsAgree: document.getElementById('termsAgree'),
+          errors: {
+            userName: document.getElementById('userNameError'),
+            role: document.getElementById('roleError'),
+            email: document.getElementById('signupEmailError'),
+            password: document.getElementById('signupPasswordError'),
+            terms: document.getElementById('termsError')
+          }
         };
 
-        // Send AJAX request using Fetch API
-        fetch("http://localhost:8080/api/user/addUser", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(signupData)
-        })
-            .then(response => {
-              if (!response.ok) {
-                throw new Error("Failed to sign up");
-              }
-              return response.json();
-            })
-            .then(data => {
-              // On success, redirect to the login page (or show a success message)
-              window.location.href = "user-login.html";
-            })
-            .catch(error => {
-              // Display error message (you can also choose to display it in a different element)
-              termsError.textContent = error.message;
-            })
-            .finally(() => {
-              // Remove loading state
-              btnSubmit.classList.remove("loading");
-            });
-      }
+        // Clear previous errors
+        Object.values(elements.errors).forEach(error => error.textContent = '');
+
+        // Validate inputs
+        let isValid = true;
+
+        if (!elements.userName.value.trim()) {
+          elements.errors.userName.textContent = 'Username is required';
+          isValid = false;
+        }
+
+        if (!elements.role.value.trim()) {
+          elements.errors.role.textContent = 'Role is required';
+          isValid = false;
+        }
+
+        if (!elements.email.value.trim()) {
+          elements.errors.email.textContent = 'Email is required';
+          isValid = false;
+        } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(elements.email.value)) {
+          elements.errors.email.textContent = 'Invalid email format';
+          isValid = false;
+        }
+
+        if (!elements.password.value) {
+          elements.errors.password.textContent = 'Password is required';
+          isValid = false;
+        } else if (elements.password.value.length < 8) {
+          elements.errors.password.textContent = 'Password must be at least 8 characters';
+          isValid = false;
+        }
+
+        if (!elements.termsAgree.checked) {
+          elements.errors.terms.textContent = 'You must agree to the terms';
+          isValid = false;
+        }
+
+        if (!isValid) return;
+
+        // Prepare payload matching UserDTO
+        const payload = {
+          userName: elements.userName.value.trim(),
+          role: elements.role.value.trim(), // Match UserDTO's role field
+          email: elements.email.value.trim(),
+          password: elements.password.value
+        };
+
+        // Show loading state
+        const submitBtn = this.querySelector('.btn-submit');
+        submitBtn.disabled = true;
+        submitBtn.classList.add('loading');
+
+        try {
+          const response = await fetch('http://localhost:8080/api/user/addUser', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+          });
+
+          const result = await response.json();
+
+          if (response.status === 201) { // Match controller's CREATED status
+            window.location.href = 'user-login.html';
+          } else {
+            throw new Error(result.message || 'Registration failed');
+          }
+        } catch (error) {
+          console.error('Signup Error:', error);
+          elements.errors.terms.textContent = error.message;
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('loading');
+        }
+      });
+    }
+
+
+    // Password visibility toggle
+    document.querySelectorAll('.toggle-password').forEach(button => {
+      button.addEventListener('click', function() {
+        const input = this.closest('.input-wrapper').querySelector('input');
+        const isPassword = input.type === 'password';
+        input.type = isPassword ? 'text' : 'password';
+        this.querySelectorAll('svg').forEach(icon => icon.classList.toggle('hidden'));
+      });
     });
+
+
+    // Email validation function
+    function isValidEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+  });
+
+// Email validation function (make sure this exists)
+  function isValidEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
   }
 
 

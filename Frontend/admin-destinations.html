@@ -1,2401 +1,1384 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NS Travel - Admin Destinations Management</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-    /* ===== Base Styles ===== */
-    :root {
-        /* Colors */
-        --primary: #3b82f6;
-        --primary-light: #93c5fd;
-        --primary-dark: #1d4ed8;
-        --success: #10b981;
-        --warning: #f59e0b;
-        --error: #ef4444;
-        --bg: #000000;
-        --bg-card: #111827;
-        --bg-sidebar: #000000;
-        --text: #f1f5f9;
-        --text-light: #94a3b8;
-        --border: #334155;
-        
-        /* Dark Mode Colors */
-        --dark-bg: #000000;
-        --dark-bg-card: #111827;
-        --dark-text: #f1f5f9;
-        --dark-text-light: #94a3b8;
-        --dark-border: #334155;
-        
-        /* Gradients */
-        --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-        --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        --warning-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-        --error-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        
-        /* Shadows */
-        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
-        --shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
-        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
-        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
-        
-        /* Border Radius */
-        --border-radius-sm: 0.25rem;
-        --border-radius: 0.5rem;
-        --border-radius-lg: 1rem;
-        --border-radius-full: 9999px;
-        
-        /* Transitions */
-        --transition: all 0.3s ease;
-
-        /* Sidebar */
-        --sidebar-width: 220px;
-    }
-
-    /* Reset */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: 'Inter', sans-serif;
-        background-color: var(--bg);
-        color: var(--text);
-        line-height: 1.5;
-        min-height: 100vh;
-        overflow-x: hidden;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    /* Typography */
-    h1, h2, h3, h4, h5, h6 {
-        font-weight: 600;
-        line-height: 1.2;
-    }
-
-    a {
-        text-decoration: none;
-        color: inherit;
-    }
-
-    button {
-        cursor: pointer;
-        font-family: inherit;
-    }
-
-    /* Particles */
-    .particles-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
-        overflow: hidden;
-    }
-
-    .particle {
-        position: absolute;
-        border-radius: 50%;
-        background: radial-gradient(circle at center, rgba(59, 130, 246, 0.6) 0%, rgba(59, 130, 246, 0) 70%);
-        animation: float 15s infinite ease-in-out;
-        opacity: 0.5;
-        filter: blur(8px);
-    }
-
-    /* Layout */
-    .layout {
-        display: flex;
-        min-height: 100vh;
-    }
-
-    /* Sidebar */
-    .sidebar {
-        width: var(--sidebar-width);
-        background-color: var(--bg-sidebar);
-        border-right: 1px solid var(--border);
-        padding: 1.5rem;
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        height: 100vh;
-        z-index: 10;
-        transition: var(--transition);
-    }
-
-    .logo {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        margin-bottom: 2rem;
-        font-weight: 700;
-        font-size: 1.25rem;
-        color: var(--primary);
-    }
-
-    .logo-icon {
-        width: 36px;
-        height: 36px;
-        background: var(--primary);
-        color: white;
-        border-radius: var(--border-radius-sm);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-    }
-
-    .nav-list {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        flex-grow: 1;
-    }
-
-    .nav-item {
-        margin-bottom: 0.5rem;
-    }
-
-    .nav-link {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0.75rem 1rem;
-        border-radius: var(--border-radius);
-        transition: var(--transition);
-        color: var(--text-light);
-    }
-
-    .nav-link:hover {
-        background-color: rgba(59, 130, 246, 0.1);
-        color: var(--primary);
-    }
-
-    .nav-link.active {
-        background-color: rgba(59, 130, 246, 0.15);
-        color: var(--primary);
-    }
-
-    .nav-icon {
-        font-size: 1.25rem;
-        width: 20px;
-        text-align: center;
-    }
-
-    /* Main Content */
-    .main-content {
-        flex: 1;
-        margin-left: var(--sidebar-width);
-        padding: 0;
-        transition: var(--transition);
-        position: relative;
-        z-index: 1;
-    }
-
-    /* Header */
-    .main-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem 2rem;
-        border-bottom: 1px solid var(--border);
-        background-color: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(10px);
-        position: sticky;
-        top: 0;
-        z-index: 5;
-    }
-
-    .page-title {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: var(--primary);
-    }
-
-    .header-time {
-        font-size: 1.25rem;
-        color: var(--text-light);
-    }
-
-    .header-actions {
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-    }
-
-    .search-bar {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        background-color: rgba(17, 24, 39, 0.8);
-        border: 1px solid var(--border);
-        border-radius: var(--border-radius-full);
-        padding: 0.5rem 1rem;
-        width: 300px;
-        transition: var(--transition);
-    }
-
-    .search-bar:focus-within {
-        border-color: var(--primary);
-        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-    }
-
-    .search-icon {
-        color: var(--text-light);
-    }
-
-    .search-input {
-        border: none;
-        background: none;
-        outline: none;
-        width: 100%;
-        color: var(--text);
-        font-size: 0.875rem;
-    }
-
-    .search-input::placeholder {
-        color: var(--text-light);
-    }
-
-    .notification-bell {
-        position: relative;
-        cursor: pointer;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: var(--border-radius-full);
-        background-color: rgba(17, 24, 39, 0.8);
-        transition: var(--transition);
-    }
-
-    .notification-bell:hover {
-        background-color: rgba(59, 130, 246, 0.1);
-    }
-
-    .notification-badge {
-        position: absolute;
-        top: -5px;
-        right: -5px;
-        width: 18px;
-        height: 18px;
-        background-color: var(--error);
-        color: white;
-        border-radius: 50%;
-        font-size: 0.75rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 600;
-    }
-
-    .user-profile {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        cursor: pointer;
-    }
-
-    .user-avatar {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background-color: var(--primary);
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 600;
-    }
-
-    /* Content Container */
-    .content-container {
-        padding: 2rem;
-    }
-
-    /* Stats Grid */
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-    }
-
-    .stat-card {
-        background-color: var(--bg-card);
-        border-radius: var(--border-radius);
-        padding: 1.5rem;
-        box-shadow: var(--shadow);
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        transition: var(--transition);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .stat-card:hover {
-        transform: translateY(-5px);
-        box-shadow: var(--shadow-md);
-    }
-
-    .stat-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: var(--border-radius);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.25rem;
-        z-index: 1;
-    }
-
-    .stat-icon.blue {
-        background-color: rgba(59, 130, 246, 0.2);
-        color: var(--primary);
-    }
-
-    .stat-icon.green {
-        background-color: rgba(16, 185, 129, 0.2);
-        color: var(--success);
-    }
-
-    .stat-icon.yellow {
-        background-color: rgba(245, 158, 11, 0.2);
-        color: var(--warning);
-    }
-
-    .stat-icon.red {
-        background-color: rgba(239, 68, 68, 0.2);
-        color: var(--error);
-    }
-
-    .stat-value {
-        font-size: 1.75rem;
-        font-weight: 700;
-        z-index: 1;
-    }
-
-    .stat-label {
-        font-size: 0.875rem;
-        color: var(--text-light);
-        z-index: 1;
-    }
-
-    .stat-change {
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
-        font-size: 0.75rem;
-        font-weight: 500;
-        z-index: 1;
-    }
-
-    .stat-change.positive {
-        color: var(--success);
-    }
-
-    .stat-change.negative {
-        color: var(--error);
-    }
-
-    .stat-bg {
-        position: absolute;
-        bottom: -20px;
-        right: -20px;
-        width: 100px;
-        height: 100px;
-        opacity: 0.1;
-        z-index: 0;
-    }
-
-    /* Progress bar */
-    .progress-bar {
-        height: 4px;
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: var(--border-radius-full);
-        margin-top: 0.5rem;
-        overflow: hidden;
-    }
-
-    .progress-fill {
-        height: 100%;
-        border-radius: var(--border-radius-full);
-    }
-
-    .progress-fill.blue {
-        background-color: var(--primary);
-        width: 75%;
-    }
-
-    .progress-fill.green {
-        background-color: var(--success);
-        width: 65%;
-    }
-
-    .progress-fill.yellow {
-        background-color: var(--warning);
-        width: 45%;
-    }
-
-    .progress-fill.red {
-        background-color: var(--error);
-        width: 25%;
-    }
-
-    /* Dashboard Card */
-    .dashboard-card {
-        background-color: var(--bg-card);
-        border-radius: var(--border-radius);
-        padding: 1.5rem;
-        box-shadow: var(--shadow);
-        animation: fadeIn 0.5s ease;
-        margin-bottom: 2rem;
-    }
-
-    .card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1.5rem;
-    }
-
-    .card-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-    }
-
-    .card-actions {
-        display: flex;
-        gap: 0.75rem;
-    }
-
-    .btn {
-        padding: 0.75rem 1.5rem;
-        border-radius: var(--border-radius);
-        font-weight: 500;
-        transition: var(--transition);
-        border: none;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-size: 0.875rem;
-    }
-
-    .btn-primary {
-        background: var(--primary-gradient);
-        color: white;
-    }
-
-    .btn-primary:hover {
-        background: var(--primary-dark);
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
-    }
-
-    .btn-outline {
-        background: transparent;
-        border: 1px solid var(--border);
-        color: var(--text);
-    }
-
-    .btn-outline:hover {
-        border-color: var(--primary);
-        color: var(--primary);
-    }
-
-    .btn-success {
-        background: var(--success-gradient);
-        color: white;
-    }
-
-    .btn-success:hover {
-        background: var(--success);
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
-    }
-
-    .btn-warning {
-        background: var(--warning-gradient);
-        color: white;
-    }
-
-    .btn-warning:hover {
-        background: var(--warning);
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
-    }
-
-    .btn-error {
-        background: var(--error-gradient);
-        color: white;
-    }
-
-    .btn-error:hover {
-        background: var(--error);
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
-    }
-
-    .btn-icon {
-        padding: 0.5rem;
-        border-radius: var(--border-radius);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1rem;
-    }
-
-    /* Table Styles */
-    .table-container {
-        overflow-x: auto;
-        border-radius: var(--border-radius);
-    }
-
-    .destinations-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 0.875rem;
-    }
-
-    .destinations-table th {
-        background-color: rgba(59, 130, 246, 0.1);
-        padding: 1rem;
-        text-align: left;
-        font-weight: 600;
-        color: var(--primary);
-        border-bottom: 1px solid var(--border);
-        position: relative;
-        cursor: pointer;
-        transition: var(--transition);
-    }
-
-    .destinations-table th:hover {
-        background-color: rgba(59, 130, 246, 0.15);
-    }
-
-    .destinations-table th.sorted:after {
-        content: '↓';
-        position: absolute;
-        right: 0.5rem;
-        color: var(--primary);
-    }
-
-    .destinations-table th.sorted.desc:after {
-        content: '↑';
-    }
-
-    .destinations-table td {
-        padding: 1rem;
-        border-bottom: 1px solid var(--border);
-        transition: var(--transition);
-    }
-
-    .destinations-table tr:hover td {
-        background-color: rgba(59, 130, 246, 0.05);
-    }
-
-    .destinations-table tr:last-child td {
-        border-bottom: none;
-    }
-
-    .destination-info {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-    }
-
-    .destination-image-small {
-        width: 48px;
-        height: 48px;
-        border-radius: var(--border-radius-sm);
-        object-fit: cover;
-    }
-
-    .destination-name {
-        font-weight: 500;
-    }
-
-    .destination-country {
-        font-size: 0.75rem;
-        color: var(--text-light);
-    }
-
-    .featured-badge {
-        display: inline-block;
-        padding: 0.25rem 0.5rem;
-        border-radius: var(--border-radius-full);
-        font-size: 0.75rem;
-        font-weight: 500;
-        background-color: rgba(245, 158, 11, 0.1);
-        color: var(--warning);
-    }
-
-    .price-badge {
-        display: inline-block;
-        padding: 0.25rem 0.5rem;
-        border-radius: var(--border-radius-full);
-        font-size: 0.75rem;
-        font-weight: 500;
-    }
-
-    .price-badge.budget {
-        background-color: rgba(16, 185, 129, 0.1);
-        color: var(--success);
-    }
-
-    .price-badge.moderate {
-        background-color: rgba(59, 130, 246, 0.1);
-        color: var(--primary);
-    }
-
-    .price-badge.luxury {
-        background-color: rgba(239, 68, 68, 0.1);
-        color: var(--error);
-    }
-
-    .rating-stars {
-        color: var(--warning);
-    }
-
-    .row-actions {
-        display: flex;
-        gap: 0.5rem;
-    }
-
-    .action-btn {
-        width: 28px;
-        height: 28px;
-        border-radius: var(--border-radius-sm);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.875rem;
-        transition: var(--transition);
-        background: none;
-        border: none;
-        color: var(--text);
-    }
-
-    .action-btn:hover {
-        background-color: rgba(59, 130, 246, 0.1);
-        color: var(--primary);
-    }
-
-    .action-btn.view:hover {
-        background-color: rgba(59, 130, 246, 0.1);
-        color: var(--primary);
-    }
-
-    .action-btn.edit:hover {
-        background-color: rgba(245, 158, 11, 0.1);
-        color: var(--warning);
-    }
-
-    .action-btn.delete:hover {
-        background-color: rgba(239, 68, 68, 0.1);
-        color: var(--error);
-    }
-
-    /* Pagination */
-    .pagination {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 1.5rem;
-        font-size: 0.875rem;
-    }
-
-    .pagination-info {
-        color: var(--text-light);
-    }
-
-    .pagination-controls {
-        display: flex;
-        gap: 0.5rem;
-    }
-
-    .pagination-btn {
-        width: 32px;
-        height: 32px;
-        border-radius: var(--border-radius-sm);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: var(--bg-card);
-        border: 1px solid var(--border);
-        transition: var(--transition);
-        color: var(--text);
-    }
-
-    .pagination-btn:hover {
-        border-color: var(--primary);
-        color: var(--primary);
-    }
-
-    .pagination-btn.active {
-        background-color: var(--primary);
-        color: white;
-        border-color: var(--primary);
-    }
-
-    .pagination-btn.disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-
-    /* Filter Controls */
-    .filter-controls {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .filter-group {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .filter-label {
-        font-size: 0.875rem;
-        color: var(--text-light);
-    }
-
-    .filter-select {
-        padding: 0.5rem 1rem;
-        border: 1px solid var(--border);
-        border-radius: var(--border-radius);
-        background-color: var(--bg-card);
-        color: var(--text);
-        font-size: 0.875rem;
-        transition: var(--transition);
-    }
-
-    .filter-select:focus {
-        outline: none;
-        border-color: var(--primary);
-        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-    }
-
-    /* Modal */
-    .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        backdrop-filter: blur(5px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-
-    .modal-overlay.active {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    .modal {
-        background-color: var(--bg-card);
-        border-radius: var(--border-radius);
-        box-shadow: var(--shadow-xl);
-        width: 90%;
-        max-width: 600px;
-        max-height: 90vh;
-        overflow-y: auto;
-        transform: scale(0.9);
-        opacity: 0;
-        transition: transform 0.3s ease, opacity 0.3s ease;
-    }
-
-    .modal-overlay.active .modal {
-        transform: scale(1);
-        opacity: 1;
-    }
-
-    .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1.5rem;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .modal-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-    }
-
-    .modal-close {
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        color: var(--text-light);
-        cursor: pointer;
-        transition: var(--transition);
-    }
-
-    .modal-close:hover {
-        color: var(--error);
-    }
-
-    .modal-body {
-        padding: 1.5rem;
-    }
-
-    .modal-footer {
-        display: flex;
-        justify-content: flex-end;
-        gap: 1rem;
-        padding: 1.5rem;
-        border-top: 1px solid var(--border);
-    }
-
-    /* Form Styles */
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
-
-    .form-label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 500;
-        font-size: 0.875rem;
-    }
-
-    .form-input, .form-select, .form-textarea {
-        width: 100%;
-        padding: 0.75rem 1rem;
-        border: 1px solid var(--border);
-        border-radius: var(--border-radius);
-        background-color: var(--bg);
-        color: var(--text);
-        font-size: 0.875rem;
-        transition: var(--transition);
-    }
-
-    .form-input:focus, .form-select:focus, .form-textarea:focus {
-        outline: none;
-        border-color: var(--primary);
-        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-    }
-
-    .form-input::placeholder, .form-textarea::placeholder {
-        color: var(--text-light);
-    }
-
-    .form-textarea {
-        resize: vertical;
-        min-height: 100px;
-    }
-
-    .form-row {
-        display: flex;
-        gap: 1rem;
-    }
-
-    .form-col {
-        flex: 1;
-    }
-
-    .form-check {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .form-check-input {
-        width: 1rem;
-        height: 1rem;
-    }
-
-    /* Destination Details */
-    .destination-details {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
-    }
-
-    .detail-group {
-        margin-bottom: 1rem;
-    }
-
-    .detail-label {
-        font-size: 0.75rem;
-        color: var(--text-light);
-        margin-bottom: 0.25rem;
-    }
-
-    .detail-value {
-        font-weight: 500;
-    }
-
-    .detail-description {
-        grid-column: span 2;
-    }
-
-    /* Confirmation Dialog */
-    .confirm-dialog {
-        text-align: center;
-        padding: 1rem;
-    }
-
-    .confirm-icon {
-        font-size: 3rem;
-        color: var(--error);
-        margin-bottom: 1rem;
-    }
-
-    .confirm-message {
-        margin-bottom: 1.5rem;
-    }
-
-    /* Notification */
-    .notification {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background-color: var(--success);
-        color: white;
-        padding: 1rem;
-        border-radius: var(--border-radius);
-        box-shadow: var(--shadow-lg);
-        z-index: 1000;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-
-    /* Animations */
-    @keyframes float {
-        0%, 100% {
-            transform: translate(0, 0);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NS Travel - Destination Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-bg: #0f172a;
+            --secondary-bg: #1e293b;
+            --card-bg: rgba(30, 41, 59, 0.8);
+            --sidebar-bg: #111827;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --blue: #3b82f6;
+            --green: #10b981;
+            --yellow: #f59e0b;
+            --red: #ef4444;
+            --purple: #8b5cf6;
+            --teal: #14b8a6;
+            --border-color: #334155;
         }
-        25% {
-            transform: translate(10px, -10px);
-        }
-        50% {
-            transform: translate(20px, 10px);
-        }
-        75% {
-            transform: translate(-10px, 15px);
-        }
-    }
 
-    @keyframes pulse {
-        0%, 100% {
-            opacity: 1;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
         }
-        50% {
-            opacity: 0.7;
-        }
-    }
 
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
         }
-        100% {
-            transform: rotate(360deg);
-        }
-    }
 
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes breathe {
-        0%, 100% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(1.3);
-        }
-    }
-
-    /* Responsive */
-    @media (max-width: 1200px) {
-        .stats-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-
-    @media (max-width: 992px) {
+        /* Sidebar Styles */
         .sidebar {
-            transform: translateX(-100%);
-            box-shadow: var(--shadow-lg);
+            width: 240px;
+            background-color: var(--sidebar-bg);
+            padding: 20px 0;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            border-right: 1px solid var(--border-color);
         }
 
-        .sidebar.active {
-            transform: translateX(0);
+        .logo {
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            margin-bottom: 30px;
         }
 
+        .logo-icon {
+            background-color: var(--blue);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 5px;
+            transition: all 0.3s;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .nav-item i {
+            margin-right: 12px;
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .nav-item.active {
+            border-left: 3px solid var(--blue);
+        }
+
+        /* Main Content Styles */
         .main-content {
-            margin-left: 0;
+            flex: 1;
+            margin-left: 240px;
+            padding: 20px;
+            width: calc(100% - 240px);
         }
 
-        .mobile-menu-toggle {
-            display: block;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .content-container {
-            padding: 1rem;
-        }
-        
-        .main-header {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 1rem;
-            padding: 1rem;
-        }
-        
-        .header-actions {
-            width: 100%;
+        /* Header Styles */
+        .header {
+            display: flex;
             justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
         }
-        
-        .search-bar {
-            width: 100%;
-            max-width: 300px;
-        }
-        
-        .stats-grid {
-            grid-template-columns: 1fr;
-        }
-        
-        .destination-details {
-            grid-template-columns: 1fr;
-        }
-        
-        .detail-description {
-            grid-column: span 1;
-        }
-        
-        .form-row {
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-    }
 
-    @media (max-width: 576px) {
-        .card-header {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 1rem;
+        .header-title {
+            font-size: 24px;
+            font-weight: 600;
         }
-        
-        .card-actions {
+
+        .header-time {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .search-container {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-input {
             width: 100%;
+            padding: 10px 15px 10px 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            color: var(--text-primary);
+            outline: none;
         }
-        
-        .pagination {
-            flex-direction: column;
-            gap: 1rem;
-            align-items: flex-start;
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
         }
-        
-        .filter-controls {
-            flex-direction: column;
-            align-items: flex-start;
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
-    }
-</style>
+
+        .notification-bell {
+            position: relative;
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--red);
+            color: white;
+            font-size: 10px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .stat-icon.blue {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: var(--blue);
+        }
+
+        .stat-icon.green {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: var(--green);
+        }
+
+        .stat-icon.yellow {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: var(--yellow);
+        }
+
+        .stat-icon.red {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: var(--red);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .stat-change {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .stat-change.positive {
+            color: var(--green);
+        }
+
+        .stat-change.negative {
+            color: var(--red);
+        }
+
+        .progress-bar {
+            height: 4px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill.blue {
+            height: 100%;
+            width: 75%;
+            background-color: var(--blue);
+        }
+
+        .progress-fill.green {
+            height: 100%;
+            width: 60%;
+            background-color: var(--green);
+        }
+
+        .progress-fill.yellow {
+            height: 100%;
+            width: 85%;
+            background-color: var(--yellow);
+        }
+
+        .progress-fill.red {
+            height: 100%;
+            width: 40%;
+            background-color: var(--red);
+        }
+
+        /* Destination Management Section */
+        .management-section {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--blue);
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Filter Section */
+        .filter-section {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .filter-select {
+            padding: 8px 12px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            outline: none;
+            min-width: 150px;
+        }
+
+        /* Table Styles */
+        .destinations-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .destinations-table th {
+            text-align: left;
+            padding: 12px 15px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .destinations-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+
+        .table-image {
+            width: 60px;
+            height: 40px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+
+        .action-icon:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+        }
+
+        .action-icon.edit:hover {
+            color: var(--blue);
+        }
+
+        .action-icon.delete:hover {
+            color: var(--red);
+        }
+
+        .table-footer {
+            margin-top: 15px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .modal {
+            background-color: var(--secondary-bg);
+            border-radius: 10px;
+            width: 600px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 10px 12px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            outline: none;
+            font-size: 14px;
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-file {
+            display: block;
+            width: 100%;
+            padding: 10px 12px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Delete Confirmation Modal */
+        .delete-modal .modal {
+            width: 400px;
+        }
+
+        .delete-message {
+            text-align: center;
+            padding: 20px;
+            font-size: 16px;
+        }
+
+        .delete-modal .modal-footer {
+            justify-content: center;
+        }
+
+        .btn-danger {
+            background-color: var(--red);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+
+        /* Toast Notification */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+        }
+
+        .toast {
+            background-color: var(--secondary-bg);
+            color: var(--text-primary);
+            border-radius: 6px;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-width: 300px;
+            max-width: 400px;
+            animation: slideIn 0.3s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--green);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--red);
+        }
+
+        .toast.info {
+            border-left: 4px solid var(--blue);
+        }
+
+        .toast-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .toast-icon {
+            margin-right: 12px;
+            font-size: 20px;
+        }
+
+        .toast-icon.success {
+            color: var(--green);
+        }
+
+        .toast-icon.error {
+            color: var(--red);
+        }
+
+        .toast-icon.info {
+            color: var(--blue);
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Loading Spinner */
+        .spinner-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1500;
+            display: none;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--blue);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive styles */
+        @media (max-width: 1024px) {
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+                overflow: hidden;
+            }
+
+            .logo-text, .nav-item span {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+            }
+
+            .filter-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+
+            .filter-select {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-actions {
+                margin-top: 15px;
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .search-container {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-<!-- Particle Background -->
-<div class="particles-container" id="particles-container"></div>
-
-<div class="layout">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <div class="logo">
-            <div class="logo-icon">NS</div>
-            <span>NS Travel</span>
-        </div>
-        
-        <ul class="nav-list">
-            <li class="nav-item">
-                <a href="admin-dashboard.html" class="nav-link">
-                    <span class="nav-icon">🏠</span>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="booking.html" class="nav-link">
-                    <span class="nav-icon">✈️</span>
-                    <span>Bookings</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="admin-destinations.html" class="nav-link">
-                    <span class="nav-icon">🌍</span>
-                    <span>Destinations</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="admin-customers.html" class="nav-link">
-                    <span class="nav-icon">👥</span>
-                    <span>Customers</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <span class="nav-icon">📊</span>
-                    <span>Reports</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="admin-guides.html" class="nav-link active">
-                    <span class="nav-icon">📚</span>
-                    <span>Guides</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <span class="nav-icon">⚙️</span>
-                    <span>Settings</span>
-                </a>
-            </li>
-        </ul>
-    </aside>
-    
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Header -->
-        <header class="main-header">
-            <div class="header-left">
-                <h1 class="page-title">Destinations</h1>
-                <span class="header-time" id="current-time">11:59:45</span>
-            </div>
-            
-            <div class="header-actions">
-                <div class="search-bar">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" class="search-input" id="search-input" placeholder="Search destinations...">
-                </div>
-                
-                <div class="notification-bell">
-                    <span>🔔</span>
-                    <span class="notification-badge">3</span>
-                </div>
-                
-                <div class="user-profile">
-                    <div class="user-avatar">A</div>
-                </div>
-            </div>
-        </header>
-        
-        <div class="content-container">
-            <!-- Stats Grid -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon blue">🌍</div>
-                    <div>
-                        <div class="stat-value" id="total-destinations">48</div>
-                        <div class="stat-label">Total Destinations</div>
-                    </div>
-                    <div class="stat-change positive">
-                        <span>↑</span>
-                        <span>8.5% from last month</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill blue"></div>
-                    </div>
-                    <div class="stat-bg">🌍</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon green">⭐</div>
-                    <div>
-                        <div class="stat-value" id="featured-destinations">12</div>
-                        <div class="stat-label">Featured Destinations</div>
-                    </div>
-                    <div class="stat-change positive">
-                        <span>↑</span>
-                        <span>4.2% from last month</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill green"></div>
-                    </div>
-                    <div class="stat-bg">⭐</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon yellow">👁️</div>
-                    <div>
-                        <div class="stat-value" id="popular-destinations">25</div>
-                        <div class="stat-label">Popular Destinations</div>
-                    </div>
-                    <div class="stat-change positive">
-                        <span>↑</span>
-                        <span>12.7% from last month</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill yellow"></div>
-                    </div>
-                    <div class="stat-bg">👁️</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon red">🆕</div>
-                    <div>
-                        <div class="stat-value" id="new-destinations">7</div>
-                        <div class="stat-label">New Destinations</div>
-                    </div>
-                    <div class="stat-change positive">
-                        <span>↑</span>
-                        <span>3 more than last month</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill red"></div>
-                    </div>
-                    <div class="stat-bg">🆕</div>
-                </div>
-            </div>
-            
-            <!-- Destinations Management -->
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <h2 class="card-title">Destination Management</h2>
-                    
-                    <div class="card-actions">
-                        <button class="btn btn-outline" id="filter-btn">
-                            <span>🔍</span>
-                            <span>Filter</span>
-                        </button>
-                        
-                        <button class="btn btn-outline" id="export-btn">
-                            <span>📥</span>
-                            <span>Export</span>
-                        </button>
-                        
-                        <button class="btn btn-primary" id="add-destination-btn">
-                            <span>+</span>
-                            <span>Add Destination</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="filter-controls" id="filter-controls">
-                    <div class="filter-group">
-                        <label class="filter-label">Region:</label>
-                        <select class="filter-select" id="region-filter">
-                            <option value="">All Regions</option>
-                            <option value="Europe">Europe</option>
-                            <option value="Asia">Asia</option>
-                            <option value="North America">North America</option>
-                            <option value="South America">South America</option>
-                            <option value="Africa">Africa</option>
-                            <option value="Oceania">Oceania</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <label class="filter-label">Price Range:</label>
-                        <select class="filter-select" id="price-filter">
-                            <option value="">All Prices</option>
-                            <option value="budget">Budget ($)</option>
-                            <option value="moderate">Moderate ($$)</option>
-                            <option value="luxury">Luxury ($$$)</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <label class="filter-label">Featured:</label>
-                        <select class="filter-select" id="featured-filter">
-                            <option value="">All</option>
-                            <option value="true">Featured Only</option>
-                            <option value="false">Not Featured</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <label class="filter-label">Sort By:</label>
-                        <select class="filter-select" id="sort-filter">
-                            <option value="name-asc">Name (A-Z)</option>
-                            <option value="name-desc">Name (Z-A)</option>
-                            <option value="popularity-desc">Popularity (High to Low)</option>
-                            <option value="popularity-asc">Popularity (Low to High)</option>
-                            <option value="price-asc">Price (Low to High)</option>
-                            <option value="price-desc">Price (High to Low)</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="table-container">
-                    <table class="destinations-table" id="destinations-table">
-                        <thead>
-                            <tr>
-                                <th data-sort="id">ID</th>
-                                <th data-sort="name">Destination</th>
-                                <th data-sort="region">Region</th>
-                                <th data-sort="price">Price Range</th>
-                                <th data-sort="rating">Rating</th>
-                                <th data-sort="popularity">Popularity</th>
-                                <th data-sort="featured">Featured</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="destinations-table-body">
-                            <!-- Table rows will be populated by JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div class="pagination">
-                    <div class="pagination-info" id="pagination-info">
-                        Showing <span id="showing-start">1</span> to <span id="showing-end">10</span> of <span id="total-items">48</span> destinations
-                    </div>
-                    
-                    <div class="pagination-controls" id="pagination-controls">
-                        <!-- Pagination buttons will be populated by JavaScript -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="logo">
+        <div class="logo-icon">NS</div>
+        <div class="logo-text">NS Travel</div>
+    </div>
+    <nav>
+        <a href="#" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-ticket-alt"></i>
+            <span>Bookings</span>
+        </a>
+        <a href="#" class="nav-item active">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Destinations</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-users"></i>
+            <span>Customers</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-chart-bar"></i>
+            <span>Reports</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-book"></i>
+            <span>Guides</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+    </nav>
 </div>
 
-<!-- Add/Edit Destination Modal -->
-<div class="modal-overlay" id="destination-modal">
-    <div class="modal">
-        <div class="modal-header">
-            <h3 class="modal-title" id="destination-modal-title">Add New Destination</h3>
-            <button class="modal-close" id="destination-modal-close">&times;</button>
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Header -->
+    <div class="header">
+        <div>
+            <h1 class="header-title">Destinations</h1>
+            <div class="header-time" id="current-time">11:59:45</div>
         </div>
-        <div class="modal-body">
-            <form id="destination-form">
-                <input type="hidden" id="destination-id">
-                
-                <div class="form-row">
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="destination-name" class="form-label">Destination Name</label>
-                            <input type="text" id="destination-name" class="form-input" placeholder="e.g. Paris" required>
-                        </div>
-                    </div>
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="destination-country" class="form-label">Country</label>
-                            <input type="text" id="destination-country" class="form-input" placeholder="e.g. France" required>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="destination-region" class="form-label">Region</label>
-                            <select id="destination-region" class="form-select" required>
-                                <option value="">Select Region</option>
-                                <option value="Europe">Europe</option>
-                                <option value="Asia">Asia</option>
-                                <option value="North America">North America</option>
-                                <option value="South America">South America</option>
-                                <option value="Africa">Africa</option>
-                                <option value="Oceania">Oceania</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="destination-price" class="form-label">Price Range</label>
-                            <select id="destination-price" class="form-select" required>
-                                <option value="budget">Budget ($)</option>
-                                <option value="moderate">Moderate ($$)</option>
-                                <option value="luxury">Luxury ($$$)</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="destination-rating" class="form-label">Rating (1-5)</label>
-                            <input type="number" id="destination-rating" class="form-input" min="1" max="5" step="0.1" placeholder="4.5" required>
-                        </div>
-                    </div>
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="destination-popularity" class="form-label">Popularity (1-100)</label>
-                            <input type="number" id="destination-popularity" class="form-input" min="1" max="100" placeholder="85" required>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="destination-image" class="form-label">Image URL</label>
-                    <input type="text" id="destination-image" class="form-input" placeholder="https://example.com/image.jpg" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="destination-description" class="form-label">Description</label>
-                    <textarea id="destination-description" class="form-textarea" placeholder="Write a brief description of this destination..." required></textarea>
-                </div>
-                
-                <div class="form-check">
-                    <input type="checkbox" id="destination-featured" class="form-check-input">
-                    <label for="destination-featured" class="form-label">Featured Destination</label>
-                </div>
-            </form>
+        <div class="header-actions">
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search destinations..." id="searchInput">
+            </div>
+            <div class="notification-bell">
+                <i class="fas fa-bell"></i>
+                <div class="notification-badge">3</div>
+            </div>
+            <div class="user-avatar">A</div>
         </div>
-        <div class="modal-footer">
-            <button class="btn btn-outline" id="destination-modal-cancel">Cancel</button>
-            <button class="btn btn-primary" id="destination-modal-save">Save Destination</button>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-icon blue">
+                <i class="fas fa-globe"></i>
+            </div>
+            <div class="stat-number" id="totalDestinations">0</div>
+            <div class="stat-label">Total Destinations</div>
+            <div class="stat-change positive">
+                <i class="fas fa-arrow-up"></i> 8.5% from last month
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill blue"></div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon green">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="stat-number">12</div>
+            <div class="stat-label">Featured Destinations</div>
+            <div class="stat-change positive">
+                <i class="fas fa-arrow-up"></i> 4.2% from last month
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill green"></div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon yellow">
+                <i class="fas fa-eye"></i>
+            </div>
+            <div class="stat-number">25</div>
+            <div class="stat-label">Popular Destinations</div>
+            <div class="stat-change positive">
+                <i class="fas fa-arrow-up"></i> 12.7% from last month
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill yellow"></div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon red">
+                <i class="fas fa-plus-square"></i>
+            </div>
+            <div class="stat-number">7</div>
+            <div class="stat-label">New Destinations</div>
+            <div class="stat-change positive">
+                <i class="fas fa-arrow-up"></i> 3 more than last month
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill red"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Destination Management Section -->
+    <div class="management-section">
+        <div class="section-header">
+            <h2 class="section-title">Destination Management</h2>
+            <div class="action-buttons">
+                <button class="btn btn-secondary" id="filterBtn">
+                    <i class="fas fa-filter"></i> Filter
+                </button>
+                <button class="btn btn-secondary">
+                    <i class="fas fa-file-export"></i> Export
+                </button>
+                <button class="btn btn-primary" id="addDestinationBtn">
+                    <i class="fas fa-plus"></i> Add Destination
+                </button>
+            </div>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div class="filter-group">
+                <span class="filter-label">Category:</span>
+                <select class="filter-select" id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="BEACH">Beach</option>
+                    <option value="MOUNTAIN">Mountain</option>
+                    <option value="CITY">City</option>
+                    <option value="CULTURAL">Cultural</option>
+                    <option value="ADVENTURE">Adventure</option>
+                    <option value="RELAXATION">Relaxation</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <span class="filter-label">Location:</span>
+                <select class="filter-select" id="locationFilter">
+                    <option value="">All Locations</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <span class="filter-label">Sort By:</span>
+                <select class="filter-select" id="sortFilter">
+                    <option value="name">Name (A-Z)</option>
+                    <option value="name_desc">Name (Z-A)</option>
+                    <option value="id_desc">Newest First</option>
+                    <option value="id">Oldest First</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Destinations Table -->
+        <table class="destinations-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody id="destinationsTableBody">
+            <!-- Table content will be loaded dynamically -->
+            </tbody>
+        </table>
+        <div class="table-footer" id="tableFooter">
+            Loading destinations...
         </div>
     </div>
 </div>
 
-<!-- View Destination Details Modal -->
-<div class="modal-overlay" id="view-destination-modal">
+<!-- Add/Edit Destination Modal -->
+<div class="modal-overlay" id="destinationModal">
     <div class="modal">
         <div class="modal-header">
-            <h3 class="modal-title">Destination Details</h3>
-            <button class="modal-close" id="view-destination-modal-close">&times;</button>
+            <h3 class="modal-title" id="modalTitle">Add New Destination</h3>
+            <button class="modal-close" onclick="closeModal('destinationModal')">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
         <div class="modal-body">
-            <div class="destination-details" id="destination-details">
-                <!-- Destination details will be populated by JavaScript -->
-            </div>
+            <form id="destinationForm">
+                <input type="hidden" id="destinationId" name="id">
+                <div class="form-group">
+                    <label class="form-label" for="destinationName">Name</label>
+                    <input type="text" id="destinationName" name="name" class="form-input" placeholder="Enter destination name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="destinationDescription">Description</label>
+                    <textarea id="destinationDescription" name="description" class="form-textarea" placeholder="Enter description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="destinationLocation">Location</label>
+                    <input type="text" id="destinationLocation" name="location" class="form-input" placeholder="Country, Region" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="destinationImageURL">Image URL</label>
+                    <input type="text" id="destinationImageURL" name="imageURL" class="form-input" placeholder="Enter image URL" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="destinationCategory">Category</label>
+                    <select id="destinationCategory" name="cateogary" class="form-select" required>
+                        <option value="">Select a category</option>
+                        <option value="BEACH">Beach</option>
+                        <option value="MOUNTAIN">Mountain</option>
+                        <option value="CITY">City</option>
+                        <option value="CULTURAL">Cultural</option>
+                        <option value="ADVENTURE">Adventure</option>
+                        <option value="RELAXATION">Relaxation</option>
+                    </select>
+                </div>
+            </form>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-outline" id="view-destination-modal-close-btn">Close</button>
-            <button class="btn btn-warning" id="view-destination-edit-btn">Edit</button>
+            <button class="btn btn-secondary" onclick="closeModal('destinationModal')">Cancel</button>
+            <button class="btn btn-primary" id="saveDestinationBtn">Save Destination</button>
         </div>
     </div>
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div class="modal-overlay" id="delete-modal">
+<div class="modal-overlay delete-modal" id="deleteModal">
     <div class="modal">
         <div class="modal-header">
-            <h3 class="modal-title">Confirm Delete</h3>
-            <button class="modal-close" id="delete-modal-close">&times;</button>
+            <h3 class="modal-title">Confirm Deletion</h3>
+            <button class="modal-close" onclick="closeModal('deleteModal')">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
         <div class="modal-body">
-            <div class="confirm-dialog">
-                <div class="confirm-icon">⚠️</div>
-                <h4>Are you sure you want to delete this destination?</h4>
-                <p class="confirm-message">This action cannot be undone. All data associated with this destination will be permanently removed.</p>
+            <div class="delete-message">
+                Are you sure you want to delete this destination? This action cannot be undone.
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-outline" id="delete-modal-cancel">Cancel</button>
-            <button class="btn btn-error" id="delete-modal-confirm">Delete</button>
+            <button class="btn btn-secondary" onclick="closeModal('deleteModal')">Cancel</button>
+            <button class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
         </div>
     </div>
 </div>
 
+<!-- Toast Notification Container -->
+<div class="toast-container" id="toastContainer">
+    <!-- Toast notifications will be added dynamically -->
+</div>
+
+<!-- Loading Spinner -->
+<div class="spinner-overlay" id="loadingSpinner">
+    <div class="spinner"></div>
+</div>
+
+<!-- JavaScript -->
 <script>
+    // Base URL for API (adjust as needed)
+    const API_BASE_URL = '/destinations';
+
+    // DOM Elements
+    const destinationsTableBody = document.getElementById('destinationsTableBody');
+    const tableFooter = document.getElementById('tableFooter');
+    const totalDestinationsElement = document.getElementById('totalDestinations');
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const locationFilter = document.getElementById('locationFilter');
+    const sortFilter = document.getElementById('sortFilter');
+    const destinationForm = document.getElementById('destinationForm');
+    const saveDestinationBtn = document.getElementById('saveDestinationBtn');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    const currentTimeElement = document.getElementById('current-time');
+
+    // Global variables
+    let destinations = [];
+    let currentDestinationId = null;
+    let uniqueLocations = new Set();
+
+    // Initialize the page
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize the page
-        initDestinationsPage();
+        updateCurrentTime();
+        setInterval(updateCurrentTime, 1000);
+        loadDestinations();
+
+        // Event listeners
+        document.getElementById('addDestinationBtn').addEventListener('click', openAddDestinationModal);
+        saveDestinationBtn.addEventListener('click', saveDestination);
+        confirmDeleteBtn.addEventListener('click', deleteDestination);
+        searchInput.addEventListener('input', filterDestinations);
+        categoryFilter.addEventListener('change', filterDestinations);
+        locationFilter.addEventListener('change', filterDestinations);
+        sortFilter.addEventListener('change', filterDestinations);
     });
-    
-    function initDestinationsPage() {
-        // Create particles
-        createParticles();
-        
-        // Initialize destination data
-        initDestinationData();
-        
-        // Initialize modals
-        initModals();
-        
-        // Initialize event listeners
-        initEventListeners();
-        
-        // Initialize clock
-        initClock();
+
+    // Update current time
+    function updateCurrentTime() {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+        currentTimeElement.textContent = `${hours}:${minutes}:${seconds}`;
     }
-    
-    // Initialize clock
-    function initClock() {
-        const updateClock = () => {
-            const now = new Date();
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const seconds = now.getSeconds().toString().padStart(2, '0');
-            
-            document.getElementById('current-time').textContent = `${hours}:${minutes}:${seconds}`;
-        };
-        
-        // Update immediately and then every second
-        updateClock();
-        setInterval(updateClock, 1000);
-    }
-    
-    // Create particles for background
-    function createParticles() {
-        const container = document.getElementById('particles-container');
-        const particleCount = 15;
-        
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            
-            // Random size between 100px and 300px
-            const size = Math.random() * 200 + 100;
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            
-            // Random position
-            const posX = Math.random() * 100;
-            const posY = Math.random() * 100;
-            particle.style.left = `${posX}%`;
-            particle.style.top = `${posY}%`;
-            
-            // Random animation delay
-            const delay = Math.random() * 5;
-            particle.style.animationDelay = `${delay}s`;
-            
-            // Random animation duration
-            const duration = Math.random() * 10 + 10;
-            particle.style.animationDuration = `${duration}s`;
-            
-            // Add glow effect
-            const glowIntensity = Math.random() * 15 + 10;
-            particle.style.boxShadow = `0 0 ${glowIntensity}px rgba(59, 130, 246, 0.7)`;
-            
-            // Add color variation
-            const hue = Math.random() * 30 + 210; // Blue range
-            particle.style.background = `radial-gradient(circle at center, hsla(${hue}, 100%, 70%, 0.8) 0%, hsla(${hue}, 100%, 70%, 0) 70%)`;
-            
-            // Add size animation
-            const breatheDuration = Math.random() * 5 + 5;
-            particle.style.animation = `float 15s infinite ease-in-out, breathe ${breatheDuration}s infinite ease-in-out`;
-            
-            container.appendChild(particle);
-        }
-    }
-    
-    // Sample destination data
-    let destinations = [
-        {
-            id: 'dest-001',
-            name: 'Paris',
-            country: 'France',
-            region: 'Europe',
-            description: 'The City of Light, known for its stunning architecture, art museums, and romantic atmosphere. Home to iconic landmarks like the Eiffel Tower and Louvre Museum.',
-            image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=600&q=80',
-            rating: 4.8,
-            popularity: 95,
-            price: 'luxury',
-            featured: true
-        },
-        {
-            id: 'dest-002',
-            name: 'Bali',
-            country: 'Indonesia',
-            region: 'Asia',
-            description: 'A tropical paradise known for its lush landscapes, beautiful beaches, vibrant culture, and spiritual retreats. Perfect for relaxation and adventure.',
-            image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=600&q=80',
-            rating: 4.7,
-            popularity: 92,
-            price: 'moderate',
-            featured: true
-        },
-        {
-            id: 'dest-003',
-            name: 'Tokyo',
-            country: 'Japan',
-            region: 'Asia',
-            description: 'A fascinating blend of ultramodern and traditional, from neon-lit skyscrapers to historic temples. Known for its technology, cuisine, and unique culture.',
-            image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=600&q=80',
-            rating: 4.9,
-            popularity: 90,
-            price: 'luxury',
-            featured: true
-        },
-        {
-            id: 'dest-004',
-            name: 'New York City',
-            country: 'United States',
-            region: 'North America',
-            description: 'The Big Apple offers world-class dining, shopping, and entertainment. Visit iconic landmarks like Times Square, Central Park, and the Statue of Liberty.',
-            image: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=600&q=80',
-            rating: 4.6,
-            popularity: 88,
-            price: 'luxury',
-            featured: false
-        },
-        {
-            id: 'dest-005',
-            name: 'Rome',
-            country: 'Italy',
-            region: 'Europe',
-            description: 'The Eternal City is a living museum of ancient history, Renaissance art, and vibrant street life. Home to the Colosseum, Vatican City, and incredible cuisine.',
-            image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=600&q=80',
-            rating: 4.7,
-            popularity: 86,
-            price: 'moderate',
-            featured: true
-        },
-        {
-            id: 'dest-006',
-            name: 'Sydney',
-            country: 'Australia',
-            region: 'Oceania',
-            description: 'A stunning harbor city known for its iconic Opera House, beautiful beaches, and vibrant culture. Gateway to Australia\'s natural wonders.',
-            image: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=600&q=80',
-            rating: 4.5,
-            popularity: 82,
-            price: 'luxury',
-            featured: false
-        },
-        {
-            id: 'dest-007',
-            name: 'Santorini',
-            country: 'Greece',
-            region: 'Europe',
-            description: 'Famous for its stunning white-washed buildings with blue domes, dramatic cliffs, and breathtaking sunsets over the Aegean Sea.',
-            image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=600&q=80',
-            rating: 4.8,
-            popularity: 85,
-            price: 'luxury',
-            featured: true
-        },
-        {
-            id: 'dest-008',
-            name: 'Marrakech',
-            country: 'Morocco',
-            region: 'Africa',
-            description: 'A vibrant city known for its maze-like medina, colorful souks, stunning palaces, and rich cultural heritage. A feast for the senses.',
-            image: 'https://images.unsplash.com/photo-1597212618440-806262de4f6b?auto=format&fit=crop&w=600&q=80',
-            rating: 4.4,
-            popularity: 78,
-            price: 'moderate',
-            featured: false
-        },
-        {
-            id: 'dest-009',
-            name: 'Rio de Janeiro',
-            country: 'Brazil',
-            region: 'South America',
-            description: 'Famous for its stunning beaches, iconic Christ the Redeemer statue, vibrant carnival celebrations, and breathtaking mountain scenery.',
-            image: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=600&q=80',
-            rating: 4.5,
-            popularity: 80,
-            price: 'moderate',
-            featured: true
-        },
-        {
-            id: 'dest-010',
-            name: 'Bangkok',
-            country: 'Thailand',
-            region: 'Asia',
-            description: 'A bustling metropolis known for its ornate shrines, vibrant street life, delicious street food, and exciting nightlife. Gateway to Thailand\'s treasures.',
-            image: 'https://images.unsplash.com/photo-1508009603885-50cf7c8dd0d5?auto=format&fit=crop&w=600&q=80',
-            rating: 4.3,
-            popularity: 83,
-            price: 'budget',
-            featured: false
-        }
-    ];
-    
-    // Pagination variables
-    let currentPage = 1;
-    const itemsPerPage = 5;
-    let filteredDestinations = [...destinations];
-    
-    // Sorting variables
-    let currentSort = {
-        column: 'id',
-        direction: 'asc'
-    };
-    
-    // Initialize destination data
-    function initDestinationData() {
-        updateStats();
-        renderTable();
-        renderPagination();
-    }
-    
-    // Update stats
-    function updateStats() {
-        document.getElementById('total-destinations').textContent = destinations.length;
-        
-        const featuredCount = destinations.filter(dest => dest.featured).length;
-        document.getElementById('featured-destinations').textContent = featuredCount;
-        
-        const popularCount = destinations.filter(dest => dest.popularity >= 80).length;
-        document.getElementById('popular-destinations').textContent = popularCount;
-        
-        // For demo purposes, we'll just show a fixed number for new destinations
-        document.getElementById('new-destinations').textContent = 7;
-    }
-    
-    // Render table
-    function renderTable() {
-        const tableBody = document.getElementById('destinations-table-body');
-        tableBody.innerHTML = '';
-        
-        // Sort destinations
-        sortDestinations();
-        
-        // Get current page items
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const currentItems = filteredDestinations.slice(startIndex, endIndex);
-        
-        // Render table rows
-        currentItems.forEach(destination => {
-            const row = document.createElement('tr');
-            
-            // Format price display
-            let priceDisplay = '';
-            let priceClass = '';
-            if (destination.price === 'budget') {
-                priceDisplay = 'Budget ($)';
-                priceClass = 'budget';
-            } else if (destination.price === 'moderate') {
-                priceDisplay = 'Moderate ($$)';
-                priceClass = 'moderate';
-            } else if (destination.price === 'luxury') {
-                priceDisplay = 'Luxury ($$$)';
-                priceClass = 'luxury';
-            }
-            
-            // Create star rating
-            const stars = '★'.repeat(Math.floor(destination.rating)) + 
-                          (destination.rating % 1 >= 0.5 ? '½' : '') + 
-                          '☆'.repeat(5 - Math.ceil(destination.rating));
-            
-            row.innerHTML = `
-                <td>${destination.id}</td>
-                <td>
-                    <div class="destination-info">
-                        <img src="${destination.image}" alt="${destination.name}" class="destination-image-small">
-                        <div>
-                            <div class="destination-name">${destination.name}</div>
-                            <div class="destination-country">${destination.country}</div>
-                        </div>
-                    </div>
-                </td>
-                <td>${destination.region}</td>
-                <td><span class="price-badge ${priceClass}">${priceDisplay}</span></td>
-                <td><span class="rating-stars">${stars}</span> ${destination.rating.toFixed(1)}</td>
-                <td>${destination.popularity}/100</td>
-                <td>${destination.featured ? '<span class="featured-badge">Featured</span>' : 'No'}</td>
-                <td>
-                    <div class="row-actions">
-                        <button class="action-btn view" data-id="${destination.id}" title="View Details">👁️</button>
-                        <button class="action-btn edit" data-id="${destination.id}" title="Edit Destination">✏️</button>
-                        <button class="action-btn delete" data-id="${destination.id}" title="Delete Destination">🗑️</button>
-                    </div>
-                </td>
-            `;
-            
-            tableBody.appendChild(row);
-        });
-        
-        // Update pagination info
-        const totalItems = filteredDestinations.length;
-        const showingStart = totalItems === 0 ? 0 : startIndex + 1;
-        const showingEnd = Math.min(endIndex, totalItems);
-        
-        document.getElementById('showing-start').textContent = showingStart;
-        document.getElementById('showing-end').textContent = showingEnd;
-        document.getElementById('total-items').textContent = totalItems;
-        
-        // Add event listeners to action buttons
-        addActionButtonListeners();
-    }
-    
-    // Sort destinations
-    function sortDestinations() {
-        filteredDestinations.sort((a, b) => {
-            let valueA, valueB;
-            
-            switch (currentSort.column) {
-                case 'id':
-                    valueA = a.id;
-                    valueB = b.id;
-                    break;
-                case 'name':
-                    valueA = a.name;
-                    valueB = b.name;
-                    break;
-                case 'region':
-                    valueA = a.region;
-                    valueB = b.region;
-                    break;
-                case 'price':
-                    const priceValues = { 'budget': 1, 'moderate': 2, 'luxury': 3 };
-                    valueA = priceValues[a.price];
-                    valueB = priceValues[b.price];
-                    break;
-                case 'rating':
-                    valueA = a.rating;
-                    valueB = b.rating;
-                    break;
-                case 'popularity':
-                    valueA = a.popularity;
-                    valueB = b.popularity;
-                    break;
-                case 'featured':
-                    valueA = a.featured ? 1 : 0;
-                    valueB = b.featured ? 1 : 0;
-                    break;
-                default:
-                    valueA = a.id;
-                    valueB = b.id;
-            }
-            
-            if (currentSort.direction === 'asc') {
-                return valueA > valueB ? 1 : -1;
-            } else {
-                return valueA < valueB ? 1 : -1;
-            }
-        });
-    }
-    
-    // Render pagination
-    function renderPagination() {
-        const paginationControls = document.getElementById('pagination-controls');
-        paginationControls.innerHTML = '';
-        
-        const totalPages = Math.ceil(filteredDestinations.length / itemsPerPage);
-        
-        // Previous button
-        const prevButton = document.createElement('button');
-        prevButton.className = `pagination-btn ${currentPage === 1 ? 'disabled' : ''}`;
-        prevButton.innerHTML = '&lt;';
-        prevButton.disabled = currentPage === 1;
-        prevButton.addEventListener('click', () => {
-            if (currentPage > 1) {
-                currentPage--;
-                renderTable();
-                renderPagination();
-            }
-        });
-        paginationControls.appendChild(prevButton);
-        
-        // Page buttons
-        const maxButtons = 5;
-        const startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
-        const endPage = Math.min(totalPages, startPage + maxButtons - 1);
-        
-        for (let i = startPage; i <= endPage; i++) {
-            const pageButton = document.createElement('button');
-            pageButton.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
-            pageButton.textContent = i;
-            pageButton.addEventListener('click', () => {
-                currentPage = i;
-                renderTable();
-                renderPagination();
-            });
-            paginationControls.appendChild(pageButton);
-        }
-        
-        // Next button
-        const nextButton = document.createElement('button');
-        nextButton.className = `pagination-btn ${currentPage === totalPages ? 'disabled' : ''}`;
-        nextButton.innerHTML = '&gt;';
-        nextButton.disabled = currentPage === totalPages;
-        nextButton.addEventListener('click', () => {
-            if (currentPage < totalPages) {
-                currentPage++;
-                renderTable();
-                renderPagination();
-            }
-        });
-        paginationControls.appendChild(nextButton);
-    }
-    
-    // Initialize modals
-    function initModals() {
-        // Destination modal
-        const destinationModal = document.getElementById('destination-modal');
-        const destinationModalClose = document.getElementById('destination-modal-close');
-        const destinationModalCancel = document.getElementById('destination-modal-cancel');
-        
-        destinationModalClose.addEventListener('click', () => {
-            destinationModal.classList.remove('active');
-        });
-        
-        destinationModalCancel.addEventListener('click', () => {
-            destinationModal.classList.remove('active');
-        });
-        
-        // View destination modal
-        const viewDestinationModal = document.getElementById('view-destination-modal');
-        const viewDestinationModalClose = document.getElementById('view-destination-modal-close');
-        const viewDestinationModalCloseBtn = document.getElementById('view-destination-modal-close-btn');
-        
-        viewDestinationModalClose.addEventListener('click', () => {
-            viewDestinationModal.classList.remove('active');
-        });
-        
-        viewDestinationModalCloseBtn.addEventListener('click', () => {
-            viewDestinationModal.classList.remove('active');
-        });
-        
-        // Delete modal
-        const deleteModal = document.getElementById('delete-modal');
-        const deleteModalClose = document.getElementById('delete-modal-close');
-        const deleteModalCancel = document.getElementById('delete-modal-cancel');
-        
-        deleteModalClose.addEventListener('click', () => {
-            deleteModal.classList.remove('active');
-        });
-        
-        deleteModalCancel.addEventListener('click', () => {
-            deleteModal.classList.remove('active');
-        });
-    }
-    
-    // Initialize event listeners
-    function initEventListeners() {
-        // Add destination button
-        const addDestinationBtn = document.getElementById('add-destination-btn');
-        addDestinationBtn.addEventListener('click', () => {
-            openAddDestinationModal();
-        });
-        
-        // Save destination button
-        const saveDestinationBtn = document.getElementById('destination-modal-save');
-        saveDestinationBtn.addEventListener('click', () => {
-            saveDestination();
-        });
-        
-        // Delete destination confirmation
-        const deleteConfirmBtn = document.getElementById('delete-modal-confirm');
-        deleteConfirmBtn.addEventListener('click', () => {
-            const destinationId = deleteConfirmBtn.getAttribute('data-id');
-            deleteDestination(destinationId);
-        });
-        
-        // Edit from view modal
-        const viewDestinationEditBtn = document.getElementById('view-destination-edit-btn');
-        viewDestinationEditBtn.addEventListener('click', () => {
-            const destinationId = viewDestinationEditBtn.getAttribute('data-id');
-            document.getElementById('view-destination-modal').classList.remove('active');
-            openEditDestinationModal(destinationId);
-        });
-        
-        // Search input
-        const searchInput = document.getElementById('search-input');
-        searchInput.addEventListener('input', () => {
-            searchDestinations(searchInput.value);
-        });
-        
-        // Filter controls
-        const regionFilter = document.getElementById('region-filter');
-        const priceFilter = document.getElementById('price-filter');
-        const featuredFilter = document.getElementById('featured-filter');
-        const sortFilter = document.getElementById('sort-filter');
-        
-        regionFilter.addEventListener('change', applyFilters);
-        priceFilter.addEventListener('change', applyFilters);
-        featuredFilter.addEventListener('change', applyFilters);
-        sortFilter.addEventListener('change', applyFilters);
-        
-        // Table header sorting
-        const tableHeaders = document.querySelectorAll('.destinations-table th[data-sort]');
-        tableHeaders.forEach(header => {
-            header.addEventListener('click', () => {
-                const column = header.getAttribute('data-sort');
-                
-                // Update sort direction
-                if (currentSort.column === column) {
-                    currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+
+    // Load all destinations
+    function loadDestinations() {
+        showLoading();
+
+        fetch(`${API_BASE_URL}/getAll`)
+            .then(response => response.json())
+            .then(data => {
+                hideLoading();
+                if (data.statusCode === 200 && data.data) {
+                    destinations = data.data;
+                    totalDestinationsElement.textContent = destinations.length;
+                    populateLocationFilter(destinations);
+                    renderDestinations(destinations);
                 } else {
-                    currentSort.column = column;
-                    currentSort.direction = 'asc';
+                    showToast('error', 'Failed to load destinations: ' + data.message);
                 }
-                
-                // Update header classes
-                tableHeaders.forEach(h => h.classList.remove('sorted', 'desc'));
-                header.classList.add('sorted');
-                if (currentSort.direction === 'desc') {
-                    header.classList.add('desc');
-                }
-                
-                // Re-render table
-                renderTable();
+            })
+            .catch(error => {
+                hideLoading();
+                showToast('error', 'Error loading destinations: ' + error.message);
+                console.error('Error loading destinations:', error);
             });
-        });
-        
-        // Export button
-        const exportBtn = document.getElementById('export-btn');
-        exportBtn.addEventListener('click', () => {
-            exportDestinations();
-        });
     }
-    
-    // Add event listeners to action buttons
-    function addActionButtonListeners() {
-        // View buttons
-        const viewButtons = document.querySelectorAll('.action-btn.view');
-        viewButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const destinationId = button.getAttribute('data-id');
-                openViewDestinationModal(destinationId);
-            });
-        });
-        
-        // Edit buttons
-        const editButtons = document.querySelectorAll('.action-btn.edit');
-        editButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const destinationId = button.getAttribute('data-id');
-                openEditDestinationModal(destinationId);
-            });
-        });
-        
-        // Delete buttons
-        const deleteButtons = document.querySelectorAll('.action-btn.delete');
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const destinationId = button.getAttribute('data-id');
-                openDeleteConfirmationModal(destinationId);
-            });
-        });
-    }
-    
-    // Open add destination modal
-    function openAddDestinationModal() {
-        // Reset form
-        document.getElementById('destination-form').reset();
-        document.getElementById('destination-id').value = '';
-        
-        // Set modal title
-        document.getElementById('destination-modal-title').textContent = 'Add New Destination';
-        
-        // Show modal
-        document.getElementById('destination-modal').classList.add('active');
-    }
-    
-    // Open edit destination modal
-    function openEditDestinationModal(destinationId) {
-        // Find destination
-        const destination = destinations.find(d => d.id === destinationId);
-        
-        if (destination) {
-            // Set form values
-            document.getElementById('destination-id').value = destination.id;
-            document.getElementById('destination-name').value = destination.name;
-            document.getElementById('destination-country').value = destination.country;
-            document.getElementById('destination-region').value = destination.region;
-            document.getElementById('destination-price').value = destination.price;
-            document.getElementById('destination-rating').value = destination.rating;
-            document.getElementById('destination-popularity').value = destination.popularity;
-            document.getElementById('destination-image').value = destination.image;
-            document.getElementById('destination-description').value = destination.description;
-            document.getElementById('destination-featured').checked = destination.featured;
-            
-            // Set modal title
-            document.getElementById('destination-modal-title').textContent = `Edit Destination: ${destination.name}`;
-            
-            // Show modal
-            document.getElementById('destination-modal').classList.add('active');
-        }
-    }
-    
-    // Open view destination modal
-    function openViewDestinationModal(destinationId) {
-        // Find destination
-        const destination = destinations.find(d => d.id === destinationId);
-        
-        if (destination) {
-            // Format price display
-            let priceDisplay = '';
-            if (destination.price === 'budget') {
-                priceDisplay = 'Budget ($)';
-            } else if (destination.price === 'moderate') {
-                priceDisplay = 'Moderate ($$)';
-            } else if (destination.price === 'luxury') {
-                priceDisplay = 'Luxury ($$$)';
+
+    // Populate location filter with unique locations
+    function populateLocationFilter(destinations) {
+        uniqueLocations.clear();
+        destinations.forEach(destination => {
+            if (destination.location) {
+                uniqueLocations.add(destination.location);
             }
-            
-            // Create star rating
-            const stars = '★'.repeat(Math.floor(destination.rating)) + 
-                          (destination.rating % 1 >= 0.5 ? '½' : '') + 
-                          '☆'.repeat(5 - Math.ceil(destination.rating));
-            
-            // Populate destination details
-            const destinationDetails = document.getElementById('destination-details');
-            destinationDetails.innerHTML = `
-                <div style="grid-column: span 2; margin-bottom: 1rem;">
-                    <img src="${destination.image}" alt="${destination.name}" style="width: 100%; height: 200px; object-fit: cover; border-radius: var(--border-radius);">
-                </div>
-                <div class="detail-group">
-                    <div class="detail-label">Destination Name</div>
-                    <div class="detail-value">${destination.name}</div>
-                </div>
-                <div class="detail-group">
-                    <div class="detail-label">Country</div>
-                    <div class="detail-value">${destination.country}</div>
-                </div>
-                <div class="detail-group">
-                    <div class="detail-label">Region</div>
-                    <div class="detail-value">${destination.region}</div>
-                </div>
-                <div class="detail-group">
-                    <div class="detail-label">Price Range</div>
-                    <div class="detail-value">${priceDisplay}</div>
-                </div>
-                <div class="detail-group">
-                    <div class="detail-label">Rating</div>
-                    <div class="detail-value">${stars} (${destination.rating.toFixed(1)})</div>
-                </div>
-                <div class="detail-group">
-                    <div class="detail-label">Popularity</div>
-                    <div class="detail-value">${destination.popularity}/100</div>
-                </div>
-                <div class="detail-group">
-                    <div class="detail-label">Featured</div>
-                    <div class="detail-value">${destination.featured ? 'Yes' : 'No'}</div>
-                </div>
-                <div class="detail-group detail-description">
-                    <div class="detail-label">Description</div>
-                    <div class="detail-value">${destination.description}</div>
-                </div>
-            `;
-            
-            // Set destination ID for edit button
-            document.getElementById('view-destination-edit-btn').setAttribute('data-id', destination.id);
-            
-            // Show modal
-            document.getElementById('view-destination-modal').classList.add('active');
+        });
+
+        // Clear existing options except the first one
+        while (locationFilter.options.length > 1) {
+            locationFilter.remove(1);
         }
+
+        // Add new options
+        uniqueLocations.forEach(location => {
+            const option = document.createElement('option');
+            option.value = location;
+            option.textContent = location;
+            locationFilter.appendChild(option);
+        });
     }
-    
-    // Open delete confirmation modal
-    function openDeleteConfirmationModal(destinationId) {
-        // Set destination ID for delete button
-        document.getElementById('delete-modal-confirm').setAttribute('data-id', destinationId);
-        
-        // Show modal
-        document.getElementById('delete-modal').classList.add('active');
-    }
-    
-    // Save destination
-    function saveDestination() {
-        // Get form values
-        const destinationId = document.getElementById('destination-id').value;
-        const name = document.getElementById('destination-name').value;
-        const country = document.getElementById('destination-country').value;
-        const region = document.getElementById('destination-region').value;
-        const price = document.getElementById('destination-price').value;
-        const rating = parseFloat(document.getElementById('destination-rating').value);
-        const popularity = parseInt(document.getElementById('destination-popularity').value);
-        const image = document.getElementById('destination-image').value;
-        const description = document.getElementById('destination-description').value;
-        const featured = document.getElementById('destination-featured').checked;
-        
-        // Validate form
-        if (!name || !country || !region || !price || !rating || !popularity || !image || !description) {
-            alert('Please fill in all required fields');
+
+    // Render destinations in the table
+    function renderDestinations(destinations) {
+        destinationsTableBody.innerHTML = '';
+
+        if (destinations.length === 0) {
+            tableFooter.textContent = 'No destinations found';
             return;
         }
-        
-        // Create destination object
-        const destinationData = {
-            name,
-            country,
-            region,
-            price,
-            rating,
-            popularity,
-            image,
-            description,
-            featured
-        };
-        
-        if (destinationId) {
-            // Update existing destination
-            const index = destinations.findIndex(d => d.id === destinationId);
-            if (index !== -1) {
-                destinationData.id = destinationId;
-                destinations[index] = destinationData;
-            }
-        } else {
-            // Add new destination
-            const newId = `dest-${(destinations.length + 1).toString().padStart(3, '0')}`;
-            destinationData.id = newId;
-            destinations.push(destinationData);
-        }
-        
-        // Update filtered destinations
-        applyFilters();
-        
-        // Update UI
-        updateStats();
-        
-        // Close modal
-        document.getElementById('destination-modal').classList.remove('active');
-        
-        // Show success message
-        showNotification(destinationId ? 'Destination updated successfully' : 'New destination added successfully');
+
+        destinations.forEach(destination => {
+            const row = document.createElement('tr');
+
+            row.innerHTML = `
+                    <td>${destination.id}</td>
+                    <td><img src="${destination.imageURL || '/placeholder.svg?height=40&width=60'}" class="table-image" alt="${destination.name}"></td>
+                    <td>${destination.name}</td>
+                    <td>${truncateText(destination.description, 50)}</td>
+                    <td>${destination.location}</td>
+                    <td>${formatCategory(destination.cateogary)}</td>
+                    <td>
+                        <div class="table-actions">
+                            <div class="action-icon edit" data-id="${destination.id}">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <div class="action-icon delete" data-id="${destination.id}">
+                                <i class="fas fa-trash"></i>
+                            </div>
+                        </div>
+                    </td>
+                `;
+
+            destinationsTableBody.appendChild(row);
+        });
+
+        // Add event listeners to action buttons
+        document.querySelectorAll('.action-icon.edit').forEach(btn => {
+            btn.addEventListener('click', () => openEditDestinationModal(btn.dataset.id));
+        });
+
+        document.querySelectorAll('.action-icon.delete').forEach(btn => {
+            btn.addEventListener('click', () => openDeleteModal(btn.dataset.id));
+        });
+
+        tableFooter.textContent = `Showing ${destinations.length} of ${destinations.length} destinations`;
     }
-    
-    // Delete destination
-    function deleteDestination(destinationId) {
-        // Remove destination from array
-        destinations = destinations.filter(d => d.id !== destinationId);
-        
-        // Update filtered destinations
-        applyFilters();
-        
-        // Update UI
-        updateStats();
-        
-        // Close modal
-        document.getElementById('delete-modal').classList.remove('active');
-        
-        // Show success message
-        showNotification('Destination deleted successfully');
-    }
-    
-    // Search destinations
-    function searchDestinations(query) {
-        if (!query) {
-            applyFilters();
-        } else {
-            query = query.toLowerCase();
-            
-            // First apply other filters
-            applyFilters(false);
-            
-            // Then apply search filter
-            filteredDestinations = filteredDestinations.filter(destination => 
-                destination.name.toLowerCase().includes(query) ||
-                destination.country.toLowerCase().includes(query) ||
-                destination.region.toLowerCase().includes(query) ||
-                destination.description.toLowerCase().includes(query)
+
+    // Filter destinations based on search, category, and location
+    function filterDestinations() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const categoryValue = categoryFilter.value;
+        const locationValue = locationFilter.value;
+        const sortValue = sortFilter.value;
+
+        let filtered = [...destinations];
+
+        // Apply search filter
+        if (searchTerm) {
+            filtered = filtered.filter(dest =>
+                dest.name.toLowerCase().includes(searchTerm) ||
+                dest.description.toLowerCase().includes(searchTerm) ||
+                dest.location.toLowerCase().includes(searchTerm)
             );
-            
-            // Reset to first page
-            currentPage = 1;
-            
-            renderTable();
-            renderPagination();
         }
-    }
-    
-    // Apply filters
-    function applyFilters(render = true) {
-        const regionFilter = document.getElementById('region-filter').value;
-        const priceFilter = document.getElementById('price-filter').value;
-        const featuredFilter = document.getElementById('featured-filter').value;
-        
-        // Apply filters
-        filteredDestinations = destinations.filter(destination => {
-            // Region filter
-            if (regionFilter && destination.region !== regionFilter) {
-                return false;
-            }
-            
-            // Price filter
-            if (priceFilter && destination.price !== priceFilter) {
-                return false;
-            }
-            
-            // Featured filter
-            if (featuredFilter === 'true' && !destination.featured) {
-                return false;
-            } else if (featuredFilter === 'false' && destination.featured) {
-                return false;
-            }
-            
-            return true;
-        });
-        
-        // Reset to first page
-        currentPage = 1;
-        
-        if (render) {
-            renderTable();
-            renderPagination();
+
+        // Apply category filter
+        if (categoryValue) {
+            filtered = filtered.filter(dest => dest.cateogary === categoryValue);
         }
-    }
-    
-    // Export destinations
-    function exportDestinations() {
-        // Create CSV content
-        let csvContent = 'ID,Name,Country,Region,Description,Price Range,Rating,Popularity,Featured\n';
-        
-        filteredDestinations.forEach(destination => {
-            csvContent += `${destination.id},`;
-            csvContent += `"${destination.name}",`;
-            csvContent += `"${destination.country}",`;
-            csvContent += `"${destination.region}",`;
-            csvContent += `"${destination.description.replace(/"/g, '""')}",`;
-            csvContent += `"${destination.price}",`;
-            csvContent += `${destination.rating},`;
-            csvContent += `${destination.popularity},`;
-            csvContent += `${destination.featured}\n`;
+
+        // Apply location filter
+        if (locationValue) {
+            filtered = filtered.filter(dest => dest.location === locationValue);
+        }
+
+        // Apply sorting
+        filtered.sort((a, b) => {
+            switch (sortValue) {
+                case 'name':
+                    return a.name.localeCompare(b.name);
+                case 'name_desc':
+                    return b.name.localeCompare(a.name);
+                case 'id':
+                    return a.id - b.id;
+                case 'id_desc':
+                    return b.id - a.id;
+                default:
+                    return 0;
+            }
         });
-        
-        // Create download link
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.setAttribute('href', url);
-        link.setAttribute('download', 'ns_travel_destinations.csv');
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        // Show success message
-        showNotification('Destinations exported successfully');
+
+        renderDestinations(filtered);
     }
-    
-    // Show notification
-    function showNotification(message) {
-        // Create notification element
-        const notification = document.createElement('div');
-        notification.className = 'notification';
-        notification.textContent = message;
-        
-        // Add to document
-        document.body.appendChild(notification);
-        
-        // Show notification
+
+    // Open add destination modal
+    function openAddDestinationModal() {
+        document.getElementById('modalTitle').textContent = 'Add New Destination';
+        destinationForm.reset();
+        document.getElementById('destinationId').value = '';
+        currentDestinationId = null;
+        openModal('destinationModal');
+    }
+
+    // Open edit destination modal
+    function openEditDestinationModal(id) {
+        showLoading();
+
+        fetch(`${API_BASE_URL}/getById/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                hideLoading();
+                if (data.statusCode === 200 && data.data) {
+                    const destination = data.data;
+                    document.getElementById('modalTitle').textContent = 'Edit Destination';
+                    document.getElementById('destinationId').value = destination.id;
+                    document.getElementById('destinationName').value = destination.name;
+                    document.getElementById('destinationDescription').value = destination.description;
+                    document.getElementById('destinationLocation').value = destination.location;
+                    document.getElementById('destinationImageURL').value = destination.imageURL;
+                    document.getElementById('destinationCategory').value = destination.cateogary;
+
+                    currentDestinationId = destination.id;
+                    openModal('destinationModal');
+                } else {
+                    showToast('error', 'Failed to load destination: ' + data.message);
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showToast('error', 'Error loading destination: ' + error.message);
+                console.error('Error loading destination:', error);
+            });
+    }
+
+    // Save destination (create or update)
+    function saveDestination() {
+        if (!destinationForm.checkValidity()) {
+            destinationForm.reportValidity();
+            return;
+        }
+
+        const formData = new FormData(destinationForm);
+        const destination = {
+            id: formData.get('id') || null,
+            name: formData.get('name'),
+            description: formData.get('description'),
+            location: formData.get('location'),
+            imageURL: formData.get('imageURL'),
+            cateogary: formData.get('cateogary')
+        };
+
+        showLoading();
+
+        const isUpdate = destination.id !== null;
+        const url = isUpdate ? `${API_BASE_URL}/updateDestination` : `${API_BASE_URL}/addDestination`;
+        const method = isUpdate ? 'PUT' : 'POST';
+
+        fetch(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(destination)
+        })
+            .then(response => response.json())
+            .then(data => {
+                hideLoading();
+                if (data.statusCode === 200 || data.statusCode === 201) {
+                    showToast('success', isUpdate ? 'Destination updated successfully' : 'Destination added successfully');
+                    closeModal('destinationModal');
+                    loadDestinations();
+                } else {
+                    showToast('error', 'Failed to save destination: ' + data.message);
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showToast('error', 'Error saving destination: ' + error.message);
+                console.error('Error saving destination:', error);
+            });
+    }
+
+    // Open delete confirmation modal
+    function openDeleteModal(id) {
+        currentDestinationId = id;
+        openModal('deleteModal');
+    }
+
+    // Delete destination
+    function deleteDestination() {
+        if (!currentDestinationId) return;
+
+        showLoading();
+
+        fetch(`${API_BASE_URL}/deleteDestination/${currentDestinationId}`, {
+            method: 'DELETE'
+        })
+            .then(response => response.json())
+            .then(data => {
+                hideLoading();
+                if (data.statusCode === 200) {
+                    showToast('success', 'Destination deleted successfully');
+                    closeModal('deleteModal');
+                    loadDestinations();
+                } else {
+                    showToast('error', 'Failed to delete destination: ' + data.message);
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showToast('error', 'Error deleting destination: ' + error.message);
+                console.error('Error deleting destination:', error);
+            });
+    }
+
+    // Modal functionality
+    function openModal(modalId) {
+        document.getElementById(modalId).style.display = 'flex';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    // Show loading spinner
+    function showLoading() {
+        document.getElementById('loadingSpinner').style.display = 'flex';
+    }
+
+    // Hide loading spinner
+    function hideLoading() {
+        document.getElementById('loadingSpinner').style.display = 'none';
+    }
+
+    // Show toast notification
+    function showToast(type, message) {
+        const toastContainer = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+
+        let icon = '';
+        switch (type) {
+            case 'success':
+                icon = '<i class="fas fa-check-circle toast-icon success"></i>';
+                break;
+            case 'error':
+                icon = '<i class="fas fa-exclamation-circle toast-icon error"></i>';
+                break;
+            case 'info':
+                icon = '<i class="fas fa-info-circle toast-icon info"></i>';
+                break;
+        }
+
+        toast.innerHTML = `
+                <div class="toast-content">
+                    ${icon}
+                    <div>${message}</div>
+                </div>
+                <button class="toast-close"><i class="fas fa-times"></i></button>
+            `;
+
+        toastContainer.appendChild(toast);
+
+        // Add event listener to close button
+        toast.querySelector('.toast-close').addEventListener('click', () => {
+            toast.remove();
+        });
+
+        // Auto remove after 5 seconds
         setTimeout(() => {
-            notification.style.opacity = '1';
-            notification.style.transform = 'translateY(0)';
-        }, 10);
-        
-        // Hide and remove after delay
-        setTimeout(() => {
-            notification.style.opacity = '0';
-            notification.style.transform = 'translateY(20px)';
-            
-            setTimeout(() => {
-                document.body.removeChild(notification);
-            }, 300);
-        }, 3000);
+            toast.remove();
+        }, 5000);
+    }
+
+    // Helper function to truncate text
+    function truncateText(text, maxLength) {
+        if (!text) return '';
+        return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+    }
+
+    // Helper function to format category
+    function formatCategory(category) {
+        if (!category) return '';
+        return category.charAt(0) + category.slice(1).toLowerCase();
     }
 </script>
+
 </body>
 </html>
