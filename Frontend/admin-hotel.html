@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Hotel Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <style>
         /* Reset and Base Styles */
         * {
@@ -1047,116 +1051,186 @@
 </div>
 
 <script>
-    // Current Date
-    const dateElement = document.getElementById('current-date');
-    const now = new Date();
-    dateElement.textContent = now.toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-    });
 
-    // Modal Functionality
-    const modal = document.getElementById('add-hotel-modal');
-    const addHotelBtn = document.getElementById('add-hotel-btn');
-    const closeModal = document.getElementById('close-modal');
-    const cancelBtn = document.getElementById('cancel-btn');
-    const saveHotelBtn = document.getElementById('save-hotel-btn');
+    $(document).ready(function () {
+        function loadHotels() {
+            $.ajax({
+                url: 'http://localhost:8080/api/hotels/getAll',
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    console.log("GET /api/hotels/getAll => ", response);
 
-    addHotelBtn.addEventListener('click', () => {
-        modal.style.display = 'flex';
-    });
-
-    closeModal.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
-
-    cancelBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
-
-    saveHotelBtn.addEventListener('click', () => {
-        // This would normally save the hotel, but we're just closing the modal
-        modal.style.display = 'none';
-        // Show a success message
-        alert('Hotel added successfully!');
-    });
-
-    // Close modal when clicking outside
-    window.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
-
-    // Calmer Animated Background with More Circles
-    function createBubbles() {
-        const background = document.getElementById('animated-bg');
-
-        // Array of blue shades for the bubbles
-        const colors = [
-            'rgba(0, 50, 150, 0.05)',
-            'rgba(0, 70, 180, 0.07)',
-            'rgba(30, 100, 200, 0.06)',
-            'rgba(50, 120, 220, 0.08)',
-            'rgba(70, 140, 240, 0.05)',
-            'rgba(0, 80, 190, 0.04)',
-            'rgba(20, 90, 210, 0.06)'
-        ];
-
-        // Create more bubbles (60 instead of 50)
-        for (let i = 0; i < 60; i++) {
-            const bubble = document.createElement('div');
-            bubble.classList.add('bubble');
-
-            // Random properties
-            const size = Math.random() * 300 + 50; // Larger size range
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            const left = Math.random() * 100;
-
-            // Slower animation for a calmer effect
-            const animationDuration = Math.random() * 30 + 20; // 20-50s
-            const animationDelay = Math.random() * 15; // More varied delays
-
-            // Apply styles
-            bubble.style.width = `${size}px`;
-            bubble.style.height = `${size}px`;
-            bubble.style.backgroundColor = color;
-            bubble.style.boxShadow = `0 0 ${size/10}px ${color}`;
-            bubble.style.left = `${left}%`;
-            bubble.style.animationDuration = `${animationDuration}s`;
-            bubble.style.animationDelay = `${animationDelay}s`;
-
-            background.appendChild(bubble);
+                    if (response.status === 200 && Array.isArray(response.data)) {
+                        var hotels = response.data;
+                        var tableBody = "";
+                        hotels.forEach(function(hotel) {
+                            tableBody += `
+                            <tr>
+                                <td>${hotel.id}</td>
+                                <td>${hotel.name}</td>
+                                <td>${hotel.location}</td>
+                                <td>${hotel.description}</td>
+                                <td>${hotel.contactInfo}</td>
+                                <td>${hotel.pricePerNight}</td>
+                                <td>${hotel.rating}</td>
+                                <td>
+                                    <button class="btn btn-outline update-hotel-btn" data-id="${hotel.id}">Edit</button>
+                                    <button class="btn btn-outline delete-hotel-btn" data-id="${hotel.id}">Delete</button>
+                                </td>
+                            </tr>`;
+                        });
+                        $('.hotel-table tbody').html(tableBody);
+                    } else {
+                        $('.hotel-table tbody').html('<tr><td colspan="8">No hotels found</td></tr>');
+                    }
+                },
+                error: function(xhr) {
+                    console.error("Error fetching hotels:", xhr.responseText);
+                }
+            });
         }
 
-        // Add some larger, slower background circles
-        for (let i = 0; i < 15; i++) {
-            const largeBubble = document.createElement('div');
-            largeBubble.classList.add('bubble');
+        loadHotels();
 
-            const size = Math.random() * 500 + 300; // Very large circles
-            const color = 'rgba(0, 30, 100, 0.03)'; // Very subtle color
-            const left = Math.random() * 100;
+        $('#add-hotel-btn').on('click', function () {
+            $('#add-hotel-modal').show();
+        });
 
-            // Very slow animation
-            const animationDuration = Math.random() * 40 + 40; // 40-80s
-            const animationDelay = Math.random() * 20;
+        $('#close-modal, #cancel-btn').on('click', function () {
+            $('#add-hotel-modal').hide();
+            $('#add-hotel-form')[0].reset();
+        });
 
-            // Apply styles
-            largeBubble.style.width = `${size}px`;
-            largeBubble.style.height = `${size}px`;
-            largeBubble.style.backgroundColor = color;
-            largeBubble.style.left = `${left}%`;
-            largeBubble.style.animationDuration = `${animationDuration}s`;
-            largeBubble.style.animationDelay = `${animationDelay}s`;
+        $('#save-hotel-btn').on('click', function (e) {
+            e.preventDefault();
+            var hotelData = {
+                name: $('#hotel-name').val(),
+                location: $('#hotel-location').val(),
+                description: $('#hotel-description').val(),
+                contactInfo: $('#hotel-contact').val(),
+                pricePerNight: parseFloat($('#hotel-price').val()),
+                rating: parseFloat($('#hotel-rating').val())
+            };
+            $.ajax({
+                url: 'http://localhost:8080/api/hotels/addHotel',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(hotelData),
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status === 201) {
+                        alert("Hotel added successfully!");
+                        $('#add-hotel-modal').hide();
+                        loadHotels();
+                    }
+                },
+                error: function (xhr) {
+                    alert("Error adding hotel: " + xhr.responseText);
+                }
+            });
+        });
 
-            background.appendChild(largeBubble);
+        $(document).on('click', '.delete-hotel-btn', function () {
+            var hotelId = $(this).data('id');
+            if (confirm("Are you sure you want to delete this hotel?")) {
+                $.ajax({
+                    url: 'http://localhost:8080/api/hotels/deleteHotel/' + hotelId,
+                    type: 'DELETE',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status === 200) {
+                            alert("Hotel deleted successfully!");
+                            loadHotels();
+                        }
+                    }
+                });
+            }
+        });
+
+        $(document).on('click', '.update-hotel-btn', function () {
+            var hotelId = $(this).data('id');
+            $.ajax({
+                url: 'http://localhost:8080/api/hotels/getById/' + hotelId,
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status === 200 && response.data) {
+                        var hotel = response.data;
+                        $('#update-hotel-name').val(hotel.name);
+                        $('#update-hotel-location').val(hotel.location);
+                        $('#update-hotel-description').val(hotel.description);
+                        $('#update-hotel-contact').val(hotel.contactInfo);
+                        $('#update-hotel-price').val(hotel.pricePerNight);
+                        $('#update-hotel-rating').val(hotel.rating);
+                        $('#save-update-hotel-btn').data('id', hotelId);
+                        $('#update-hotel-modal').show();
+                    }
+                }
+            });
+        });
+
+        $('#save-update-hotel-btn').on('click', function (e) {
+            e.preventDefault();
+            var hotelId = $(this).data('id');
+            var hotelData = {
+                id: hotelId,
+                name: $('#update-hotel-name').val(),
+                location: $('#update-hotel-location').val(),
+                description: $('#update-hotel-description').val(),
+                contactInfo: $('#update-hotel-contact').val(),
+                pricePerNight: parseFloat($('#update-hotel-price').val()),
+                rating: parseFloat($('#update-hotel-rating').val())
+            };
+            $.ajax({
+                url: 'http://localhost:8080/api/hotels/updateHotel',
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(hotelData),
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status === 200) {
+                        alert("Hotel updated successfully!");
+                        $('#update-hotel-modal').hide();
+                        loadHotels();
+                    }
+                }
+            });
+        });
+
+        $('#close-update-modal, #cancel-update-btn').on('click', function () {
+            $('#update-hotel-modal').hide();
+        });
+
+        const dateElement = document.getElementById('current-date');
+        const now = new Date();
+        dateElement.textContent = now.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+
+        $('#add-hotel-btn').on('click', () => $('#add-hotel-modal').show());
+        $('#close-modal, #cancel-btn').on('click', () => $('#add-hotel-modal').hide());
+
+        window.addEventListener('click', (e) => {
+            if (e.target === $('#add-hotel-modal')[0]) {
+                $('#add-hotel-modal').hide();
+            }
+        });
+
+        function createBubbles() {
+            const background = document.getElementById('animated-bg');
+            for (let i = 0; i < 60; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                background.appendChild(bubble);
+            }
         }
-    }
 
-    // Initialize bubbles
-    createBubbles();
+        createBubbles();
+    });
+
 </script>
 </body>
 </html>

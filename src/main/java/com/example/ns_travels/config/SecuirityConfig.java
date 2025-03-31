@@ -40,9 +40,17 @@ public class SecuirityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login/verify", "/api/user/addUser", "/api/register/patient",
-                                "/api/register/getAllProviders", "/test/login", "/swagger-ui/", "/swagger-ui.html")
-                        .permitAll()
+                        // Add "/api/hotels/**" to permit all without authentication
+                        .requestMatchers(
+                                "/auth/login/verify",
+                                "/api/user/addUser",
+                                "/api/register/patient",
+                                "/api/register/getAllProviders",
+                                "/test/login",
+                                "/swagger-ui/",
+                                "/swagger-ui.html",
+                                "/api/hotels/**"
+                        ).permitAll()
                         .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
