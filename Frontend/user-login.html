@@ -193,194 +193,130 @@
     </div>
     
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Theme Toggle
-        const themeToggle = document.getElementById("theme-toggle");
-        const htmlElement = document.documentElement;
-        
-        // Check for saved theme preference or use system preference
-        const savedTheme = localStorage.getItem("theme");
-        const systemPrefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-        
-        // Set initial theme
-        if (savedTheme === "dark" || (!savedTheme && systemPrefersDark)) {
-            htmlElement.classList.add("dark-mode");
-        }
-        
-        // Toggle theme when button is clicked
-        if (themeToggle) {
-            themeToggle.addEventListener("click", function () {
-                htmlElement.classList.toggle("dark-mode");
-                
-                // Save theme preference
-                if (htmlElement.classList.contains("dark-mode")) {
-                    localStorage.setItem("theme", "dark");
-                } else {
-                    localStorage.setItem("theme", "light");
-                }
-            });
-        }
-
-        // Password Toggle
-        const togglePasswordButtons = document.querySelectorAll(".toggle-password");
-
-        togglePasswordButtons.forEach((button) => {
-            button.addEventListener("click", function () {
-                const input = this.previousElementSibling;
-                const eyeIcon = this.querySelector(".eye-icon");
-                const eyeOffIcon = this.querySelector(".eye-off-icon");
-
-                if (input.type === "password") {
-                    input.type = "text";
-                    eyeIcon.style.display = "none";
-                    eyeOffIcon.style.display = "block";
-                } else {
-                    input.type = "password";
-                    eyeIcon.style.display = "block";
-                    eyeOffIcon.style.display = "none";
-                }
-            });
-        });
-
-// Form Validation and AJAX Login
-
         document.addEventListener("DOMContentLoaded", function () {
-            const userLoginForm = document.getElementById("userLoginForm");
+            // Theme Toggle
+            const themeToggle = document.getElementById("theme-toggle");
+            const htmlElement = document.documentElement;
 
+            const savedTheme = localStorage.getItem("theme");
+            const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+            if (savedTheme === "dark" || (!savedTheme && systemPrefersDark)) {
+                htmlElement.classList.add("dark-mode");
+            }
+
+            if (themeToggle) {
+                themeToggle.addEventListener("click", function () {
+                    htmlElement.classList.toggle("dark-mode");
+                    localStorage.setItem("theme", htmlElement.classList.contains("dark-mode") ? "dark" : "light");
+                });
+            }
+
+            // Password Toggle
+            document.querySelectorAll(".toggle-password").forEach(button => {
+                button.addEventListener("click", function () {
+                    const input = this.previousElementSibling;
+                    if (input) {
+                        input.type = input.type === "password" ? "text" : "password";
+                        this.classList.toggle("active");
+                    }
+                });
+            });
+
+            // Form Validation and AJAX Login
+            const userLoginForm = document.getElementById("userLoginForm");
             if (userLoginForm) {
-                userLoginForm.addEventListener("submit", function (e) {
+                userLoginForm.addEventListener("submit", async function (e) {
                     e.preventDefault();
 
-                    const usernameInput = document.getElementById("userUsername");
+                    const usernameInput = document.getElementById("userName");
                     const passwordInput = document.getElementById("userPassword");
-                    const usernameError = document.getElementById("userUsernameError");
+                    const usernameError = document.getElementById("userEmailError");
                     const passwordError = document.getElementById("userPasswordError");
 
-                    // Reset errors
-                    usernameError.textContent = "";
-                    passwordError.textContent = "";
+                    if (usernameError) usernameError.textContent = "";
+                    if (passwordError) passwordError.textContent = "";
 
                     let isValid = true;
-
-                    // Username validation
                     if (!usernameInput.value.trim()) {
-                        usernameError.textContent = "Username is required";
+                        if (usernameError) usernameError.textContent = "Username is required";
                         isValid = false;
                     }
-
-                    // Password validation
                     if (!passwordInput.value.trim()) {
-                        passwordError.textContent = "Password is required";
+                        if (passwordError) passwordError.textContent = "Password is required";
                         isValid = false;
                     }
 
-                    if (isValid) {
-                        // Show loading state by adding the 'loading' class to the submit button
-                        const btnSubmit = this.querySelector(".btn-submit");
-                        btnSubmit.classList.add("loading");
+                    if (!isValid) return;
 
-                        // Prepare login data
-                        const loginData = {
-                            username: usernameInput.value.trim(),
-                            password: passwordInput.value.trim(),
-                            role: "USER" // Adjust role as necessary
-                        };
+                    const btnSubmit = this.querySelector(".btn-submit");
+                    btnSubmit.classList.add("loading");
 
-                        // Send AJAX request using Fetch API
-                        fetch("http://localhost:8080/auth/login/verify", {
+                    try {
+                        const response = await fetch("http://localhost:8080/auth/login/verify", {
                             method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(loginData)
-                        })
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error("Invalid username or password");
-                                }
-                                return response.json();
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                username: usernameInput.value.trim(),
+                                password: passwordInput.value.trim(),
+                                role: "USER"
                             })
-                            .then(data => {
-                                // If a token is received, store it and redirect to the user dashboard
-                                if (data.token) {
-                                    localStorage.setItem("jwtToken", data.token);
-                                    window.location.href = "index.html";
-                                } else {
-                                    // If authentication fails, display an error message
-                                    usernameError.textContent = data.message || "Login failed";
-                                }
-                            })
-                            .catch(error => {
-                                passwordError.textContent = error.message;
-                            })
-                            .finally(() => {
-                                // Remove the loading state
-                                btnSubmit.classList.remove("loading");
-                            });
+                        });
+
+                        if (!response.ok) {
+                            throw new Error("Invalid username or password");
+                        }
+
+                        const data = await response.json();
+                        if (data.token) {
+                            localStorage.setItem("jwtToken", data.token);
+                            window.location.href = "index.html";
+                        } else {
+                            if (usernameError) usernameError.textContent = data.message || "Login failed";
+                        }
+                    } catch (error) {
+                        if (passwordError) passwordError.textContent = error.message;
+                    } finally {
+                        btnSubmit.classList.remove("loading");
                     }
                 });
             }
+
+            // Ripple Effect on Buttons
+            document.querySelectorAll(".btn-submit, .social-btn").forEach(button => {
+                button.addEventListener("click", function (e) {
+                    const ripple = document.createElement("span");
+                    ripple.classList.add("ripple");
+                    ripple.style.left = `${e.clientX - this.getBoundingClientRect().left}px`;
+                    ripple.style.top = `${e.clientY - this.getBoundingClientRect().top}px`;
+                    this.appendChild(ripple);
+                    setTimeout(() => ripple.remove(), 600);
+                });
+            });
+
+            // Input Focus Effects
+            document.querySelectorAll("input").forEach(input => {
+                input.addEventListener("focus", () => input.parentElement.classList.add("input-focused"));
+                input.addEventListener("blur", () => input.parentElement.classList.remove("input-focused"));
+            });
+
+            // Light Effects
+            document.querySelectorAll(".light-ray").forEach((ray, index) => {
+                ray.style.animationDelay = `${index * 2}s`;
+            });
+            document.querySelectorAll(".light-glow").forEach((glow, index) => {
+                glow.style.animationDelay = `${index * 3}s`;
+            });
+
+            // Floating Elements
+            document.querySelectorAll(".float-element").forEach(element => {
+                const randomX = Math.random() * 20 - 10;
+                const randomY = Math.random() * 20 - 10;
+                element.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            });
         });
 
 
-
-        // Add ripple effect to buttons
-        const buttons = document.querySelectorAll(".btn-submit, .social-btn");
-        
-        buttons.forEach((button) => {
-            button.addEventListener("click", function (e) {
-                const rect = this.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const ripple = document.createElement("span");
-                ripple.classList.add("ripple");
-                ripple.style.left = `${x}px`;
-                ripple.style.top = `${y}px`;
-                
-                this.appendChild(ripple);
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
-            });
-        });
-        
-        // Add input focus effects
-        const inputs = document.querySelectorAll("input");
-        
-        inputs.forEach((input) => {
-            input.addEventListener("focus", function () {
-                this.parentElement.classList.add("input-focused");
-            });
-            
-            input.addEventListener("blur", function () {
-                this.parentElement.classList.remove("input-focused");
-            });
-        });
-        
-        // Add light ray animation
-        const lightRays = document.querySelectorAll(".light-ray");
-        lightRays.forEach((ray, index) => {
-            ray.style.animationDelay = `${index * 2}s`;
-        });
-        
-        // Add glow pulse animation
-        const lightGlows = document.querySelectorAll(".light-glow");
-        lightGlows.forEach((glow, index) => {
-            glow.style.animationDelay = `${index * 3}s`;
-        });
-        
-        // Floating elements animation
-        const floatingElements = document.querySelectorAll(".float-element");
-        
-        floatingElements.forEach((element) => {
-            // Add random initial position
-            const randomX = Math.random() * 20 - 10;
-            const randomY = Math.random() * 20 - 10;
-            element.style.transform = `translate(${randomX}px, ${randomY}px)`;
-        });
-    });
     </script>
 </body>
 </html>

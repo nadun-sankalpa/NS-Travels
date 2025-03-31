@@ -27,28 +27,28 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecuirityConfig {
+
     @Autowired
     private UserDetailsService userDetailsService;
+
     @Autowired
     private JwtFilter jwtFilter;
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-
-        return httpSecurity.csrf(AbstractHttpConfigurer::disable)
+        return httpSecurity
+                .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login/verify","/api/register/user","/api/register/patient","/api/register/getAllProviders","/test/login","/swagger-ui/",
-                                "/swagger-ui.html").permitAll()
+                        .requestMatchers("/auth/login/verify", "/api/user/addUser", "/api/register/patient",
+                                "/api/register/getAllProviders", "/test/login", "/swagger-ui/", "/swagger-ui.html")
+                        .permitAll()
                         .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
-
-
     }
 
     @Bean
@@ -58,32 +58,29 @@ public class SecuirityConfig {
         provider.setUserDetailsService(userDetailsService);
         return provider;
     }
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user1 = User.withDefaultPasswordEncoder().username("user").password("1234").build();
-//
-//        return  new InMemoryUserDetailsManager(user1);
-//    }
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:63342")); // adjust to your allowed origins
+        // Set the allowed origin to match your client app
+        configuration.setAllowedOrigins(List.of("http://localhost:63342"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/", configuration);
+        // Register configuration for all endpoints
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 }

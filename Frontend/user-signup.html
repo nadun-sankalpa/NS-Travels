@@ -55,30 +55,26 @@
                         <h1 class="auth-title">Create Account</h1>
                         <p class="auth-subtitle">Join us to discover amazing travel experiences</p>
                     </div>
-                    
+
                     <form class="auth-form" id="signupForm">
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="username">Username</label> <!-- Changed ID -->
+                                <label for="username">Username</label>
                                 <div class="input-wrapper">
-                                    <input type="text" id="username" placeholder="John" required> <!-- Fixed ID -->
+                                    <input type="text" id="username" placeholder="John" required>
                                 </div>
-                                <div class="error-message" id="usernameError"></div>
+                                <div class="error-message" id="usernameError"></div> <!-- Correct ID -->
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="Role">Role</label>
                                 <div class="input-wrapper">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="12" cy="7" r="4"></circle>
-                                    </svg>
-                                    <input type="text" id="Role" placeholder="Doe" required>
+                                    <input type="text" id="Role" placeholder="John" required>
                                 </div>
                                 <div class="error-message" id="roleError"></div>
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="signupEmail">Email Address</label>
                             <div class="input-wrapper">
@@ -230,128 +226,144 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const signupForm = document.getElementById('signupForm');
+            if (!signupForm) {
+                console.error("Signup form not found in the DOM.");
+                return;
+            }
 
-            if (signupForm) {
-                signupForm.addEventListener('submit', async function(e) {
-                    e.preventDefault();
+            signupForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
 
-                    // Form elements - Fixed ID references
-                    const elements = {
-                        inputs: {
-                            username: document.getElementById('userName'), // Fixed ID reference
-                            role: document.getElementById('Role'),
-                            email: document.getElementById('signupEmail'),
-                            password: document.getElementById('signupPassword'),
-                            termsAgree: document.getElementById('termsAgree')
-                        },
-                        errors: {
-                            username: document.getElementById('userNameError'), // Match DTO field
-                            role: document.getElementById('roleError'),
-                            email: document.getElementById('signupEmailError'),
-                            password: document.getElementById('signupPasswordError'),
-                            terms: document.getElementById('termsError')
-                        }
-                    };
+                // Retrieve input elements (note: no role element needed)
+                const usernameInput = document.getElementById('username');
+                const emailInput = document.getElementById('signupEmail');
+                const passwordInput = document.getElementById('signupPassword');
+                const termsAgreeInput = document.getElementById('termsAgree');
 
-                    // Clear errors
-                    Object.values(elements.errors).forEach(el => el.textContent = '');
+                // Retrieve error display elements
+                const usernameError = document.getElementById('usernameError');
+                const emailError = document.getElementById('signupEmailError');
+                const passwordError = document.getElementById('signupPasswordError');
+                const termsError = document.getElementById('termsError');
 
-                    // Validation logic
-                    let isValid = true;
+                // Clear previous error messages
+                if (usernameError) usernameError.textContent = '';
+                if (emailError) emailError.textContent = '';
+                if (passwordError) passwordError.textContent = '';
+                if (termsError) termsError.textContent = '';
 
-                    // Username validation
-                    if (!elements.inputs.username.value.trim()) {
-                        elements.errors.username.textContent = 'Username is required';
-                        isValid = false;
+                // Validation logic
+                let isValid = true;
+
+                if (!usernameInput || !usernameInput.value.trim()) {
+                    if (usernameError) {
+                        usernameError.textContent = 'Username is required';
                     }
+                    isValid = false;
+                }
 
-                    // Role validation
-                    if (!elements.inputs.role.value.trim()) {
-                        elements.errors.role.textContent = 'Role is required';
-                        isValid = false;
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailInput || !emailInput.value.trim()) {
+                    if (emailError) {
+                        emailError.textContent = 'Email is required';
                     }
-
-                    // Email validation
-                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    if (!elements.inputs.email.value.trim()) {
-                        elements.errors.email.textContent = 'Email is required';
-                        isValid = false;
-                    } else if (!emailRegex.test(elements.inputs.email.value.trim())) {
-                        elements.errors.email.textContent = 'Invalid email format';
-                        isValid = false;
+                    isValid = false;
+                } else if (!emailRegex.test(emailInput.value.trim())) {
+                    if (emailError) {
+                        emailError.textContent = 'Invalid email format';
                     }
+                    isValid = false;
+                }
 
-                    // Password validation
-                    if (!elements.inputs.password.value) {
-                        elements.errors.password.textContent = 'Password is required';
-                        isValid = false;
-                    } else if (elements.inputs.password.value.length < 8) {
-                        elements.errors.password.textContent = 'Password must be at least 8 characters';
-                        isValid = false;
+                if (!passwordInput || !passwordInput.value) {
+                    if (passwordError) {
+                        passwordError.textContent = 'Password is required';
                     }
-
-                    // Terms validation
-                    if (!elements.inputs.termsAgree.checked) {
-                        elements.errors.terms.textContent = 'You must agree to the terms';
-                        isValid = false;
+                    isValid = false;
+                } else if (passwordInput.value.length < 8) {
+                    if (passwordError) {
+                        passwordError.textContent = 'Password must be at least 8 characters';
                     }
+                    isValid = false;
+                }
 
-                    if (!isValid) return;
+                if (!termsAgreeInput || !termsAgreeInput.checked) {
+                    if (termsError) {
+                        termsError.textContent = 'You must agree to the terms';
+                    }
+                    isValid = false;
+                }
 
-                    // Prepare payload - Fixed field names
-                    const payload = {
-                        username: elements.inputs.username.value.trim(), // Match DTO field
-                        role: elements.inputs.role.value.trim(),
-                        email: elements.inputs.email.value.trim(),
-                        password: elements.inputs.password.value
-                    };
+                if (!isValid) return;
 
-                    // Submit button - Fixed selector
-                    const submitBtn = this.querySelector('.btn-submit'); // Changed to class selector
+                // Prepare payload with a fixed role value "user"
+                const payload = {
+                    username: usernameInput ? usernameInput.value.trim() : "",
+                    role: "user",
+                    email: emailInput ? emailInput.value.trim() : "",
+                    password: passwordInput ? passwordInput.value : ""
+                };
+
+                const submitBtn = this.querySelector('.btn-submit');
+                if (submitBtn) {
                     submitBtn.disabled = true;
                     submitBtn.classList.add('loading');
+                }
 
+                try {
+                    const response = await fetch('http://localhost:8080/api/user/addUser', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        credentials: 'include',
+                        body: JSON.stringify(payload)
+                    });
+
+                    let data = {};
                     try {
-                        const response = await fetch('http://localhost:8080/api/user/addUser', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-Requested-With': 'XMLHttpRequest'
-                            },
-                            credentials: 'include',
-                            body: JSON.stringify(payload)
-                        });
+                        data = await response.json();
+                    } catch (err) {
+                        console.error('Error parsing JSON:', err);
+                    }
 
-                        const responseText = await response.text();
-                        const data = responseText ? JSON.parse(responseText) : {};
-
-                        if (!response.ok) {
-                            // Handle field-specific errors
-                            if (data.errors) {
-                                Object.entries(data.errors).forEach(([field, message]) => {
-                                    if (elements.errors[field]) {
-                                        elements.errors[field].textContent = message;
-                                    }
-                                });
-                                throw new Error('Please fix the form errors');
-                            }
-                            throw new Error(data.message || `HTTP Error ${response.status}`);
+                    if (!response.ok) {
+                        if (data.errors) {
+                            Object.entries(data.errors).forEach(([field, message]) => {
+                                if (field === 'username' && usernameError) {
+                                    usernameError.textContent = message;
+                                }
+                                if (field === 'email' && emailError) {
+                                    emailError.textContent = message;
+                                }
+                                if (field === 'password' && passwordError) {
+                                    passwordError.textContent = message;
+                                }
+                            });
+                            throw new Error('Please fix the form errors');
                         }
+                        throw new Error(data.message || `HTTP Error ${response.status}`);
+                    }
 
-                        window.location.href = 'user-login.html';
-                    } catch (error) {
-                        console.error('Signup Failed:', error);
-                        // Show general error if no field-specific errors
-                        if (!elements.errors.terms.textContent) {
-                            elements.errors.terms.textContent = error.message;
-                        }
-                    } finally {
+                    window.location.href = 'user-login.html';
+                } catch (error) {
+                    console.error('Signup Failed:', error);
+                    if (termsError && !termsError.textContent) {
+                        termsError.textContent = error.message;
+                    }
+                } finally {
+                    if (submitBtn) {
                         submitBtn.disabled = false;
                         submitBtn.classList.remove('loading');
                     }
-                });
-            }
+                }
+            });
         });
+
+
+
+
     </script>
     
     <script src="js/auth-colorful.js"></script>

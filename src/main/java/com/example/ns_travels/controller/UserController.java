@@ -4,7 +4,7 @@ import com.example.ns_travels.dto.UserDTO;
 import com.example.ns_travels.service.JWTService;
 import com.example.ns_travels.service.UserService;
 import com.example.ns_travels.util.ResponseUtil;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest; // Change to javax.servlet.http.HttpServletRequest if needed
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     private final UserService userService;
@@ -31,18 +32,21 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new ResponseUtil(401, "Unauthorized", null));
         }
-
-        String token = authHeader.substring(7);
-        String username = jwtService.extractUsername(token);
-        UserDTO userDTO = userService.getUserByEmail(username);
-
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new ResponseUtil(200, "User fetched successfully", userDTO));
+        try {
+            String token = authHeader.substring(7);
+            String username = jwtService.extractUsername(token);
+            UserDTO userDTO = userService.getUserByEmail(username);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseUtil(200, "User fetched successfully", userDTO));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseUtil(500, e.getMessage(), null));
+        }
     }
 
     // Get user by ID
     @GetMapping("/getById/{id}")
-    public ResponseEntity<ResponseUtil> getUserById(@PathVariable Long id) {
+    public ResponseEntity<ResponseUtil> getUserById(@PathVariable("id") Long id) {
         try {
             UserDTO userDTO = userService.getUserById(id);
             return ResponseEntity.status(HttpStatus.OK)
@@ -68,7 +72,7 @@ public class UserController {
 
     // Get users by role
     @GetMapping("/getByRole/{role}")
-    public ResponseEntity<ResponseUtil> getUsersByRole(@PathVariable String role) {
+    public ResponseEntity<ResponseUtil> getUsersByRole(@PathVariable("role") String role) {
         try {
             List<UserDTO> users = userService.getUsersByRole(role);
             return ResponseEntity.status(HttpStatus.OK)
@@ -81,7 +85,7 @@ public class UserController {
 
     // Get user by email
     @GetMapping("/getByEmail/{email}")
-    public ResponseEntity<ResponseUtil> getUserByEmail(@PathVariable String email) {
+    public ResponseEntity<ResponseUtil> getUserByEmail(@PathVariable("email") String email) {
         try {
             UserDTO userDTO = userService.getUserByEmail(email);
             return ResponseEntity.status(HttpStatus.OK)
@@ -120,7 +124,7 @@ public class UserController {
 
     // Delete user
     @DeleteMapping("/deleteUser/{id}")
-    public ResponseEntity<ResponseUtil> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<ResponseUtil> deleteUser(@PathVariable("id") Long id) {
         try {
             userService.delete(id);
             return ResponseEntity.status(HttpStatus.OK)
