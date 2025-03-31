@@ -1059,13 +1059,16 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    console.log("GET /api/hotels/getAll => ", response);
+                    console.log("GET /api/hotels/getAll => ", response); // Debugging
 
-                    if (response.status === 200 && Array.isArray(response.data)) {
+                    // ✅ Fix: Use response.code instead of response.status
+                    if (response.code === 200 && Array.isArray(response.data)) {
                         var hotels = response.data;
                         var tableBody = "";
-                        hotels.forEach(function(hotel) {
-                            tableBody += `
+
+                        if (hotels.length > 0) {
+                            hotels.forEach(function(hotel) {
+                                tableBody += `
                             <tr>
                                 <td>${hotel.id}</td>
                                 <td>${hotel.name}</td>
@@ -1079,17 +1082,22 @@
                                     <button class="btn btn-outline delete-hotel-btn" data-id="${hotel.id}">Delete</button>
                                 </td>
                             </tr>`;
-                        });
-                        $('.hotel-table tbody').html(tableBody);
+                            });
+                            $('.table tbody').html(tableBody);
+                        } else {
+                            $('.table tbody').html('<tr><td colspan="8" class="text-center">No hotels found</td></tr>');
+                        }
                     } else {
-                        $('.hotel-table tbody').html('<tr><td colspan="8">No hotels found</td></tr>');
+                        alert("Error fetching hotels: " + response.message);
                     }
                 },
-                error: function(xhr) {
+                error: function(xhr, status, error) {
                     console.error("Error fetching hotels:", xhr.responseText);
                 }
             });
         }
+
+
 
         loadHotels();
 
