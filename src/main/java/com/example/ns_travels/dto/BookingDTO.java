@@ -1,96 +1,112 @@
 package com.example.ns_travels.dto;
 
-import lombok.*;
-
 import java.time.LocalDate;
 
 public class BookingDTO {
+
     private Long id;
-    private Long userId;
-    private Long hotelId;
-    private LocalDate checkInDate;
-    private LocalDate checkOutDate;
-    private double totalPrice;
-    private String status;
+    private String fullName;
+    private String emailAddress;
+    private String phoneNumber;
+    private String chosenPackage;
+    private LocalDate travelDate;
+    private int numberOfGuests;
+    private String additionalRequests;
 
-    public BookingDTO() {}
-
-    public BookingDTO(Long id, Long userId, Long hotelId, LocalDate checkInDate, LocalDate checkOutDate, double totalPrice, String status) {
-        this.id = id;
-        this.userId = userId;
-        this.hotelId = hotelId;
-        this.checkInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
-        this.totalPrice = totalPrice;
-        this.status = status;
+    // Default constructor
+    public BookingDTO() {
     }
+
+    // Parameterized constructor
+    public BookingDTO(Long id, String fullName, String emailAddress, String phoneNumber,
+                      String chosenPackage, LocalDate travelDate, int numberOfGuests, String additionalRequests) {
+        this.id = id;
+        this.fullName = fullName;
+        this.emailAddress = emailAddress;
+        this.phoneNumber = phoneNumber;
+        this.chosenPackage = chosenPackage;
+        this.travelDate = travelDate;
+        this.numberOfGuests = numberOfGuests;
+        this.additionalRequests = additionalRequests;
+    }
+
+    // Getters and Setters
 
     public Long getId() {
         return id;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public Long getHotelId() {
-        return hotelId;
-    }
-
-    public LocalDate getCheckInDate() {
-        return checkInDate;
-    }
-
-    public LocalDate getCheckOutDate() {
-        return checkOutDate;
-    }
-
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public String getStatus() {
-        return status;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setHotelId(Long hotelId) {
-        this.hotelId = hotelId;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public void setCheckInDate(LocalDate checkInDate) {
-        this.checkInDate = checkInDate;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
-    public void setCheckOutDate(LocalDate checkOutDate) {
-        this.checkOutDate = checkOutDate;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getChosenPackage() {
+        return chosenPackage;
+    }
+
+    public void setChosenPackage(String chosenPackage) {
+        this.chosenPackage = chosenPackage;
+    }
+
+    public LocalDate getTravelDate() {
+        return travelDate;
+    }
+
+    public void setTravelDate(LocalDate travelDate) {
+        this.travelDate = travelDate;
+    }
+
+    public int getNumberOfGuests() {
+        return numberOfGuests;
+    }
+
+    public void setNumberOfGuests(int numberOfGuests) {
+        this.numberOfGuests = numberOfGuests;
+    }
+
+    public String getAdditionalRequests() {
+        return additionalRequests;
+    }
+
+    public void setAdditionalRequests(String additionalRequests) {
+        this.additionalRequests = additionalRequests;
     }
 
     @Override
     public String toString() {
         return "BookingDTO{" +
                 "id=" + id +
-                ", userId=" + userId +
-                ", hotelId=" + hotelId +
-                ", checkInDate=" + checkInDate +
-                ", checkOutDate=" + checkOutDate +
-                ", totalPrice=" + totalPrice +
-                ", status='" + status + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", chosenPackage='" + chosenPackage + '\'' +
+                ", travelDate=" + travelDate +
+                ", numberOfGuests=" + numberOfGuests +
+                ", additionalRequests='" + additionalRequests + '\'' +
                 '}';
     }
 }

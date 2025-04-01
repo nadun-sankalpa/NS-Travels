@@ -1,686 +1,852 @@
 <!DOCTYPE html>
-<html lang="en" class="light-mode">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Your Trip - Wanderlust Travel</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/book-now.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+  <title>NS Travels - Book Your Dream Vacation</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Reset and Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+      background-color: #000;
+    }
+
+    /* Background Image with Overlay */
+    .bg-image {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.6;
+      z-index: -2;
+    }
+
+    /* Dark Overlay */
+    .bg-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8));
+      z-index: -1;
+    }
+
+    /* Animated Elements */
+    .animated-element {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(59, 130, 246, 0.1);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      position: relative;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      margin-bottom: 30px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background-color: #3b82f6;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+    }
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-link {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #3b82f6;
+      transition: width 0.3s;
+    }
+
+    .nav-link:hover {
+      color: #3b82f6;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-link.active {
+      color: #3b82f6;
+    }
+
+    .nav-link.active::after {
+      width: 100%;
+    }
+
+    .book-now-btn {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .book-now-btn:hover {
+      background-color: #2563eb;
+    }
+
+    /* Page Title */
+    .page-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .page-title h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #fff;
+    }
+
+    .page-title p {
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Booking Progress */
+    .booking-progress {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 50px;
+    }
+
+    .progress-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      width: 200px;
+    }
+
+    .progress-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 25px;
+      right: -50%;
+      width: 100%;
+      height: 2px;
+      background-color: rgba(255, 255, 255, 0.2);
+      z-index: -1;
+    }
+
+    .step-number {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      margin-bottom: 10px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s;
+    }
+
+    .step-number.active {
+      background-color: #3b82f6;
+      border-color: #3b82f6;
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+    }
+
+    .step-label {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .step-label.active {
+      color: #3b82f6;
+      font-weight: 600;
+    }
+
+    /* Booking Section */
+    .booking-section {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    /* Form Styles */
+    .booking-form {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 30px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .form-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 25px;
+      color: #fff;
+      position: relative;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .form-label .field-type {
+      color: #ff6b00;
+      font-size: 12px;
+      margin-left: 5px;
+      font-style: italic;
+    }
+
+    .form-input,
+    .form-select {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 5px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+
+    .form-input:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+    }
+
+    .form-input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+
+    .btn {
+      padding: 12px 25px;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      background-color: #3b82f6;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #2563eb;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+    }
+
+    .btn-outline:hover {
+      border-color: #3b82f6;
+      color: #3b82f6;
+    }
+
+    .btn i {
+      margin-right: 8px;
+    }
+
+    /* Booking Summary */
+    .booking-summary {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      height: fit-content;
+    }
+
+    .summary-header {
+      background-color: rgba(59, 130, 246, 0.2);
+      padding: 15px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .summary-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .summary-content {
+      padding: 20px;
+    }
+
+    .summary-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .summary-item i {
+      width: 20px;
+      color: #3b82f6;
+      margin-right: 10px;
+    }
+
+    .summary-item-label {
+      width: 120px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .summary-item-value {
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+    }
+
+    .summary-total {
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .total-label {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .total-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: #3b82f6;
+    }
+
+    .summary-actions {
+      margin-top: 20px;
+    }
+
+    .summary-actions .btn {
+      width: 100%;
+    }
+
+    /* Status Badge */
+    .status-badge {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .status-CONFIRMED {
+      background-color: rgba(16, 185, 129, 0.2);
+      color: #10b981;
+    }
+
+    .status-CANCELED {
+      background-color: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+    }
+
+    /* Field Info */
+    .field-info {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: rgba(59, 130, 246, 0.1);
+      border-radius: 5px;
+      border-left: 3px solid #3b82f6;
+    }
+
+    .field-info h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .field-info-item {
+      display: flex;
+      margin-bottom: 5px;
+    }
+
+    .field-info-label {
+      width: 120px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .field-info-value {
+      font-size: 14px;
+      color: #ff6b00;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .booking-section {
+        grid-template-columns: 1fr;
+      }
+
+      .booking-progress {
+        overflow-x: auto;
+        padding-bottom: 10px;
+      }
+
+      .progress-step {
+        width: 150px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .page-title h1 {
+        font-size: 36px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <!-- Preloader -->
-  <div class="preloader">
-    <div class="preloader-spinner"></div>
-  </div>
+<!-- Background Image with Overlay -->
+<div class="bg-image"></div>
+<div class="bg-overlay"></div>
 
-  <!-- Cursor -->
-  <div class="cursor"></div>
-  <div class="cursor-follower"></div>
-
+<div class="container">
   <!-- Header -->
   <header class="header">
-    <div class="container">
-      <div class="header-inner">
-        <div class="logo">
-          <a href="index.html" class="logo-link">
-            <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-              <circle cx="12" cy="10" r="3"></circle>
-            </svg>
-            <span>Wanderlust</span>
-          </a>
-        </div>
-        <nav class="nav">
-          <ul class="nav-list">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="original-destinations.html">Destinations</a></li>
-            <li><a href="guides.html">Travel Guides</a></li>
-            <li><a href="universities.html">Universities</a></li>
-            <li><a href="job-vacancies.html">Jobs</a></li>
-            <li><a href="vehicle-rentals.html" class="active">Vehicle Rentals</a></li>
-          </ul>
-        </nav>
-        <div class="header-actions">
-          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
-            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="5"></circle>
-              <line x1="12" y1="1" x2="12" y2="3"></line>
-              <line x1="12" y1="21" x2="12" y2="23"></line>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-              <line x1="1" y1="12" x2="3" y2="12"></line>
-              <line x1="21" y1="12" x2="23" y2="12"></line>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </svg>
-            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-          </button>
-          <button class="btn btn-outline">Sign In</button>
-          <button class="btn btn-primary">Book Now</button>
-          <button class="menu-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-        </div>
-      </div>
+    <div class="logo">
+      <div class="logo-icon">NS</div>
+      <div class="logo-text">NS Travels</div>
     </div>
+    <nav class="nav-links">
+      <a href="#" class="nav-link">Home</a>
+      <a href="#" class="nav-link">Destinations</a>
+      <a href="#" class="nav-link">Travel Guides</a>
+      <a href="#" class="nav-link active">Booking</a>
+      <a href="#" class="nav-link">Contact</a>
+    </nav>
+    <button class="book-now-btn">Book Now</button>
   </header>
 
-  <!-- Mobile Menu -->
-  <div class="mobile-menu">
-    <div class="mobile-menu-inner">
-      <ul class="mobile-nav-list">
-        <li class="mobile-nav-item"><a href="index.html" class="mobile-nav-link">Home</a></li>
-        <li class="mobile-nav-item"><a href="destinations.html" class="mobile-nav-link">Destinations</a></li>
-        <li class="mobile-nav-item"><a href="index.html#packages" class="mobile-nav-link">Packages</a></li>
-        <li class="mobile-nav-item"><a href="index.html#about" class="mobile-nav-link">About</a></li>
-        <li class="mobile-nav-item"><a href="index.html#testimonials" class="mobile-nav-link">Testimonials</a></li>
-        <li class="mobile-nav-item"><a href="index.html#contact" class="mobile-nav-link">Contact</a></li>
-      </ul>
-      <div class="mobile-menu-footer">
-        <div class="social-links">
-          <a href="#" class="social-link">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-            </svg>
-          </a>
-          <a href="#" class="social-link">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-            </svg>
-          </a>
-          <a href="#" class="social-link">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-            </svg>
-          </a>
+  <!-- Page Title -->
+  <div class="page-title">
+    <h1>Book Your Dream Vacation</h1>
+    <p>Complete your booking in a few simple steps</p>
+  </div>
+
+  <!-- Booking Progress -->
+  <div class="booking-progress">
+    <div class="progress-step">
+      <div class="step-number active">1</div>
+      <div class="step-label active">Trip Details</div>
+    </div>
+    <div class="progress-step">
+      <div class="step-number">2</div>
+      <div class="step-label">Traveler Information</div>
+    </div>
+    <div class="progress-step">
+      <div class="step-number">3</div>
+      <div class="step-label">Payment</div>
+    </div>
+    <div class="progress-step">
+      <div class="step-number">4</div>
+      <div class="step-label">Confirmation</div>
+    </div>
+  </div>
+
+  <!-- Booking Section -->
+  <div class="booking-section">
+    <!-- Booking Form -->
+    <div class="booking-form">
+      <h2 class="form-title">Booking Details</h2>
+      <form id="booking-form">
+        <!-- Hidden ID field (auto increment) -->
+        <input type="hidden" id="booking-id" name="id">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="check-in-date">
+              Check-in Date <span class="field-type"></span>
+            </label>
+            <input type="date" id="check-in-date" name="check_in_date" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="check-out-date">
+              Check-out Date <span class="field-type"></span>
+            </label>
+            <input type="date" id="check-out-date" name="check_out_date" class="form-input" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="status">
+            Status <span class="field-type"></span>
+          </label>
+          <select id="status" name="status" class="form-select" required>
+            <option value="CONFIRMED" selected>CONFIRMED</option>
+            <option value="CANCELED">CANCELED</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="total-price">
+            Total Price <span class="field-type"></span>
+          </label>
+          <input type="number" id="total-price" name="total_price" class="form-input" step="0.01" min="0" placeholder="0.00" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="hotel-id">
+              Hotel ID <span class="field-type"></span>
+            </label>
+            <input type="number" id="hotel-id" name="hotel_id" class="form-input" min="1" placeholder="Enter hotel ID" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="user-id">
+              User ID <span class="field-type"></span>
+            </label>
+            <input type="number" id="user-id" name="user_id" class="form-input" min="1" placeholder="Enter user ID" required>
+          </div>
+        </div>
+
+
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline">
+            <i class="fas fa-times"></i> Cancel
+          </button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-check"></i> Confirm Booking
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Booking Summary -->
+    <div class="booking-summary">
+      <div class="summary-header">
+        <h2 class="summary-title">Booking Summary</h2>
+      </div>
+      <div class="summary-content">
+        <div class="summary-item">
+          <i class="fas fa-calendar-alt"></i>
+          <div class="summary-item-label">Check-in Date</div>
+          <div class="summary-item-value" id="summary-check-in">--</div>
+        </div>
+
+        <div class="summary-item">
+          <i class="fas fa-calendar-alt"></i>
+          <div class="summary-item-label">Check-out Date</div>
+          <div class="summary-item-value" id="summary-check-out">--</div>
+        </div>
+
+        <div class="summary-item">
+          <i class="fas fa-clock"></i>
+          <div class="summary-item-label">Duration</div>
+          <div class="summary-item-value" id="summary-duration">--</div>
+        </div>
+
+        <div class="summary-item">
+          <i class="fas fa-tag"></i>
+          <div class="summary-item-label">Status</div>
+          <div class="summary-item-value" id="summary-status">
+            <span class="status-badge status-CONFIRMED">CONFIRMED</span>
+          </div>
+        </div>
+
+        <div class="summary-item">
+          <i class="fas fa-hotel"></i>
+          <div class="summary-item-label">Hotel ID</div>
+          <div class="summary-item-value" id="summary-hotel-id">--</div>
+        </div>
+
+        <div class="summary-item">
+          <i class="fas fa-user"></i>
+          <div class="summary-item-label">User ID</div>
+          <div class="summary-item-value" id="summary-user-id">--</div>
+        </div>
+
+        <div class="summary-total">
+          <div class="total-label">Total Price</div>
+          <div class="total-value" id="summary-total-price">$0.00</div>
+        </div>
+
+        <div class="summary-actions">
+          <button class="btn btn-primary">
+            <i class="fas fa-credit-card"></i> Proceed to Payment
+          </button>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Rest of the HTML remains the same -->
-  <!-- Main Content -->
-  <main>
-    <!-- Booking Hero Section -->
-    <section class="booking-hero">
-      <div class="booking-hero-bg">
-        <div class="booking-hero-overlay"></div>
-      </div>
-      <div class="container">
-        <div class="booking-hero-content">
-          <h1 class="booking-hero-title split-text">Book Your Dream Vacation</h1>
-          <p class="booking-hero-subtitle">Complete your booking in a few simple steps</p>
-        </div>
-      </div>
-    </section>
+<script>
+  // Create animated background elements
+  function createAnimatedElements() {
+    const container = document.querySelector('.container');
 
-    <!-- Booking Process -->
-    <section class="booking-process">
-      <div class="container">
-        <div class="booking-steps">
-          <div class="booking-step active">
-            <div class="step-number">1</div>
-            <div class="step-label">Trip Details</div>
-          </div>
-          <div class="step-connector"></div>
-          <div class="booking-step">
-            <div class="step-number">2</div>
-            <div class="step-label">Traveler Information</div>
-          </div>
-          <div class="step-connector"></div>
-          <div class="booking-step">
-            <div class="step-number">3</div>
-            <div class="step-label">Payment</div>
-          </div>
-          <div class="step-connector"></div>
-          <div class="booking-step">
-            <div class="step-number">4</div>
-            <div class="step-label">Confirmation</div>
-          </div>
-        </div>
-      </div>
-    </section>
+    for (let i = 0; i < 5; i++) {
+      const element = document.createElement('div');
+      element.classList.add('animated-element');
 
-    <!-- Booking Content -->
-    <section class="booking-content">
-      <div class="container">
-        <div class="booking-layout">
-          <!-- Booking Form -->
-          <div class="booking-form-container">
-            <form id="bookingForm" class="booking-form">
-              <div class="form-section" data-aos="fade-up">
-                <h2 class="section-title">Trip Details</h2>
-                
-                <div class="form-group">
-                  <label for="destination">Destination</label>
-                  <select id="destination" required>
-                    <option value="">Select a destination</option>
-                    <option value="santorini" selected>Santorini, Greece</option>
-                    <option value="bali">Bali, Indonesia</option>
-                    <option value="maldives">Maldives, South Asia</option>
-                    <option value="paris">Paris, France</option>
-                    <option value="tokyo">Tokyo, Japan</option>
-                    <option value="newyork">New York, USA</option>
-                  </select>
-                </div>
-                
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="departure-date">Departure Date</label>
-                    <input type="date" id="departure-date" required min="2023-01-01">
-                  </div>
-                  <div class="form-group">
-                    <label for="return-date">Return Date</label>
-                    <input type="date" id="return-date" required min="2023-01-01">
-                  </div>
-                </div>
-                
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="adults">Adults</label>
-                    <select id="adults" required>
-                      <option value="1">1</option>
-                      <option value="2" selected>2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="children">Children</label>
-                    <select id="children">
-                      <option value="0" selected>0</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                    </select>
-                  </div>
-                </div>
-                
-                <div class="form-group">
-                  <label for="room-type">Room Type</label>
-                  <select id="room-type" required>
-                    <option value="standard">Standard Room</option>
-                    <option value="deluxe" selected>Deluxe Room</option>
-                    <option value="suite">Suite</option>
-                    <option value="villa">Private Villa</option>
-                  </select>
-                </div>
-                
-                <div class="form-group">
-                  <label>Additional Services</label>
-                  <div class="checkbox-group">
-                    <label class="checkbox-label">
-                      <input type="checkbox" name="services" value="airport-transfer" checked>
-                      <span class="checkbox-custom"></span>
-                      Airport Transfer
-                    </label>
-                    <label class="checkbox-label">
-                      <input type="checkbox" name="services" value="guided-tour" checked>
-                      <span class="checkbox-custom"></span>
-                      Guided Tours
-                    </label>
-                    <label class="checkbox-label">
-                      <input type="checkbox" name="services" value="travel-insurance">
-                      <span class="checkbox-custom"></span>
-                      Travel Insurance
-                    </label>
-                    <label class="checkbox-label">
-                      <input type="checkbox" name="services" value="special-activities">
-                      <span class="checkbox-custom"></span>
-                      Special Activities
-                    </label>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="form-section" data-aos="fade-up" data-aos-delay="100">
-                <h2 class="section-title">Traveler Information</h2>
-                
-                <div class="traveler-section">
-                  <h3 class="traveler-title">Lead Traveler</h3>
-                  
-                  <div class="form-row">
-                    <div class="form-group">
-                      <label for="first-name">First Name</label>
-                      <input type="text" id="first-name" required>
-                    </div>
-                    <div class="form-group">
-                      <label for="last-name">Last Name</label>
-                      <input type="text" id="last-name" required>
-                    </div>
-                  </div>
-                  
-                  <div class="form-row">
-                    <div class="form-group">
-                      <label for="email">Email Address</label>
-                      <input type="email" id="email" required>
-                    </div>
-                    <div class="form-group">
-                      <label for="phone">Phone Number</label>
-                      <input type="tel" id="phone" required>
-                    </div>
-                  </div>
-                  
-                  <div class="form-row">
-                    <div class="form-group">
-                      <label for="dob">Date of Birth</label>
-                      <input type="date" id="dob" required>
-                    </div>
-                    <div class="form-group">
-                      <label for="nationality">Nationality</label>
-                      <select id="nationality" required>
-                        <option value="">Select nationality</option>
-                        <option value="us">United States</option>
-                        <option value="uk">United Kingdom</option>
-                        <option value="ca">Canada</option>
-                        <option value="au">Australia</option>
-                        <option value="fr">France</option>
-                        <option value="de">Germany</option>
-                        <option value="other">Other</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="form-group">
-                  <label for="special-requests">Special Requests</label>
-                  <textarea id="special-requests" rows="4" placeholder="Any special requirements or requests..."></textarea>
-                </div>
-              </div>
-              
-              <div class="form-section" data-aos="fade-up" data-aos-delay="200">
-                <h2 class="section-title">Payment Information</h2>
-                
-                <div class="payment-methods">
-                  <div class="payment-method active">
-                    <input type="radio" id="credit-card" name="payment-method" value="credit-card" checked>
-                    <label for="credit-card">
-                      <div class="payment-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-                          <line x1="1" y1="10" x2="23" y2="10"></line>
-                        </svg>
-                      </div>
-                      Credit Card
-                    </label>
-                  </div>
-                  <div class="payment-method">
-                    <input type="radio" id="paypal" name="payment-method" value="paypal">
-                    <label for="paypal">
-                      <div class="payment-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                          <path d="M7 11l5-5 5 5"></path>
-                          <path d="M12 6v12"></path>
-                        </svg>
-                      </div>
-                      PayPal
-                    </label>
-                  </div>
-                  <div class="payment-method">
-                    <input type="radio" id="bank-transfer" name="payment-method" value="bank-transfer">
-                    <label for="bank-transfer">
-                      <div class="payment-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                          <polyline points="9 11 12 14 22 4"></polyline>
-                          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                        </svg>
-                      </div>
-                      Bank Transfer
-                    </label>
-                  </div>
-                </div>
-                
-                <div id="credit-card-form" class="payment-details">
-                  <div class="form-row">
-                    <div class="form-group full-width">
-                      <label for="card-name">Name on Card</label>
-                      <input type="text" id="card-name" required>
-                    </div>
-                  </div>
-                  
-                  <div class="form-row">
-                    <div class="form-group full-width">
-                      <label for="card-number">Card Number</label>
-                      <input type="text" id="card-number" placeholder="XXXX XXXX XXXX XXXX" required>
-                    </div>
-                  </div>
-                  
-                  <div class="form-row">
-                    <div class="form-group">
-                      <label for="expiry-date">Expiry Date</label>
-                      <input type="text" id="expiry-date" placeholder="MM/YY" required>
-                    </div>
-                    <div class="form-group">
-                      <label for="cvv">CVV</label>
-                      <input type="text" id="cvv" placeholder="XXX" required>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="form-group">
-                  <label class="checkbox-label">
-                    <input type="checkbox" name="terms" required>
-                    <span class="checkbox-custom"></span>
-                    I agree to the <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a>
-                  </label>
-                </div>
-              </div>
-              
-              <div class="form-actions">
-                <button type="button" class="btn btn-outline btn-lg">Back</button>
-                <button type="submit" class="btn btn-primary btn-lg">Complete Booking</button>
-              </div>
-            </form>
-          </div>
-          
-          <!-- Booking Summary -->
-          <div class="booking-summary-container" data-aos="fade-left">
-            <div class="booking-summary">
-              <h2 class="summary-title">Booking Summary</h2>
-              
-              <div class="summary-destination">
-                <div class="destination-image">
-                  <img src="https://source.unsplash.com/random/600x400/?santorini" alt="Santorini">
-                </div>
-                <div class="destination-details">
-                  <h3>Santorini</h3>
-                  <p>Greece</p>
-                  <div class="destination-rating">
-                    <div class="stars">
-                      <span class="star filled"></span>
-                      <span class="star filled"></span>
-                      <span class="star filled"></span>
-                      <span class="star filled"></span>
-                      <span class="star half-filled"></span>
-                    </div>
-                    <span class="rating-text">4.9 (328 reviews)</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="summary-details">
-                <div class="summary-item">
-                  <div class="summary-label">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                      <line x1="16" y1="2" x2="16" y2="6"></line>
-                      <line x1="8" y1="2" x2="8" y2="6"></line>
-                      <line x1="3" y1="10" x2="21" y2="10"></line>
-                    </svg>
-                    <span>Dates</span>
-                  </div>
-                  <div class="summary-value">Jun 15, 2023 - Jun 22, 2023</div>
-                </div>
-                
-                <div class="summary-item">
-                  <div class="summary-label">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                      <circle cx="9" cy="7" r="4"></circle>
-                      <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                    </svg>
-                    <span>Guests</span>
-                  </div>
-                  <div class="summary-value">2 Adults</div>
-                </div>
-                
-                <div class="summary-item">
-                  <div class="summary-label">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
-                      <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
-                    </svg>
-                    <span>Room</span>
-                  </div>
-                  <div class="summary-value">Deluxe Room</div>
-                </div>
-                
-                <div class="summary-item">
-                  <div class="summary-label">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                    <span>Duration</span>
-                  </div>
-                  <div class="summary-value">7 Nights</div>
-                </div>
-              </div>
-              
-              <div class="summary-price">
-                <div class="price-item">
-                  <span>Package Price</span>
-                  <span>$1,299</span>
-                </div>
-                <div class="price-item">
-                  <span>Airport Transfer</span>
-                  <span>$50</span>
-                </div>
-                <div class="price-item">
-                  <span>Guided Tours</span>
-                  <span>$150</span>
-                </div>
-                <div class="price-item discount">
-                  <span>Discount</span>
-                  <span>-$100</span>
-                </div>
-                <div class="price-total">
-                  <span>Total</span>
-                  <span>$1,399</span>
-                </div>
-              </div>
-              
-              <div class="summary-features">
-                <h4>What's Included</h4>
-                <ul>
-                  <li>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    <span>Luxury Accommodations</span>
-                  </li>
-                  <li>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    <span>Daily Breakfast</span>
-                  </li>
-                  <li>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    <span>Airport Transfers</span>
-                  </li>
-                  <li>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    <span>Guided Tours</span>
-                  </li>
-                  <li>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    <span>Free Wi-Fi</span>
-                  </li>
-                </ul>
-              </div>
-              
-              <div class="summary-help">
-                <h4>Need Help?</h4>
-                <p>Our travel experts are available 24/7 to assist you with your booking.</p>
-                <div class="help-contact">
-                  <div class="help-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                    </svg>
-                    <span>+1 (800) 123-4567</span>
-                  </div>
-                  <div class="help-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                      <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
-                    <span>support@wanderlust.com</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    
-    <!-- Trust Badges -->
-    <section class="trust-badges">
-      <div class="container">
-        <div class="badges-container">
-          <div class="badge-item" data-aos="fade-up">
-            <div class="badge-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              </svg>
-            </div>
-            <div class="badge-content">
-              <h3>Secure Booking</h3>
-              <p>Your payment and personal information are protected with SSL encryption</p>
-            </div>
-          </div>
-          
-          <div class="badge-item" data-aos="fade-up" data-aos-delay="100">
-            <div class="badge-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12 8 8 12 12 16"></polyline>
-                <polyline points="16 12 12 12"></polyline>
-              </svg>
-            </div>
-            <div class="badge-content">
-              <h3>Free Cancellation</h3>
-              <p>Cancel up to 48 hours before your trip and get a full refund</p>
-            </div>
-          </div>
-          
-          <div class="badge-item" data-aos="fade-up" data-aos-delay="200">
-            <div class="badge-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
-              </svg>
-            </div>
-            <div class="badge-content">
-              <h3>Best Price Guarantee</h3>
-              <p>Find a lower price and we'll match it plus give you an additional 10% off</p>
-            </div>
-          </div>
-          
-          <div class="badge-item" data-aos="fade-up" data-aos-delay="300">
-            <div class="badge-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
-            </div>
-            <div class="badge-content">
-              <h3>24/7 Support</h3>
-              <p>Our dedicated support team is available around the clock to assist you</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
+      const size = Math.random() * 300 + 100;
+      const posX = Math.random() * 100;
+      const posY = Math.random() * 100;
+      const duration = Math.random() * 20 + 10;
+      const delay = Math.random() * 5;
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-column">
-          <div class="footer-logo">
-            <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-              <circle cx="12" cy="10" r="3"></circle>
-            </svg>
-            <span>Wanderlust</span>
-          </div>
-          <p class="footer-description">Creating unforgettable travel experiences since 2010. Your journey begins with us.</p>
-          <div class="footer-social">
-            <a href="#" class="social-link">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-              </svg>
-            </a>
-            <a href="#" class="social-link">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-              </svg>
-            </a>
-            <a href="#" class="social-link">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-              </svg>
-            </a>
-          </div>
-        </div>
-        <div class="footer-column">
-          <h3 class="footer-title">Quick Links</h3>
-          <ul class="footer-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="destinations.html">Destinations</a></li>
-            <li><a href="index.html#packages">Packages</a></li>
-            <li><a href="index.html#about">About Us</a></li>
-            <li><a href="index.html#testimonials">Testimonials</a></li>
-            <li><a href="index.html#contact">Contact</a></li>
-          </ul>
-        </div>
-        <div class="footer-column">
-          <h3 class="footer-title">Support</h3>
-          <ul class="footer-links">
-            <li><a href="#">FAQs</a></li>
-            <li><a href="#">Terms & Conditions</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Booking Information</a></li>
-            <li><a href="#">Cancellation Policy</a></li>
-          </ul>
-        </div>
-        <div class="footer-column">
-          <h3 class="footer-title">Newsletter</h3>
-          <p class="footer-newsletter-text">Subscribe to our newsletter for travel tips and exclusive offers</p>
-          <div class="footer-newsletter">
-            <input type="email" placeholder="Enter your email">
-            <button class="btn btn-primary">Subscribe</button>
-          </div>
-          <p class="footer-newsletter-disclaimer">By subscribing, you agree to our Privacy Policy</p>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p class="copyright">© <span id="currentYear"></span> Wanderlust Travel. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
+      element.style.width = `${size}px`;
+      element.style.height = `${size}px`;
+      element.style.left = `${posX}%`;
+      element.style.top = `${posY}%`;
+      element.style.animationDuration = `${duration}s`;
+      element.style.animationDelay = `${delay}s`;
 
-  <!-- Back to Top Button -->
-  <button class="back-to-top">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="18 15 12 9 6 15"></polyline>
-    </svg>
-  </button>
+      container.appendChild(element);
+    }
+  }
 
-  <!-- Scripts -->
-  <script src="js/script.js"></script>
-  <script src="js/book-now.js"></script>
+  // Initialize animated elements
+  createAnimatedElements();
+
+  // Set minimum dates for check-in and check-out
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('check-in-date').min = today;
+  document.getElementById('check-out-date').min = today;
+
+  // Update check-out min date when check-in changes
+  document.getElementById('check-in-date').addEventListener('change', function() {
+    document.getElementById('check-out-date').min = this.value;
+
+    // If check-out date is before check-in date, update it
+    if (document.getElementById('check-out-date').value < this.value) {
+      document.getElementById('check-out-date').value = this.value;
+    }
+
+    updateSummary();
+  });
+
+  // Form elements
+  const checkInDateInput = document.getElementById('check-in-date');
+  const checkOutDateInput = document.getElementById('check-out-date');
+  const statusSelect = document.getElementById('status');
+  const totalPriceInput = document.getElementById('total-price');
+  const hotelIdInput = document.getElementById('hotel-id');
+  const userIdInput = document.getElementById('user-id');
+
+  // Summary elements
+  const summaryCheckIn = document.getElementById('summary-check-in');
+  const summaryCheckOut = document.getElementById('summary-check-out');
+  const summaryDuration = document.getElementById('summary-duration');
+  const summaryStatus = document.getElementById('summary-status');
+  const summaryHotelId = document.getElementById('summary-hotel-id');
+  const summaryUserId = document.getElementById('summary-user-id');
+  const summaryTotalPrice = document.getElementById('summary-total-price');
+
+  // Update summary when form values change
+  checkInDateInput.addEventListener('change', updateSummary);
+  checkOutDateInput.addEventListener('change', updateSummary);
+  statusSelect.addEventListener('change', updateSummary);
+  totalPriceInput.addEventListener('input', updateSummary);
+  hotelIdInput.addEventListener('input', updateSummary);
+  userIdInput.addEventListener('input', updateSummary);
+
+  // Set initial dates
+  const currentDate = new Date();
+  const nextWeek = new Date();
+  nextWeek.setDate(currentDate.getDate() + 7);
+
+  checkInDateInput.valueAsDate = currentDate;
+  checkOutDateInput.valueAsDate = nextWeek;
+
+  // Function to update the booking summary
+  function updateSummary() {
+    // Check-in date
+    if (checkInDateInput.value) {
+      const checkInDate = new Date(checkInDateInput.value);
+      summaryCheckIn.textContent = checkInDate.toLocaleDateString('en-US', {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+    } else {
+      summaryCheckIn.textContent = '--';
+    }
+
+    // Check-out date
+    if (checkOutDateInput.value) {
+      const checkOutDate = new Date(checkOutDateInput.value);
+      summaryCheckOut.textContent = checkOutDate.toLocaleDateString('en-US', {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+
+      // Calculate duration if both dates are set
+      if (checkInDateInput.value) {
+        const checkInDate = new Date(checkInDateInput.value);
+        const timeDiff = checkOutDate - checkInDate;
+        const nights = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+        summaryDuration.textContent = nights + (nights === 1 ? ' night' : ' nights');
+      }
+    } else {
+      summaryCheckOut.textContent = '--';
+      summaryDuration.textContent = '--';
+    }
+
+    // Status
+    if (statusSelect.value) {
+      summaryStatus.innerHTML = '';
+      const statusBadge = document.createElement('span');
+      statusBadge.className = 'status-badge status-' + statusSelect.value;
+      statusBadge.textContent = statusSelect.value;
+      summaryStatus.appendChild(statusBadge);
+    } else {
+      summaryStatus.textContent = '--';
+    }
+
+    // Hotel ID
+    summaryHotelId.textContent = hotelIdInput.value || '--';
+
+    // User ID
+    summaryUserId.textContent = userIdInput.value || '--';
+
+    // Total Price
+    if (totalPriceInput.value) {
+      summaryTotalPrice.textContent = '$' + parseFloat(totalPriceInput.value).toFixed(2);
+    } else {
+      summaryTotalPrice.textContent = '$0.00';
+    }
+  }
+
+  // Initialize summary
+  updateSummary();
+
+  // Form submission
+  document.getElementById('booking-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Here you would typically send the data to a server
+    const formData = {
+      check_in_date: checkInDateInput.value,
+      check_out_date: checkOutDateInput.value,
+      status: statusSelect.value,
+      total_price: parseFloat(totalPriceInput.value),
+      hotel_id: parseInt(hotelIdInput.value),
+      user_id: parseInt(userIdInput.value)
+    };
+
+    console.log('Booking data:', formData);
+    alert('Booking submitted successfully!');
+  });
+</script>
 </body>
 </html>

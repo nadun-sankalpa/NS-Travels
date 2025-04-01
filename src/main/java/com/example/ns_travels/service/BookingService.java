@@ -5,10 +5,14 @@ import com.example.ns_travels.dto.BookingDTO;
 import java.util.List;
 
 public interface BookingService {
-    void save(BookingDTO bookingDTO);
-    void update(BookingDTO bookingDTO);
-    void delete(Long id);
-    BookingDTO getBookingById(Long id);
+
+    BookingDTO save(BookingDTO bookingDTO);
+
     List<BookingDTO> getAllBookings();
-    List<BookingDTO> getBookingsByUserId(Long userId);
+
+    BookingDTO getBookingById(Long id);
+
+    BookingDTO updateBooking(Long id, BookingDTO bookingDTO);
+
+    void deleteBooking(Long id);
 }

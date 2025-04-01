@@ -1,58 +1,133 @@
 package com.example.ns_travels.entity;
 
-import com.example.ns_travels.enums.BookingStatus;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "booking") // Explicit table name
+@Table(name = "booking")
 public class Booking {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
+        @Column(nullable = false)
+        private String fullName;
+
+        @Column(nullable = false)
+        private String emailAddress;
+
+        @Column(nullable = false)
+        private String phoneNumber;
+
+        @Column(nullable = false)
+        private String chosenPackage;
+
+        @Column(nullable = false, name = "travel_package_id") // Added field
+        private Long travelPackageId;
+
+        @Column(nullable = false)
+        private LocalDate travelDate;
+
+        @Column(nullable = false)
+        private int numberOfGuests;
+
+        private String additionalRequests;
+
         @ManyToOne
-        @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+        @JoinColumn(name = "user_id", nullable = false)
         private User user;
 
-        @ManyToOne
-        @JoinColumn(name = "hotel_id", referencedColumnName = "id", nullable = false)
-        private Hotel hotel;
-
-        @Column(nullable = false)
-        private LocalDate checkInDate;
-
-        @Column(nullable = false)
-        private LocalDate checkOutDate;
-
-        @Column(nullable = false)
-        private double totalPrice;
-
-        @Enumerated(EnumType.STRING)
-        @Column(nullable = false) // Ensure column is not null
-        private BookingStatus status;
-
+        // Constructors
         public Booking() {
         }
 
-        public Booking(Long id, User user, Hotel hotel, LocalDate checkInDate, LocalDate checkOutDate, double totalPrice, BookingStatus status) {
-                this.id = id;
+        public Booking(String fullName, String emailAddress, String phoneNumber,
+                       String chosenPackage, Long travelPackageId, LocalDate travelDate,
+                       int numberOfGuests, String additionalRequests, User user) {
+                this.fullName = fullName;
+                this.emailAddress = emailAddress;
+                this.phoneNumber = phoneNumber;
+                this.chosenPackage = chosenPackage;
+                this.travelPackageId = travelPackageId; // Added to constructor
+                this.travelDate = travelDate;
+                this.numberOfGuests = numberOfGuests;
+                this.additionalRequests = additionalRequests;
                 this.user = user;
-                this.hotel = hotel;
-                this.checkInDate = checkInDate;
-                this.checkOutDate = checkOutDate;
-                this.totalPrice = totalPrice;
-                this.status = status;
         }
 
+        // Getters and Setters
         public Long getId() {
                 return id;
         }
 
         public void setId(Long id) {
                 this.id = id;
+        }
+
+        public String getFullName() {
+                return fullName;
+        }
+
+        public void setFullName(String fullName) {
+                this.fullName = fullName;
+        }
+
+        public String getEmailAddress() {
+                return emailAddress;
+        }
+
+        public void setEmailAddress(String emailAddress) {
+                this.emailAddress = emailAddress;
+        }
+
+        public String getPhoneNumber() {
+                return phoneNumber;
+        }
+
+        public void setPhoneNumber(String phoneNumber) {
+                this.phoneNumber = phoneNumber;
+        }
+
+        public String getChosenPackage() {
+                return chosenPackage;
+        }
+
+        public void setChosenPackage(String chosenPackage) {
+                this.chosenPackage = chosenPackage;
+        }
+
+        // Added getter/setter for travelPackageId
+        public Long getTravelPackageId() {
+                return travelPackageId;
+        }
+
+        public void setTravelPackageId(Long travelPackageId) {
+                this.travelPackageId = travelPackageId;
+        }
+
+        public LocalDate getTravelDate() {
+                return travelDate;
+        }
+
+        public void setTravelDate(LocalDate travelDate) {
+                this.travelDate = travelDate;
+        }
+
+        public int getNumberOfGuests() {
+                return numberOfGuests;
+        }
+
+        public void setNumberOfGuests(int numberOfGuests) {
+                this.numberOfGuests = numberOfGuests;
+        }
+
+        public String getAdditionalRequests() {
+                return additionalRequests;
+        }
+
+        public void setAdditionalRequests(String additionalRequests) {
+                this.additionalRequests = additionalRequests;
         }
 
         public User getUser() {
@@ -63,56 +138,19 @@ public class Booking {
                 this.user = user;
         }
 
-        public Hotel getHotel() {
-                return hotel;
-        }
-
-        public void setHotel(Hotel hotel) {
-                this.hotel = hotel;
-        }
-
-        public LocalDate getCheckInDate() {
-                return checkInDate;
-        }
-
-        public void setCheckInDate(LocalDate checkInDate) {
-                this.checkInDate = checkInDate;
-        }
-
-        public LocalDate getCheckOutDate() {
-                return checkOutDate;
-        }
-
-        public void setCheckOutDate(LocalDate checkOutDate) {
-                this.checkOutDate = checkOutDate;
-        }
-
-        public double getTotalPrice() {
-                return totalPrice;
-        }
-
-        public void setTotalPrice(double totalPrice) {
-                this.totalPrice = totalPrice;
-        }
-
-        public BookingStatus getStatus() {
-                return status;
-        }
-
-        public void setStatus(BookingStatus status) {
-                this.status = status;
-        }
-
         @Override
         public String toString() {
                 return "Booking{" +
                         "id=" + id +
+                        ", fullName='" + fullName + '\'' +
+                        ", emailAddress='" + emailAddress + '\'' +
+                        ", phoneNumber='" + phoneNumber + '\'' +
+                        ", chosenPackage='" + chosenPackage + '\'' +
+                        ", travelPackageId=" + travelPackageId + // Added to toString
+                        ", travelDate=" + travelDate +
+                        ", numberOfGuests=" + numberOfGuests +
+                        ", additionalRequests='" + additionalRequests + '\'' +
                         ", user=" + user +
-                        ", hotel=" + hotel +
-                        ", checkInDate=" + checkInDate +
-                        ", checkOutDate=" + checkOutDate +
-                        ", totalPrice=" + totalPrice +
-                        ", status=" + status +
                         '}';
         }
 }

@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -43,12 +44,13 @@ public class SecurityConfig {
                                 "/auth/login/verify",
                                 "/api/user/addUser",
                                 "/api/register/patient",
+                                "/api/user/deleteUser/**",
                                 "/api/register/getAllProviders",
                                 "/test/login",
                                 "/swagger-ui/",
                                 "/swagger-ui.html",
                                 "/api/hotels/**",
-                                "/api/travel-packages/**"  // Allow travel package API
+                                "/api/travel-packages/**"
                         ).permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -56,14 +58,16 @@ public class SecurityConfig {
                 .build();
     }
 
+    // Inject the PasswordEncoder bean to ensure consistency
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(passwordEncoder());
+        provider.setPasswordEncoder(new BCryptPasswordEncoder());
         provider.setUserDetailsService(userDetailsService);
         return provider;
     }
 
+    // Define a PasswordEncoder bean (BCryptPasswordEncoder)
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -77,12 +81,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-
         // Allow the frontend's origin
         configuration.setAllowedOrigins(List.of("http://localhost:63342"));
-
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "x-requested-with")); // add here
         configuration.setExposedHeaders(List.of("Authorization"));
         configuration.setAllowCredentials(true); // Allow credentials (for JWT)
 
@@ -90,4 +92,5 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 }

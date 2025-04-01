@@ -2,113 +2,72 @@ package com.example.ns_travels.service.impl;
 
 import com.example.ns_travels.dto.BookingDTO;
 import com.example.ns_travels.entity.Booking;
-import com.example.ns_travels.entity.Hotel;
-import com.example.ns_travels.entity.User;
 import com.example.ns_travels.repository.BookingRepo;
-import com.example.ns_travels.repository.HotelRepo;
-import com.example.ns_travels.repository.UsersRepo;
 import com.example.ns_travels.service.BookingService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 public class BookingServiceImpl implements BookingService {
-    @Autowired
-    private BookingRepo bookingRepo;
+
+    private final BookingRepo bookingRepo;
+    private final ModelMapper modelMapper;
+    private static final Logger logger = Logger.getLogger(BookingServiceImpl.class.getName());
 
     @Autowired
-    private UsersRepo userRepo;
-
-    @Autowired
-    private HotelRepo hotelRepo;
-
-    @Autowired
-    private ModelMapper modelMapper;
+    public BookingServiceImpl(BookingRepo bookingRepo, ModelMapper modelMapper) {
+        this.bookingRepo = bookingRepo;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
-    public void save(BookingDTO bookingDTO) {
+    public BookingDTO save(BookingDTO bookingDTO) {
+        logger.info("Saving booking: " + bookingDTO);
         Booking booking = modelMapper.map(bookingDTO, Booking.class);
-
-
-        Optional<User> optUser = userRepo.findById(bookingDTO.getUserId());
-        if (optUser.isEmpty()) {
-            throw new RuntimeException("User not found with ID: " + bookingDTO.getUserId());
-        }
-
-
-        Optional<Hotel> optHotel = hotelRepo.findById(bookingDTO.getHotelId());
-        if (optHotel.isEmpty()) {
-            throw new RuntimeException("Hotel not found with ID: " + bookingDTO.getHotelId());
-        }
-
-
-        booking.setUser(optUser.get());
-        booking.setHotel(optHotel.get());
-
-        bookingRepo.save(booking);
-    }
-
-    @Override
-    public void update(BookingDTO bookingDTO) {
-        Optional<Booking> optBooking = bookingRepo.findById(bookingDTO.getId());
-        if (optBooking.isEmpty()) {
-            throw new RuntimeException("Booking not found with ID: " + bookingDTO.getId());
-        }
-
-        Booking booking = modelMapper.map(bookingDTO, Booking.class);
-
-
-        Optional<User> optUser = userRepo.findById(bookingDTO.getUserId());
-        if (optUser.isEmpty()) {
-            throw new RuntimeException("User not found with ID: " + bookingDTO.getUserId());
-        }
-
-
-        Optional<Hotel> optHotel = hotelRepo.findById(bookingDTO.getHotelId());
-        if (optHotel.isEmpty()) {
-            throw new RuntimeException("Hotel not found with ID: " + bookingDTO.getHotelId());
-        }
-
-        booking.setUser(optUser.get());
-        booking.setHotel(optHotel.get());
-
-        bookingRepo.save(booking);
-    }
-
-    @Override
-    public void delete(Long id) {
-        if (!bookingRepo.existsById(id)) {
-            throw new RuntimeException("Booking not found with ID: " + id);
-        }
-        bookingRepo.deleteById(id);
-    }
-
-    @Override
-    public BookingDTO getBookingById(Long id) {
-        Optional<Booking> booking = bookingRepo.findById(id);
-        if (booking.isEmpty()) {
-            throw new RuntimeException("Booking not found with ID: " + id);
-        }
-        return modelMapper.map(booking.get(), BookingDTO.class);
+        Booking savedBooking = bookingRepo.save(booking);
+        return modelMapper.map(savedBooking, BookingDTO.class);
     }
 
     @Override
     public List<BookingDTO> getAllBookings() {
         List<Booking> bookings = bookingRepo.findAll();
-        return bookings.stream()
-                .map(booking -> modelMapper.map(booking, BookingDTO.class))
-                .toList();
+        return modelMapper.map(bookings, new TypeToken<List<BookingDTO>>() {}.getType());
     }
 
     @Override
-    public List<BookingDTO> getBookingsByUserId(Long userId) {
-        List<Booking> bookings = bookingRepo.findByUserId(userId);
-        return bookings.stream()
-                .map(booking -> modelMapper.map(booking, BookingDTO.class))
-                .toList();
+    public BookingDTO getBookingById(Long id) {
+        Booking booking = bookingRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
+        return modelMapper.map(booking, BookingDTO.class);
+    }
+
+    @Override
+    public BookingDTO updateBooking(Long id, BookingDTO bookingDTO) {
+        Booking existingBooking = bookingRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
+
+        existingBooking.setFullName(bookingDTO.getFullName());
+        existingBooking.setEmailAddress(bookingDTO.getEmailAddress());
+        existingBooking.setPhoneNumber(bookingDTO.getPhoneNumber());
+        existingBooking.setChosenPackage(bookingDTO.getChosenPackage());
+        existingBooking.setTravelDate(bookingDTO.getTravelDate());
+        existingBooking.setNumberOfGuests(bookingDTO.getNumberOfGuests());
+        existingBooking.setAdditionalRequests(bookingDTO.getAdditionalRequests());
+
+        Booking updatedBooking = bookingRepo.save(existingBooking);
+        return modelMapper.map(updatedBooking, BookingDTO.class);
+    }
+
+    @Override
+    public void deleteBooking(Long id) {
+        if (!bookingRepo.existsById(id)) {
+            throw new RuntimeException("Booking not found with id: " + id);
+        }
+        bookingRepo.deleteById(id);
     }
 }

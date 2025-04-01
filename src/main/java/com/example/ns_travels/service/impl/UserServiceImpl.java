@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,9 +30,13 @@ public class UserServiceImpl implements UserService {
     AuthenticationManager authenticationManager;
     @Autowired
     JWTService jwtService;
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public void save(UserDTO userDTO) {
+        userDTO.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
+
         User user = modelMapper.map(userDTO, User.class);
         userRepo.save(user);
     }
