@@ -18,6 +18,8 @@ public class TravelPackages {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    private double price;
+
     private double budget;
     private int duration;
 
@@ -31,9 +33,18 @@ public class TravelPackages {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.price = price;
         this.budget = budget;
         this.duration = duration;
         this.includedServices = includedServices;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public Long getId() {
@@ -90,6 +101,7 @@ public class TravelPackages {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", price=" + price +
                 ", budget=" + budget +
                 ", duration=" + duration +
                 ", includedServices='" + includedServices + '\'' +

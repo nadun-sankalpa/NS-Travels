@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Package Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         /* Reset and Base Styles */
         * {
@@ -1322,6 +1323,230 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Function to load all packages
+    function loadAllPackages() {
+        $.ajax({
+            url: 'http://localhost:8080/api/travel-packages/getAll',
+            type: 'GET',
+            success: function(response) {
+                if (response.code === 200) {
+                    populatePackagesTable(response.data);
+                } else {
+                    showAlert('error', 'Error loading packages', response.message);
+                }
+            },
+            error: function(xhr) {
+                showAlert('error', 'Error', 'Failed to load packages');
+            }
+        });
+    }
+
+    // Function to add a new package
+    function addPackage() {
+        const packageData = {
+            name: $('#package-name').val(),
+            description: $('#package-description').val(),
+            duration: $('#package-duration').val(),
+            includedServices: $('#package-services').val(),
+            price: $('#package-price').val(),
+            budget: $('#package-budget').val()
+        };
+
+        $.ajax({
+            url: 'http://localhost:8080/api/travel-packages/add',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(packageData),
+            success: function(response) {
+                if (response.code === 201) {
+                    showAlert('success', 'Success', 'Package added successfully');
+                    $('#add-package-modal').hide();
+                    $('#add-package-form')[0].reset();
+                    loadAllPackages();
+                } else {
+                    showAlert('error', 'Error adding package', response.message);
+                }
+            },
+            error: function(xhr) {
+                showAlert('error', 'Error', 'Failed to add package');
+            }
+        });
+    }
+
+    // Function to update a package
+    function updatePackage(id) {
+        const packageData = {
+            id: id,
+            name: $('#package-name').val(),
+            description: $('#package-description').val(),
+            duration: $('#package-duration').val(),
+            includedServices: $('#package-services').val(),
+            price: $('#package-price').val(),
+            budget: $('#package-budget').val()
+        };
+
+        $.ajax({
+            url: 'http://localhost:8080/api/travel-packages/update',
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(packageData),
+            success: function(response) {
+                if (response.code === 200) {
+                    showAlert('success', 'Success', 'Package updated successfully');
+                    $('#add-package-modal').hide();
+                    $('#add-package-form')[0].reset();
+                    loadAllPackages();
+                } else {
+                    showAlert('error', 'Error updating package', response.message);
+                }
+            },
+            error: function(xhr) {
+                showAlert('error', 'Error', 'Failed to update package');
+            }
+        });
+    }
+
+    // Function to delete a package
+    function deletePackage(id) {
+        if (confirm('Are you sure you want to delete this package?')) {
+            $.ajax({
+                url: 'http://localhost:8080/api/travel-packages/delete/' + id,
+                type: 'DELETE',
+                success: function(response) {
+                    if (response.code === 200) {
+                        showAlert('success', 'Success', 'Package deleted successfully');
+                        loadAllPackages();
+                    } else {
+                        showAlert('error', 'Error deleting package', response.message);
+                    }
+                },
+                error: function(xhr) {
+                    showAlert('error', 'Error', 'Failed to delete package');
+                }
+            });
+        }
+    }
+
+    // Function to populate the packages table
+    function populatePackagesTable(packages) {
+        const $tbody = $('.table tbody');
+        $tbody.empty();
+
+        if (packages.length === 0) {
+            $tbody.append('<tr><td colspan="8" class="table-empty">No packages found</td></tr>');
+            return;
+        }
+
+        packages.forEach(pkg => {
+            const $row = $('<tr>');
+            $row.append(`<td>${pkg.id}</td>`);
+            $row.append(`<td>${pkg.name}</td>`);
+            $row.append(`<td>${pkg.description}</td>`);
+            $row.append(`<td>${pkg.duration} days</td>`);
+            $row.append(`<td>${pkg.includedServices}</td>`);
+            $row.append(`<td>$${pkg.price.toFixed(2)}</td>`);
+            $row.append(`<td>$${pkg.budget.toFixed(2)}</td>`);
+
+            const $actions = $('<td>');
+            $actions.append(`<button class="btn btn-edit" onclick="editPackage(${pkg.id})"><i class="fas fa-edit"></i></button>`);
+            $actions.append(`<button class="btn btn-delete" onclick="deletePackage(${pkg.id})"><i class="fas fa-trash"></i></button>`);
+            $row.append($actions);
+
+            $tbody.append($row);
+        });
+    }
+
+    // Function to edit a package
+    function editPackage(id) {
+        $.ajax({
+            url: 'http://localhost:8080/api/travel-packages/getById/' + id,
+            type: 'GET',
+            success: function(response) {
+                if (response.code === 200) {
+                    const pkg = response.data;
+                    $('#package-name').val(pkg.name);
+                    $('#package-description').val(pkg.description);
+                    $('#package-duration').val(pkg.duration);
+                    $('#package-services').val(pkg.includedServices);
+                    $('#package-price').val(pkg.price);
+                    $('#package-budget').val(pkg.budget);
+
+                    // Change modal title and save button behavior
+                    $('.modal-title').text('Edit Package');
+                    $('#save-package-btn').off('click').on('click', function() {
+                        updatePackage(id);
+                    });
+
+                    $('#add-package-modal').show();
+                } else {
+                    showAlert('error', 'Error', response.message);
+                }
+            },
+            error: function(xhr) {
+                showAlert('error', 'Error', 'Failed to load package details');
+            }
+        });
+    }
+
+    // Function to filter packages by budget
+    function filterByBudget() {
+        const minBudget = parseFloat($('#min-budget').val()) || 0;
+        const maxBudget = parseFloat($('#max-budget').val()) || 10000;
+
+        $.ajax({
+            url: `http://localhost:8080/api/travel-packages/by-budget?minBudget=${minBudget}&maxBudget=${maxBudget}`,
+            type: 'GET',
+            success: function(response) {
+                if (response.code === 200) {
+                    populatePackagesTable(response.data);
+                } else {
+                    showAlert('error', 'Error filtering packages', response.message);
+                }
+            },
+            error: function(xhr) {
+                showAlert('error', 'Error', 'Failed to filter packages');
+            }
+        });
+    }
+
+    // Helper function to show alerts
+    function showAlert(type, title, message) {
+        // You can implement this based on your preferred alert/notification system
+        alert(`${title}: ${message}`);
+    }
+
+    // Document ready function
+    $(document).ready(function() {
+        // Load all packages when page loads
+        loadAllPackages();
+
+        // Add package button click handler
+        $('#add-package-btn').click(function() {
+            // Reset form and change modal title
+            $('#add-package-form')[0].reset();
+            $('.modal-title').text('Add New Package');
+
+            // Change save button behavior for adding
+            $('#save-package-btn').off('click').on('click', function() {
+                addPackage();
+            });
+
+            $('#add-package-modal').show();
+        });
+
+        // Close modal button click handler
+        $('#close-modal, #cancel-btn').click(function() {
+            $('#add-package-modal').hide();
+        });
+
+        // Filter button click handler
+        $('.btn-filter').click(function() {
+            filterByBudget();
+        });
+    });
+</script>
 
 <script>
     // Current Date

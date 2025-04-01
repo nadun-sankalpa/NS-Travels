@@ -15,7 +15,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -26,7 +25,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-public class SecuirityConfig {
+public class SecurityConfig {
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -38,9 +37,8 @@ public class SecuirityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
+                .cors(Customizer.withDefaults()) // Enable CORS
                 .authorizeHttpRequests(auth -> auth
-                        // Add "/api/hotels/**" to permit all without authentication
                         .requestMatchers(
                                 "/auth/login/verify",
                                 "/api/user/addUser",
@@ -49,11 +47,10 @@ public class SecuirityConfig {
                                 "/test/login",
                                 "/swagger-ui/",
                                 "/swagger-ui.html",
-                                "/api/hotels/**"
+                                "/api/hotels/**",
+                                "/api/travel-packages/**"  // Allow travel package API
                         ).permitAll()
                         .anyRequest().authenticated())
-                .formLogin(Customizer.withDefaults())
-                .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
@@ -62,7 +59,7 @@ public class SecuirityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+        provider.setPasswordEncoder(passwordEncoder());
         provider.setUserDetailsService(userDetailsService);
         return provider;
     }
@@ -80,14 +77,16 @@ public class SecuirityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // Set the allowed origin to match your client app
+
+        // Allow the frontend's origin
         configuration.setAllowedOrigins(List.of("http://localhost:63342"));
+
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setExposedHeaders(List.of("Authorization"));
+        configuration.setAllowCredentials(true); // Allow credentials (for JWT)
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        // Register configuration for all endpoints
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }

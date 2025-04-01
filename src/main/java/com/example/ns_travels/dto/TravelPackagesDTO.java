@@ -1,27 +1,29 @@
 package com.example.ns_travels.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
+@Builder
 public class TravelPackagesDTO {
     private Long id;
     private String name;
     private String description;
+    private double price;
     private double budget;
     private int duration;
     private String includedServices;
 
-    public TravelPackagesDTO(Long id, String name, String description, double budget, int duration, String includedServices) {
+    public TravelPackagesDTO() {
+    }
+
+    public TravelPackagesDTO(Long id, String name, String description, double price, double budget, int duration, String includedServices) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.price = price;
         this.budget = budget;
         this.duration = duration;
         this.includedServices = includedServices;
-    }
-    public TravelPackagesDTO() {
     }
 
     public Long getId() {
@@ -46,6 +48,14 @@ public class TravelPackagesDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public double getBudget() {
@@ -78,6 +88,7 @@ public class TravelPackagesDTO {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", price=" + price +
                 ", budget=" + budget +
                 ", duration=" + duration +
                 ", includedServices='" + includedServices + '\'' +
