@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Management Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         /* Reset and Base Styles */
         * {
@@ -566,6 +567,30 @@
                 flex-direction: column;
             }
         }
+
+        /* Add this to your CSS file */
+        .role-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .role-badge.admin {
+            background-color: #ffcdd2;
+            color: #c62828;
+        }
+
+        .role-badge.user {
+            background-color: #c8e6c9;
+            color: #2e7d32;
+        }
+
+        .role-badge.manager {
+            background-color: #bbdefb;
+            color: #1565c0;
+        }
     </style>
 </head>
 <body>
@@ -790,6 +815,287 @@
     </div>
 </div>
 
+<script>
+    // Global variables
+    let currentEditUserId = null;
+
+    // Function to load all users
+    function loadAllUsers() {
+        $.ajax({
+            url: 'http://localhost:8080/api/user/getAll',
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken'), // Ensure JWT token is stored
+                'Content-Type': 'application/json'
+            },
+            success: function(response) {
+                console.log(response);
+                if (response.code === 200) {
+                    populateUsersTable(response.data);
+                    updateStatsCards(response.data);
+                } else {
+                    showAlert('error', 'Error loading users', response.message || 'Unknown error');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: ", xhr.responseText);
+                showAlert('error', 'Access Denied', 'You do not have permission to view users.');
+            }
+        });
+
+
+
+
+    }
+
+    // Function to filter users by role
+    function filterUsersByRole(role) {
+        if (role === 'All Roles') {
+            loadAllUsers();
+            return;
+        }
+
+        $.ajax({
+            url: `http://localhost:8080/api/user/getByRole/${role.toLowerCase()}`,
+            type: 'GET',
+            success: function(response) {
+                if (response.code === 200) {
+                    populateUsersTable(response.data);
+                } else {
+                    showAlert('error', 'Error filtering users', response.message);
+                }
+            },
+            error: function(xhr) {
+                showAlert('error', 'Error', 'Failed to filter users');
+            }
+        });
+    }
+
+    // Function to add a new user
+    function addUser() {
+        const userData = {
+            username: $('#username').val(),
+            email: $('#email').val(),
+            password: $('#password').val(),
+            role: $('#role').val()
+        };
+
+        $.ajax({
+            url: 'http://localhost:8080/api/user/addUser',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(userData),
+            success: function(response) {
+                if (response.code === 201) {
+                    showAlert('success', 'Success', 'User added successfully');
+                    $('#add-user-modal').hide();
+                    $('#add-user-form')[0].reset();
+                    loadAllUsers();
+                } else {
+                    showAlert('error', 'Error adding user', response.message);
+                }
+            },
+            error: function(xhr) {
+                showAlert('error', 'Error', 'Failed to add user');
+            }
+        });
+    }
+
+    // Function to update a user
+    function updateUser() {
+        const userData = {
+            id: currentEditUserId,
+            username: $('#username').val(),
+            email: $('#email').val(),
+            password: $('#password').val(),
+            role: $('#role').val()
+        };
+
+        $.ajax({
+            url: 'http://localhost:8080/api/user/updateUser',
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(userData),
+            success: function(response) {
+                if (response.code === 200) {
+                    showAlert('success', 'Success', 'User updated successfully');
+                    $('#add-user-modal').hide();
+                    $('#add-user-form')[0].reset();
+                    currentEditUserId = null;
+                    loadAllUsers();
+                } else {
+                    showAlert('error', 'Error updating user', response.message);
+                }
+            },
+            error: function(xhr) {
+                showAlert('error', 'Error', 'Failed to update user');
+            }
+        });
+    }
+
+    // Function to delete a user
+    function deleteUser(id) {
+        if (confirm('Are you sure you want to delete this user?')) {
+            $.ajax({
+                url: `http://localhost:8080/api/user/deleteUser/${id}`,
+                type: 'DELETE',
+                success: function(response) {
+                    if (response.code === 200) {
+                        showAlert('success', 'Success', 'User deleted successfully');
+                        loadAllUsers();
+                    } else {
+                        showAlert('error', 'Error deleting user', response.message);
+                    }
+                },
+                error: function(xhr) {
+                    showAlert('error', 'Error', 'Failed to delete user');
+                }
+            });
+        }
+    }
+
+    // Function to populate the users table
+    function populateUsersTable(users) {
+        const $tbody = $('.table tbody');
+        $tbody.empty();
+
+        if (users.length === 0) {
+            $tbody.append('<tr><td colspan="6" class="table-empty">No users found</td></tr>');
+            return;
+        }
+
+        users.forEach(user => {
+            const $row = $('<tr>');
+            $row.append(`<td>${user.id}</td>`);
+            $row.append(`<td>${user.username}</td>`);
+            $row.append(`<td>${user.email}</td>`);
+            $row.append(`<td>********</td>`); // Masked password for security
+            $row.append(`<td><span class="role-badge ${user.role.toLowerCase()}">${user.role}</span></td>`);
+
+            const $actions = $('<td>');
+            $actions.append(`<button class="btn btn-edit" onclick="editUser(${user.id})"><i class="fas fa-edit"></i></button>`);
+            $actions.append(`<button class="btn btn-delete" onclick="deleteUser(${user.id})"><i class="fas fa-trash"></i></button>`);
+            $row.append($actions);
+
+            $tbody.append($row);
+        });
+    }
+
+    // Function to update stats cards
+    function updateStatsCards(users) {
+        const totalUsers = users.length;
+        const activeUsers = users.filter(u => u.active).length;
+        const adminUsers = users.filter(u => u.role.toLowerCase() === 'admin').length;
+        const newUsers = users.filter(u => {
+            // Assuming you have a createdAt field in your UserDTO
+            // This is just a placeholder - adjust based on your actual data
+            return true; // Replace with actual new user logic
+        }).length;
+
+        $('.stat-card:nth-child(1) .stat-value').text(totalUsers);
+        $('.stat-card:nth-child(2) .stat-value').text(activeUsers);
+        $('.stat-card:nth-child(3) .stat-value').text(adminUsers);
+        $('.stat-card:nth-child(4) .stat-value').text(newUsers);
+    }
+
+    // Function to edit a user
+    function editUser(id) {
+        currentEditUserId = id;
+
+        $.ajax({
+            url: `http://localhost:8080/api/user/getById/${id}`,
+            type: 'GET',
+            success: function(response) {
+                if (response.code === 200) {
+                    const user = response.data;
+                    $('#username').val(user.username);
+                    $('#email').val(user.email);
+                    $('#password').val(''); // Clear password field for security
+                    $('#role').val(user.role.toLowerCase());
+
+                    // Change modal title and save button behavior
+                    $('.modal-title').text('Edit User');
+                    $('#save-user-btn').off('click').on('click', function() {
+                        updateUser();
+                    });
+
+                    $('#add-user-modal').show();
+                } else {
+                    showAlert('error', 'Error', response.message);
+                }
+            },
+            error: function(xhr) {
+                showAlert('error', 'Error', 'Failed to load user details');
+            }
+        });
+    }
+
+    // Helper function to show alerts
+    function showAlert(type, title, message) {
+        // You can implement this based on your preferred alert/notification system
+        // For now using a simple alert
+        alert(`${title}: ${message}`);
+    }
+
+    // Document ready function
+    $(document).ready(function() {
+        // Load all users when page loads
+        loadAllUsers();
+
+        // Add user button click handler
+        $('#add-user-btn').click(function() {
+            // Reset form and change modal title
+            $('#add-user-form')[0].reset();
+            $('.modal-title').text('Add New User');
+            currentEditUserId = null;
+
+            // Change save button behavior for adding
+            $('#save-user-btn').off('click').on('click', function() {
+                addUser();
+            });
+
+            $('#add-user-modal').show();
+        });
+
+        // Close modal button click handler
+        $('#close-modal, #cancel-btn').click(function() {
+            $('#add-user-modal').hide();
+        });
+
+        // Role filter change handler
+        $('.filter-select:first').change(function() {
+            filterUsersByRole($(this).val());
+        });
+
+        // Status filter change handler
+        $('.filter-select').eq(1).change(function() {
+            // You would need to implement status filtering in your backend
+            // For now just reload all users
+            loadAllUsers();
+        });
+
+        // Sort filter change handler
+        $('.filter-select').eq(2).change(function() {
+            // You would need to implement sorting in your backend
+            // For now just reload all users
+            loadAllUsers();
+        });
+
+        // Search functionality
+        $('.search-bar input').on('keyup', function() {
+            const searchTerm = $(this).val().toLowerCase();
+            $('.table tbody tr').each(function() {
+                const username = $(this).find('td:eq(1)').text().toLowerCase();
+                const email = $(this).find('td:eq(2)').text().toLowerCase();
+                if (username.includes(searchTerm) || email.includes(searchTerm)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+    });
+</script>
 <script>
     // Current Date
     const dateElement = document.getElementById('current-date');
