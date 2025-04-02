@@ -1079,7 +1079,8 @@
                 url: 'http://localhost:8080/api/bookings/getAll',
                 type: 'GET',
                 headers: {
-                    'Authorization': 'Bearer ' + token // Include token
+                    'Authorization': 'Bearer ' + localStorage.getItem('jwtToken'), // Ensure JWT token is stored
+                    'Content-Type': 'application/json'
                 },
                 success: function(response) {
                     if (response && response.code === 200) {
@@ -1139,7 +1140,10 @@
             $.ajax({
                 url: `http://localhost:8080/api/bookings/getById/${selectedBookingId}`,
                 type: 'GET',
-                headers: { 'Authorization': 'Bearer ' + token },
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('jwtToken'), // Ensure JWT token is stored
+                    'Content-Type': 'application/json'
+                },
                 success: function(response) {
                     if (response && response.code === 200) {
                         const booking = response.data;
@@ -1182,7 +1186,10 @@
                 url: 'http://localhost:8080/api/bookings/updateBooking',
                 type: 'PUT',
                 contentType: 'application/json',
-                headers: { 'Authorization': 'Bearer ' + token },
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('jwtToken'), // Ensure JWT token is stored
+                    'Content-Type': 'application/json'
+                },
                 data: JSON.stringify(bookingData),
                 success: function(response) {
                     if (response && response.code === 200) {
@@ -1211,7 +1218,10 @@
             $.ajax({
                 url: `http://localhost:8080/api/bookings/deleteBooking/${selectedBookingId}`,
                 type: 'DELETE',
-                headers: { 'Authorization': 'Bearer ' + token },
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('jwtToken'), // Ensure JWT token is stored
+                    'Content-Type': 'application/json'
+                },
                 success: function(response) {
                     if (response && response.code === 200) {
                         $('#delete-booking-modal').hide();
@@ -1270,7 +1280,10 @@
                 url: 'http://localhost:8080/api/bookings/addBooking',
                 type: 'POST',
                 contentType: 'application/json',
-                headers: { 'Authorization': 'Bearer ' + token },
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('jwtToken'), // Ensure JWT token is stored
+                    'Content-Type': 'application/json'
+                },
                 data: JSON.stringify(bookingData),
                 success: function(response) {
                     if (response && response.code === 201) {
