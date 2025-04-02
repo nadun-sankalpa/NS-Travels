@@ -5,12 +5,14 @@ import com.example.ns_travels.service.BookingService;
 import com.example.ns_travels.util.ResponseUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/bookings")
+@PreAuthorize("hasRole('ADMIN')")
 public class BookingController {
 
     private final BookingService bookingService;
