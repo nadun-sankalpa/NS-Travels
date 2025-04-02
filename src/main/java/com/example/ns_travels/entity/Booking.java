@@ -1,6 +1,10 @@
 package com.example.ns_travels.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDate;
 
 @Entity
@@ -11,31 +15,41 @@ public class Booking {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
+        @NotBlank(message = "Full name is required")
         @Column(nullable = false)
         private String fullName;
 
+        @NotBlank(message = "Email address is required")
         @Column(nullable = false)
         private String emailAddress;
 
+        @NotBlank(message = "Phone number is required")
         @Column(nullable = false)
         private String phoneNumber;
 
-        @Column(nullable = false)
+        @NotBlank(message = "Package selection is required")
+        @Column(name = "chosen_package", nullable = false)
         private String chosenPackage;
 
-        @Column(nullable = false, name = "travel_package_id") // Added field
+        @NotNull(message = "Package ID is required")
+        @Column(name = "travel_package_id", nullable = false)
         private Long travelPackageId;
 
-        @Column(nullable = false)
+        @NotNull(message = "Travel date is required")
+        @Column(name = "travel_date", nullable = false)
         private LocalDate travelDate;
 
-        @Column(nullable = false)
-        private int numberOfGuests;
+        @NotNull(message = "Number of guests is required")
+        @Min(value = 1, message = "Must have at least 1 guest")
+        @Column(name = "number_of_guests", nullable = false)
+        private Integer numberOfGuests;
 
         private String additionalRequests;
 
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user_id", nullable = false)
+        @JsonIgnore
+        @NotNull(message = "User ID is required")
         private User user;
 
         // Constructors
@@ -44,12 +58,12 @@ public class Booking {
 
         public Booking(String fullName, String emailAddress, String phoneNumber,
                        String chosenPackage, Long travelPackageId, LocalDate travelDate,
-                       int numberOfGuests, String additionalRequests, User user) {
+                       Integer numberOfGuests, String additionalRequests, User user) {
                 this.fullName = fullName;
                 this.emailAddress = emailAddress;
                 this.phoneNumber = phoneNumber;
                 this.chosenPackage = chosenPackage;
-                this.travelPackageId = travelPackageId; // Added to constructor
+                this.travelPackageId = travelPackageId;
                 this.travelDate = travelDate;
                 this.numberOfGuests = numberOfGuests;
                 this.additionalRequests = additionalRequests;
@@ -97,7 +111,6 @@ public class Booking {
                 this.chosenPackage = chosenPackage;
         }
 
-        // Added getter/setter for travelPackageId
         public Long getTravelPackageId() {
                 return travelPackageId;
         }
@@ -114,11 +127,11 @@ public class Booking {
                 this.travelDate = travelDate;
         }
 
-        public int getNumberOfGuests() {
+        public Integer getNumberOfGuests() {
                 return numberOfGuests;
         }
 
-        public void setNumberOfGuests(int numberOfGuests) {
+        public void setNumberOfGuests(Integer numberOfGuests) {
                 this.numberOfGuests = numberOfGuests;
         }
 
@@ -146,11 +159,11 @@ public class Booking {
                         ", emailAddress='" + emailAddress + '\'' +
                         ", phoneNumber='" + phoneNumber + '\'' +
                         ", chosenPackage='" + chosenPackage + '\'' +
-                        ", travelPackageId=" + travelPackageId + // Added to toString
+                        ", travelPackageId=" + travelPackageId +
                         ", travelDate=" + travelDate +
                         ", numberOfGuests=" + numberOfGuests +
                         ", additionalRequests='" + additionalRequests + '\'' +
-                        ", user=" + user +
+                        ", userId=" + (user != null ? user.getId() : "null") +
                         '}';
         }
 }

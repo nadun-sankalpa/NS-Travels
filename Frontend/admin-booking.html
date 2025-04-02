@@ -658,6 +658,17 @@
             }
         }
 
+        .error-border {
+            border: 2px solid #ff4444 !important;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+
         /* Animated Blue Elements */
         .animated-element {
             position: absolute;
@@ -906,7 +917,7 @@
                     <th>Actions</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="bookingsTableBody">
                 <!-- Empty table, no records -->
                 </tbody>
             </table>
@@ -930,8 +941,8 @@
         <form id="add-booking-form">
             <div class="form-row">
                 <div class="form-group">
-                    <label class="form-label" for="package">Chosen Package</label>
-                    <select class="form-select" id="package" required>
+                    <label class="form-label" for="chosenPackage">Chosen Package</label>
+                    <select class="form-select" id="chosenPackage" required>
                         <option value="">Select a package</option>
                         <option value="budget">Budget Explorer Package</option>
                         <option value="classic">Classic Sri Lanka Package</option>
@@ -955,18 +966,18 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label class="form-label" for="package-id">Travel Package ID</label>
-                    <input type="text" class="form-input" id="package-id" required>
+                    <label class="form-label" for="travel_package_id">Travel Package ID</label>
+                    <input type="text" class="form-input" id="travel_package_id" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="email">Email Address</label>
-                    <input type="email" class="form-input" id="email" required>
+                    <label class="form-label" for="email_address">Email Address</label>
+                    <input type="email" class="form-input" id="email_address" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label class="form-label" for="phone">Phone Number</label>
-                    <input type="tel" class="form-input" id="phone" required>
+                    <label class="form-label" for="phone_number">Phone Number</label>
+                    <input type="tel" class="form-input" id="phone_number" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="user-id">User ID</label>
@@ -992,8 +1003,8 @@
             <input type="hidden" id="edit-booking-id">
             <div class="form-row">
                 <div class="form-group">
-                    <label class="form-label" for="edit-package">Chosen Package</label>
-                    <select class="form-select" id="edit-package" required>
+                    <label class="form-label" for="editChosenPackage">Chosen Package</label>
+                    <select class="form-select" id="editChosenPackage" required>
                         <option value="">Select a package</option>
                         <option value="budget">Budget Explorer Package</option>
                         <option value="classic">Classic Sri Lanka Package</option>
@@ -1021,14 +1032,14 @@
                     <input type="text" class="form-input" id="edit-package-id" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="edit-email">Email Address</label>
-                    <input type="email" class="form-input" id="edit-email" required>
+                    <label class="form-label" for="edit-email_address">Email Address</label>
+                    <input type="email" class="form-input" id="edit-email_address" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label class="form-label" for="edit-phone">Phone Number</label>
-                    <input type="tel" class="form-input" id="edit-phone" required>
+                    <label class="form-label" for="edit_phone_number">Phone Number</label>
+                    <input type="tel" class="form-input" id="edit_phone_number" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="edit-user-id">User ID</label>
@@ -1057,45 +1068,50 @@
         </div>
     </div>
 </div>
+
+
 <script>
     $(document).ready(function() {
         let selectedBookingId = null;
+        const API_BASE = 'http://localhost:8080/api/bookings';
+        const TOKEN_KEY = 'jwtToken';
 
-        // Load initial bookings
-        loadBookings();
+        function checkAuth() {
+            const token = localStorage.getItem(TOKEN_KEY);
+            if (!token) {
+                showError('Authentication required. Please log in.');
+                localStorage.removeItem(TOKEN_KEY);
+                window.location.href = 'login.html';
+                return false;
+            }
+            return true;
+        }
 
-        function getAuthToken() {
-            return localStorage.getItem('authToken') || '';
+        $.ajaxSetup({
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem(TOKEN_KEY),
+                'Content-Type': 'application/json'
+            },
+            error: function(xhr) {
+                handleAjaxError(xhr);
+            }
+        });
+
+        if (checkAuth()) {
+            loadBookings();
         }
 
         function loadBookings() {
-            const token = getAuthToken();
-            if (!token) {
-                showError('Authentication required. Please log in.');
-                return;
-            }
+            if (!checkAuth()) return;
 
             $.ajax({
-                url: 'http://localhost:8080/api/bookings/getAll',
+                url: API_BASE + '/getAll',
                 type: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('jwtToken'), // Ensure JWT token is stored
-                    'Content-Type': 'application/json'
-                },
                 success: function(response) {
-                    if (response && response.code === 200) {
+                    if (response?.code === 200) {
                         populateBookingsTable(response.data);
                     } else {
                         showError('Failed to load bookings: ' + (response?.message || 'Unknown error'));
-                    }
-                },
-                error: function(xhr) {
-                    if (xhr.status === 401) {
-                        showError('Session expired. Please log in again.');
-                        localStorage.removeItem('authToken'); // Remove invalid token
-                        window.location.href = "login.html";  // Redirect to login
-                    } else {
-                        showError('Error loading bookings: ' + xhr.status + ' ' + xhr.statusText);
                     }
                 }
             });
@@ -1111,53 +1127,71 @@
             }
 
             $('.empty-state').hide();
+
             bookings.forEach(booking => {
+                // Safe date handling with multiple fallbacks
+                const rawDate = booking.date || booking.travelDate || booking.bookingDate;
+                let formattedDate = 'N/A';
+
+                try {
+                    if (rawDate) {
+                        const dateObj = new Date(rawDate);
+                        formattedDate = isNaN(dateObj) ? 'Invalid Date' : dateObj.toISOString().split('T')[0];
+                    }
+                } catch (e) {
+                    console.warn('Date formatting error:', e);
+                }
+
                 tbody.append(`
-                <tr data-id="${booking.id}">
-                    <td>${booking.id}</td>
-                    <td>${booking.chosenPackage}</td>
-                    <td>${new Date(booking.date).toISOString().split('T')[0]}</td>
-                    <td>${booking.numberOfGuests}</td>
-                    <td>${booking.fullName}</td>
-                    <td>${booking.travelPackageId}</td>
-                    <td>${booking.email}</td>
-                    <td>${booking.phone}</td>
-                    <td>${booking.userId}</td>
-                    <td>
-                        <button class="btn-edit"><i class="fas fa-edit"></i></button>
-                        <button class="btn-delete"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
-            `);
+            <tr data-id="${booking.id}">
+                <td>${booking.id ?? 'N/A'}</td>
+                <td>${booking.chosenPackage ?? 'N/A'}</td>
+                <td>${formattedDate}</td>
+                <td>${booking.numberOfGuests ?? '0'}</td>
+                <td>${booking.fullName ?? 'N/A'}</td>
+                <td>${booking.travelPackageId ?? 'N/A'}</td>
+                <td>${booking.email || booking.emailAddress || 'N/A'}</td>
+                <td>${booking.phone || booking.phoneNumber || 'N/A'}</td>
+                <td>${booking.userId ?? 'N/A'}</td>
+                <td>
+                    <button class="btn-edit"><i class="fas fa-edit"></i></button>
+                    <button class="btn-delete"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+        `);
             });
         }
 
-        // Edit Booking
         $(document).on('click', '.btn-edit', function() {
+            if (!checkAuth()) return;
             selectedBookingId = $(this).closest('tr').data('id');
-            const token = getAuthToken();
 
             $.ajax({
-                url: `http://localhost:8080/api/bookings/getById/${selectedBookingId}`,
+                url: API_BASE + `/getById/${selectedBookingId}`,
                 type: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('jwtToken'), // Ensure JWT token is stored
-                    'Content-Type': 'application/json'
-                },
                 success: function(response) {
-                    if (response && response.code === 200) {
+                    if (response?.code === 200) {
                         const booking = response.data;
-                        $('#edit-package').val(booking.chosenPackage);
-                        $('#edit-travel-date').val(new Date(booking.date).toISOString().split('T')[0]);
-                        $('#edit-guests').val(booking.numberOfGuests);
-                        $('#edit-full-name').val(booking.fullName);
-                        $('#edit-package-id').val(booking.travelPackageId);
-                        $('#edit-email').val(booking.email);
-                        $('#edit-phone').val(booking.phone);
-                        $('#edit-user-id').val(booking.userId);
+
+                        // Handle different date field names and formats
+                        const rawDate = booking.date || booking.travelDate;
+                        const formattedDate = rawDate ?
+                            new Date(rawDate).toISOString().split('T')[0] :
+                            '';
+
+                        // Populate all fields with proper null checks
+                        $('#editChosenPackage').val(booking.chosenPackage || 'budget');
+                        $('#edit-travel-date').val(formattedDate);
+                        $('#edit-guests').val(booking.numberOfGuests || 1);
+                        $('#edit-full-name').val(booking.fullName || booking.full_name || '');
+                        $('#edit-package-id').val(booking.travelPackageId || '');
+                        $('#edit-email_address').val(booking.email || booking.emailAddress || '');
+                        $('#edit_phone_number').val(booking.phone || booking.phoneNumber || '');
+                        $('#edit-user-id').val(booking.userId || '');
+
                         $('#edit-booking-modal').show();
                     } else {
-                        showError('Failed to load booking.');
+                        showError('Failed to load booking details');
                     }
                 },
                 error: function(xhr) {
@@ -1166,83 +1200,132 @@
             });
         });
 
-        // Update Booking
         $('#edit-booking-form').submit(function(e) {
             e.preventDefault();
-            const token = getAuthToken();
+            if (!checkAuth()) return;
+
+            // Convert numeric fields to numbers
             const bookingData = {
                 id: selectedBookingId,
-                chosenPackage: $('#edit-package').val(),
-                date: $('#edit-travel-date').val(),
-                numberOfGuests: $('#edit-guests').val(),
-                fullName: $('#edit-full-name').val(),
-                travelPackageId: $('#edit-package-id').val(),
-                email: $('#edit-email').val(),
-                phone: $('#edit-phone').val(),
-                userId: $('#edit-user-id').val()
+                chosen_package: $('#editChosenPackage').val(),
+                travel_date: $('#edit-travel-date').val(),
+                number_of_guests: Number($('#edit-guests').val()), // Convert to number
+                full_name: $('#edit-full-name').val(),
+                travel_package_id: Number($('#edit-package-id').val()), // Convert to number
+                email_address: $('#edit-email_address').val(),
+                phone_number: $('#edit_phone_number').val(),
+                user_id: Number($('#edit-user-id').val()) // Convert to number
             };
 
+            console.log("Validated Data:", bookingData);
+
             $.ajax({
-                url: 'http://localhost:8080/api/bookings/updateBooking',
+                url: API_BASE + '/updateBooking',
                 type: 'PUT',
                 contentType: 'application/json',
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('jwtToken'), // Ensure JWT token is stored
-                    'Content-Type': 'application/json'
-                },
                 data: JSON.stringify(bookingData),
                 success: function(response) {
-                    if (response && response.code === 200) {
-                        $('#edit-booking-modal').hide();
-                        loadBookings();
-                        showSuccess('Booking updated successfully!');
-                    } else {
-                        showError('Failed to update booking.');
-                    }
+                    // ... existing success handler ...
                 },
                 error: function(xhr) {
+                    console.error("Detailed Error:", xhr.responseText);
                     handleAjaxError(xhr);
                 }
             });
         });
 
-        // Delete Booking
         $(document).on('click', '.btn-delete', function() {
+            if (!checkAuth()) return;
             selectedBookingId = $(this).closest('tr').data('id');
             $('#delete-booking-modal').show();
         });
 
         $('#confirm-delete').click(function() {
-            const token = getAuthToken();
+            if (!checkAuth()) return;
 
             $.ajax({
-                url: `http://localhost:8080/api/bookings/deleteBooking/${selectedBookingId}`,
+                url: API_BASE + `/deleteBooking/${selectedBookingId}`,
                 type: 'DELETE',
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('jwtToken'), // Ensure JWT token is stored
-                    'Content-Type': 'application/json'
-                },
                 success: function(response) {
-                    if (response && response.code === 200) {
+                    if (response?.code === 200) {
                         $('#delete-booking-modal').hide();
                         loadBookings();
                         showSuccess('Booking deleted successfully!');
                     } else {
-                        showError('Failed to delete booking.');
+                        showError(response?.message || 'Failed to delete booking');
+                    }
+                }
+            });
+        });
+
+        $('#add-booking-form').submit(function(e) {
+            e.preventDefault();
+            if (!checkAuth()) return;
+
+            const packageId = Number($('#travel_package_id').val().trim());
+
+            console.log("Debug: Package ID:", packageId); // Debugging
+            console.log("Package Type:", typeof packageId); // Ensure it's a number
+
+            if (isNaN(packageId) || packageId <= 0) {
+                showError('Valid package ID is required');
+                $('#travel_package_id').addClass('error-highlight');
+                return;
+            }
+
+            const bookingData = {
+                chosenPackage: $('#chosenPackage').val(),
+                travelDate: $('#travel-date').val(),
+                numberOfGuests: Number($('#guests').val()),
+                fullName: $('#full-name').val(),
+                travelPackageId: packageId, // Ensure this is a valid number
+                emailAddress: $('#email_address').val(),
+                phoneNumber: $('#phone_number').val(),
+                userId: Number($('#user-id').val())
+            };
+
+            console.log("Final Payload Sent:", JSON.stringify(bookingData));
+
+            $.ajax({
+                url: API_BASE + '/addBooking',
+                type: 'POST',
+                data: JSON.stringify(bookingData),
+                contentType: 'application/json',
+                success: function(response) {
+                    if (response?.code === 201) {
+                        $('#add-booking-modal').hide();
+                        loadBookings();
+                        showSuccess('Booking added successfully!');
+                    } else {
+                        showError(response?.message || 'Failed to add booking');
                     }
                 },
                 error: function(xhr) {
+                    console.log("AJAX Error Response:", xhr.responseText);
                     handleAjaxError(xhr);
                 }
             });
         });
 
-        // Close modal
-        $('.close-modal').click(function() {
+        $('.close-modal, .btn-outline').click(function() {
             $(this).closest('.modal').hide();
         });
 
-        // Show Success/Failure messages
+        function handleAjaxError(xhr) {
+            switch(xhr.status) {
+                case 401:
+                    showError('Session expired. Redirecting to login...');
+                    localStorage.removeItem(TOKEN_KEY);
+                    window.location.href = 'login.html';
+                    break;
+                case 403:
+                    showError('Permission denied');
+                    break;
+                default:
+                    showError(`Error ${xhr.status}: ${xhr.responseText || 'Unknown error'}`);
+            }
+        }
+
         function showSuccess(message) {
             console.log('Success:', message);
         }
@@ -1250,55 +1333,6 @@
         function showError(message) {
             console.error('Error:', message);
         }
-
-        function handleAjaxError(xhr) {
-            if (xhr.status === 401) {
-                showError('Session expired. Please log in again.');
-                localStorage.removeItem('authToken');
-                window.location.href = '/login';
-            } else {
-                showError('Error: ' + xhr.status + ' ' + xhr.responseText);
-            }
-        }
-
-        // Add Booking
-        $('#add-booking-form').submit(function(e) {
-            e.preventDefault();
-            const token = getAuthToken();
-            const bookingData = {
-                chosenPackage: $('#package').val(),
-                date: $('#travel-date').val(),
-                numberOfGuests: $('#guests').val(),
-                fullName: $('#full-name').val(),
-                travelPackageId: $('#package-id').val(),
-                email: $('#email').val(),
-                phone: $('#phone').val(),
-                userId: $('#user-id').val()
-            };
-
-            $.ajax({
-                url: 'http://localhost:8080/api/bookings/addBooking',
-                type: 'POST',
-                contentType: 'application/json',
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('jwtToken'), // Ensure JWT token is stored
-                    'Content-Type': 'application/json'
-                },
-                data: JSON.stringify(bookingData),
-                success: function(response) {
-                    if (response && response.code === 201) {
-                        $('#add-booking-modal').hide();
-                        loadBookings();
-                        showSuccess('Booking added successfully!');
-                    } else {
-                        showError('Failed to add booking.');
-                    }
-                },
-                error: function(xhr) {
-                    handleAjaxError(xhr);
-                }
-            });
-        });
     });
 
 

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NS Travels - Book Your Dream Vacation</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
     /* Reset and Base Styles */
     * {
@@ -601,65 +602,90 @@
     <!-- Booking Form -->
     <div class="booking-form" id="booking-form-container">
       <h2 class="form-title">Booking Details</h2>
-      <form id="booking-form">
+
         <!-- Hidden fields for database schema -->
-        <input type="hidden" id="booking-id" name="id">
-        <input type="hidden" id="status" name="status" value="CONFIRMED">
-        <input type="hidden" id="total-price" name="total_price" value="0">
-        <input type="hidden" id="hotel-id" name="hotel_id" value="1">
-        <input type="hidden" id="user-id" name="user_id" value="1">
-        <input type="hidden" id="check-out-date" name="check_out_date">
 
+
+        <form id="add-booking-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="chosenPackage">Chosen Package</label>
+              <select class="form-select" id="chosenPackage" required>
+                <option value="">Select a package</option>
+                <option value="budget">Budget Explorer Package</option>
+                <option value="classic">Classic Sri Lanka Package</option>
+                <option value="luxury">Luxury Paradise Package</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="travel-date">Date</label>
+              <input type="date" class="form-input" id="travel-date" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="guests">No. of Guests</label>
+              <input type="number" class="form-input" id="guests" min="1" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="full-name">Full Name</label>
+              <input type="text" class="form-input" id="full-name" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="travel_package_id">Travel Package ID</label>
+              <input type="text" class="form-input" id="travel_package_id" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="email_address">Email Address</label>
+              <input type="email" class="form-input" id="email_address" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="phone_number">Phone Number</label>
+              <input type="tel" class="form-input" id="phone_number" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="user-id">User ID</label>
+              <input type="text" class="form-input" id="user-id" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline" id="cancel-add">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Booking</button>
+          </div>
+        </form>
+
+    </div>
+
+    <div class="booking-form" id="edit-booking-form-container" style="display: none;">
+      <h2 class="form-title">Edit Booking</h2>
+      <form id="edit-booking-form">
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label" for="full-name">Full Name:</label>
-            <input type="text" id="full-name" class="form-input" placeholder="Enter your full name" required>
+            <label class="form-label" for="edit-package-id">Travel Package ID</label>
+            <input type="text" class="form-input" id="edit-package-id" required>
           </div>
           <div class="form-group">
-            <label class="form-label" for="email">Email Address:</label>
-            <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
+            <label class="form-label" for="edit-email_address">Email Address</label>
+            <input type="email" class="form-input" id="edit-email_address" required>
           </div>
         </div>
-
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label" for="phone">Phone Number:</label>
-            <input type="tel" id="phone" class="form-input" placeholder="Enter your phone number" required>
+            <label class="form-label" for="edit_phone_number">Phone Number</label>
+            <input type="tel" class="form-input" id="edit_phone_number" required>
           </div>
           <div class="form-group">
-            <label class="form-label" for="package">Choose Your Package:</label>
-            <select id="package" class="form-select" required>
-              <option value="">Select a package</option>
-              <option value="budget">Budget Explorer Package</option>
-              <option value="classic">Classic Sri Lanka Package</option>
-              <option value="luxury">Luxury Paradise Package</option>
-            </select>
+            <label class="form-label" for="edit-user-id">User ID</label>
+            <input type="text" class="form-input" id="edit-user-id" required>
           </div>
         </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="travel-date">Select Travel Date:</label>
-            <input type="date" id="travel-date" name="check_in_date" class="form-input" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="guests">Number of Guests:</label>
-            <input type="number" id="guests" class="form-input" min="1" placeholder="Enter number of guests" required>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="additional-requests">Additional Requests:</label>
-          <textarea id="additional-requests" class="form-textarea" placeholder="Enter any special requests or preferences"></textarea>
-        </div>
-
-        <div class="form-actions">
-          <button type="button" class="btn btn-outline">
-            <i class="fas fa-times"></i> Cancel
-          </button>
-          <button type="submit" class="btn btn-primary">
-            <i class="fas fa-check"></i> Confirm Booking
-          </button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="cancel-edit">Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Booking</button>
         </div>
       </form>
     </div>
@@ -820,241 +846,196 @@
 </div>
 
 <script>
-  // Create animated background elements
-  function createAnimatedElements() {
-    const container = document.querySelector('.container');
+  document.addEventListener("DOMContentLoaded", function () {
+    // Booking Form Submission
+    const bookingForm = document.getElementById("add-booking-form");
+    if (bookingForm) {
+      bookingForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
 
-    for (let i = 0; i < 5; i++) {
-      const element = document.createElement('div');
-      element.classList.add('animated-element');
+        // Collect form data
+        const bookingData = {
+          fullName: document.getElementById("full-name").value.trim(),
+          emailAddress: document.getElementById("email_address").value.trim(),
+          phoneNumber: document.getElementById("phone_number").value.trim(),
+          chosenPackage: document.getElementById("chosenPackage").value.trim(),
+          travelPackageId: document.getElementById("travel_package_id").value.trim(),
+          travelDate: document.getElementById("travel-date").value,
+          numberOfGuests: parseInt(document.getElementById("guests").value, 10) || 1,
+        };
 
-      const size = Math.random() * 300 + 100;
-      const posX = Math.random() * 100;
-      const posY = Math.random() * 100;
-      const duration = Math.random() * 20 + 10;
-      const delay = Math.random() * 5;
+        // Validate input
+        if (!bookingData.fullName || !bookingData.emailAddress || !bookingData.phoneNumber) {
+          showToast("Please fill in all required fields!", "error");
+          return;
+        }
 
-      element.style.width = `${size}px`;
-      element.style.height = `${size}px`;
-      element.style.left = `${posX}%`;
-      element.style.top = `${posY}%`;
-      element.style.animationDuration = `${duration}s`;
-      element.style.animationDelay = `${delay}s`;
+        const submitBtn = bookingForm.querySelector("button[type='submit']");
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
 
-      container.appendChild(element);
-    }
-  }
+        try {
+          const response = await fetch("http://localhost:8080/api/bookings/addBooking", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(bookingData),
+          });
 
-  // Initialize animated elements
-  createAnimatedElements();
+          if (!response.ok) {
+            throw new Error(`Server Error: ${response.status}`);
+          }
 
-  // Set minimum date for travel date
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('travel-date').min = today;
-
-  // Set initial date
-  const currentDate = new Date();
-  document.getElementById('travel-date').valueAsDate = currentDate;
-
-  // Set check-out date (7 days after check-in)
-  const nextWeek = new Date();
-  nextWeek.setDate(currentDate.getDate() + 7);
-  document.getElementById('check-out-date').value = nextWeek.toISOString().split('T  + 7);
-  document.getElementById('check-out-date').value = nextWeek.toISOString().split('T')[0];
-
-  // Package prices
-  const packagePrices = {
-    'budget': 599,
-    'classic': 999,
-    'luxury': 1599
-  };
-
-  // Update price based on package and guests
-  function updatePrice() {
-    const packageSelect = document.getElementById('package');
-    const guestsInput = document.getElementById('guests');
-
-    if (packageSelect.value && guestsInput.value) {
-      const basePrice = packagePrices[packageSelect.value];
-      const guests = parseInt(guestsInput.value);
-      const totalPrice = basePrice * guests;
-
-      document.getElementById('total-price').value = totalPrice;
-
-      // Update summary
-      updateSummary();
-    }
-  }
-
-  // Add event listeners for price updates
-  document.getElementById('package').addEventListener('change', updatePrice);
-  document.getElementById('guests').addEventListener('input', updatePrice);
-
-  // Form elements for summary
-  const fullNameInput = document.getElementById('full-name');
-  const emailInput = document.getElementById('email');
-  const phoneInput = document.getElementById('phone');
-  const packageSelect = document.getElementById('package');
-  const travelDateInput = document.getElementById('travel-date');
-  const guestsInput = document.getElementById('guests');
-  const additionalRequestsInput = document.getElementById('additional-requests');
-  const statusInput = document.getElementById('status');
-  const totalPriceInput = document.getElementById('total-price');
-  const checkOutDateInput = document.getElementById('check-out-date');
-
-  // Summary elements
-  const summaryName = document.getElementById('summary-name');
-  const summaryEmail = document.getElementById('summary-email');
-  const summaryPhone = document.getElementById('summary-phone');
-  const summaryPackageType = document.getElementById('summary-package-type');
-  const summaryTravelDate = document.getElementById('summary-travel-date');
-  const summaryGuestsCount = document.getElementById('summary-guests-count');
-  const summaryDuration = document.getElementById('summary-duration');
-  const summaryStatus = document.getElementById('summary-status');
-  const summaryTotalPrice = document.getElementById('summary-total-price');
-
-  // Update summary when form values change
-  fullNameInput.addEventListener('input', updateSummary);
-  emailInput.addEventListener('input', updateSummary);
-  phoneInput.addEventListener('input', updateSummary);
-  packageSelect.addEventListener('change', updateSummary);
-  travelDateInput.addEventListener('change', function() {
-    // Update check-out date (7 days after check-in)
-    const checkInDate = new Date(this.value);
-    const checkOutDate = new Date(checkInDate);
-    checkOutDate.setDate(checkInDate.getDate() + 7);
-    checkOutDateInput.value = checkOutDate.toISOString().split('T')[0];
-
-    updateSummary();
-  });
-  guestsInput.addEventListener('input', updateSummary);
-  statusInput.addEventListener('change', updateSummary);
-
-  // Function to update the booking summary
-  function updateSummary() {
-    // Full Name
-    summaryName.textContent = fullNameInput.value || '--';
-
-    // Email
-    summaryEmail.textContent = emailInput.value || '--';
-
-    // Phone
-    summaryPhone.textContent = phoneInput.value || '--';
-
-    // Package
-    if (packageSelect.value) {
-      const packageText = packageSelect.options[packageSelect.selectedIndex].text;
-      summaryPackageType.textContent = packageText;
-    } else {
-      summaryPackageType.textContent = '--';
-    }
-
-    // Travel Date
-    if (travelDateInput.value) {
-      const travelDate = new Date(travelDateInput.value);
-      summaryTravelDate.textContent = travelDate.toLocaleDateString('en-US', {
-        weekday: 'short',
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
+          const data = await response.json();
+          updateBookingSummary(bookingData);
+          document.getElementById("booking-form-container").style.display = "none";
+          document.getElementById("payment-form-container").style.display = "block";
+          showToast("Booking saved successfully!", "success");
+        } catch (error) {
+          console.error("Error:", error);
+          showToast(`Error: ${error.message}`, "error");
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = "Save Booking";
+        }
       });
-    } else {
-      summaryTravelDate.textContent = '--';
     }
+  });
 
-    // Guests
-    summaryGuestsCount.textContent = guestsInput.value || '--';
-
-    // Duration
-    if (travelDateInput.value && checkOutDateInput.value) {
-      const checkInDate = new Date(travelDateInput.value);
-      const checkOutDate = new Date(checkOutDateInput.value);
-      const timeDiff = checkOutDate - checkInDate;
-      const nights = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-      summaryDuration.textContent = nights + (nights === 1 ? ' night' : ' nights');
-    } else {
-      summaryDuration.textContent = '--';
-    }
-
-    // Status
-    if (statusInput.value) {
-      summaryStatus.innerHTML = '';
-      const statusBadge = document.createElement('span');
-      statusBadge.className = 'status-badge status-' + statusInput.value;
-      statusBadge.textContent = statusInput.value;
-      summaryStatus.appendChild(statusBadge);
-    } else {
-      summaryStatus.textContent = '--';
-    }
-
-    // Total Price
-    if (totalPriceInput.value) {
-      summaryTotalPrice.textContent = '$' + parseFloat(totalPriceInput.value).toFixed(2);
-    } else {
-      summaryTotalPrice.textContent = '$0.00';
-    }
-
-    // Update payment summary
-    document.getElementById('payment-summary-name').textContent = fullNameInput.value || '--';
-    document.getElementById('payment-summary-package').textContent = packageSelect.options[packageSelect.selectedIndex]?.text || '--';
-    document.getElementById('payment-summary-date').textContent = summaryTravelDate.textContent;
-    document.getElementById('payment-summary-guests').textContent = guestsInput.value || '--';
-    document.getElementById('payment-summary-duration').textContent = summaryDuration.textContent;
-    document.getElementById('payment-summary-total').textContent = summaryTotalPrice.textContent;
+  // Show toast notifications
+  function showToast(message, type = "info") {
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
   }
 
-  // Initialize summary
-  updateSummary();
+  // Update booking summary UI
+  function updateBookingSummary(data) {
+    document.getElementById("summary-name").textContent = data.fullName;
+    document.getElementById("summary-email").textContent = data.emailAddress;
+    document.getElementById("summary-phone").textContent = data.phoneNumber;
+    document.getElementById("summary-package-type").textContent = data.chosenPackage;
+    document.getElementById("summary-travel-date").textContent = new Date(data.travelDate).toLocaleDateString();
+    document.getElementById("summary-guests-count").textContent = data.numberOfGuests;
+  }
 
-  // Form submission
-  document.getElementById('booking-form').addEventListener('submit', function(e) {
-    e.preventDefault();
 
-    // Get form data
-    const formData = {
-      full_name: fullNameInput.value,
-      email: emailInput.value,
-      phone: phoneInput.value,
-      package: packageSelect.value,
-      travel_date: travelDateInput.value,
-      check_out_date: checkOutDateInput.value,
-      guests: guestsInput.value,
-      additional_requests: additionalRequestsInput.value,
-      status: statusInput.value,
-      total_price: parseFloat(totalPriceInput.value),
-    };
-
-    console.log('Booking data:', formData);
-
-    // Show payment form, hide booking form
-    document.getElementById('booking-form-container').style.display = 'none';
-    document.getElementById('payment-form-container').style.display = 'block';
-  });
-
-  // Proceed to payment button
-  document.getElementById('proceed-to-payment').addEventListener('click', function() {
-    // Here you would navigate to the payment page or show a payment form
-    document.getElementById('booking-form').dispatchEvent(new Event('submit'));
-  });
-
-  // Back button functionality
-  document.getElementById('back-to-booking').addEventListener('click', function() {
-    document.getElementById('payment-form-container').style.display = 'none';
-    document.getElementById('booking-form-container').style.display = 'block';
-  });
-
-  // Payment form submission
-  document.getElementById('payment-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert('Payment successful! Your booking is confirmed.');
-
-    // Reset forms and go back to booking form
-    document.getElementById('booking-form').reset();
-    document.getElementById('payment-form').reset();
-    document.getElementById('payment-form-container').style.display = 'none';
-    document.getElementById('booking-form-container').style.display = 'block';
-  });
 </script>
+
+<script>
+
+function updateBookingSummary(data) {
+document.getElementById("summary-name").textContent = data.fullName || "--";
+document.getElementById("summary-email").textContent = data.emailAddress || "--";
+document.getElementById("summary-phone").textContent = data.phoneNumber || "--";
+document.getElementById("summary-package-type").textContent = data.chosenPackage || "--";
+document.getElementById("summary-travel-date").textContent = new Date(data.travelDate).toLocaleDateString();
+document.getElementById("summary-guests-count").textContent = data.numberOfGuests || "0";
+document.getElementById("summary-total-price").textContent = calculateTotalPrice(data.chosenPackage, data.numberOfGuests);
+}
+
+function showToast(message, type = "info") {
+const toast = document.createElement("div");
+toast.className = `toast ${type}`;
+toast.textContent = message;
+document.body.appendChild(toast);
+setTimeout(() => toast.remove(), 3000);
+}
+
+function calculateTotalPrice(packageType, guests) {
+const prices = { 'budget': 500, 'classic': 800, 'luxury': 1200 };
+return `$${(prices[packageType] * (parseInt(guests) || 1)).toFixed(2)}`;
+}
+
+// Animated Background Elements
+function createAnimatedElements() {
+const container = document.querySelector(".container");
+if (!container) return;
+
+for (let i = 0; i < 5; i++) {
+const element = document.createElement("div");
+element.classList.add("animated-element");
+element.style.width = `${Math.random() * 300 + 100}px`;
+element.style.height = element.style.width;
+element.style.left = `${Math.random() * 100}%`;
+element.style.top = `${Math.random() * 100}%`;
+element.style.animationDuration = `${Math.random() * 20 + 10}s`;
+element.style.animationDelay = `${Math.random() * 5}s`;
+container.appendChild(element);
+}
+}
+createAnimatedElements();
+
+// Form Initialization
+function initializeForm() {
+const travelDateInput = document.getElementById("travel-date");
+if (travelDateInput) {
+travelDateInput.min = new Date().toISOString().split("T")[0];
+travelDateInput.value = travelDateInput.min;
+}
+updateCheckOutDate();
+updatePrice();
+}
+
+function updateCheckOutDate() {
+const travelDateInput = document.getElementById("travel-date");
+const checkOutDateInput = document.getElementById("check-out-date");
+const packageSelect = document.getElementById("package");
+if (travelDateInput && checkOutDateInput && packageSelect) {
+const duration = { 'budget': 7, 'classic': 10, 'luxury': 14 }[packageSelect.value] || 7;
+const checkOutDate = new Date(travelDateInput.value);
+checkOutDate.setDate(checkOutDate.getDate() + duration);
+checkOutDateInput.value = checkOutDate.toISOString().split("T")[0];
+}
+}
+
+function updatePrice() {
+const packageSelect = document.getElementById("package");
+const guestsInput = document.getElementById("guests");
+const totalPriceInput = document.getElementById("total-price");
+if (packageSelect && guestsInput && totalPriceInput) {
+totalPriceInput.value = calculateTotalPrice(packageSelect.value, guestsInput.value);
+}
+}
+
+initializeForm();
+
+// Event Listeners
+const packageSelect = document.getElementById("package");
+if (packageSelect) packageSelect.addEventListener("change", updateCheckOutDate);
+
+const guestsInput = document.getElementById("guests");
+if (guestsInput) guestsInput.addEventListener("input", updatePrice);
+
+const travelDateInput = document.getElementById("travel-date");
+if (travelDateInput) travelDateInput.addEventListener("change", updateCheckOutDate);
+
+// Payment Handling
+const bookingFormContainer = document.getElementById("booking-form-container");
+const paymentFormContainer = document.getElementById("payment-form-container");
+const backToBookingBtn = document.getElementById("back-to-booking");
+const paymentForm = document.getElementById("payment-form");
+
+if (backToBookingBtn) {
+backToBookingBtn.addEventListener("click", function () {
+paymentFormContainer.style.display = "none";
+bookingFormContainer.style.display = "block";
+});
+}
+
+if (paymentForm) {
+paymentForm.addEventListener("submit", function (e) {
+e.preventDefault();
+alert("Payment processed successfully!");
+paymentForm.reset();
+bookingForm.reset();
+initializeForm();
+});
+}
+
+</script>
+
 </body>
 </html>
 

@@ -1,7 +1,10 @@
 package com.example.ns_travels.controller;
 
 import com.example.ns_travels.dto.BookingDTO;
+import com.example.ns_travels.entity.User;
+import com.example.ns_travels.repository.UsersRepo;
 import com.example.ns_travels.service.BookingService;
+import com.example.ns_travels.service.TravelPackagesService;
 import com.example.ns_travels.util.ResponseUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,16 +12,23 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/bookings")
 @PreAuthorize("hasRole('ADMIN')")
+@CrossOrigin(origins = "*")
 public class BookingController {
 
     private final BookingService bookingService;
+    private final TravelPackagesService packageService;
+    private final UsersRepo userRepository; // Add this field
 
-    public BookingController(BookingService bookingService) {
+    // Constructor injection for BookingService, TravelPackagesService, and UserRepository
+    public BookingController(BookingService bookingService, TravelPackagesService packageService, UsersRepo userRepository) {
         this.bookingService = bookingService;
+        this.packageService = packageService;
+        this.userRepository = userRepository; // Initialize userRepository
     }
 
     // Get booking by ID
@@ -51,6 +61,14 @@ public class BookingController {
     @PostMapping("/addBooking")
     public ResponseEntity<ResponseUtil> addBooking(@RequestBody BookingDTO bookingDTO) {
         try {
+            // Check if the user exists
+            Optional<User> user = userRepository.findById(bookingDTO.getUserId());
+            if (!user.isPresent()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(new ResponseUtil(400, "User not found", null));
+            }
+
+            // Proceed to save the booking if user exists
             bookingService.save(bookingDTO);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(new ResponseUtil(201, "Booking added successfully", null));
@@ -84,5 +102,10 @@ public class BookingController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseUtil(500, e.getMessage(), null));
         }
+    }
+
+    @GetMapping("/packages/exists/{id}")
+    public ResponseEntity<Boolean> packageExists(@PathVariable Long id) {
+        return ResponseEntity.ok(packageService.existsById(id));
     }
 }

@@ -9,9 +9,11 @@ public class BookingDTO {
     private String emailAddress;
     private String phoneNumber;
     private String chosenPackage;
+    private Long travelPackageId;  // ✅ Added travelPackageId
     private LocalDate travelDate;
     private int numberOfGuests;
     private String additionalRequests;
+    private Long userId;  // ✅ Added userId
 
     // Default constructor
     public BookingDTO() {
@@ -19,19 +21,21 @@ public class BookingDTO {
 
     // Parameterized constructor
     public BookingDTO(Long id, String fullName, String emailAddress, String phoneNumber,
-                      String chosenPackage, LocalDate travelDate, int numberOfGuests, String additionalRequests) {
+                      String chosenPackage, Long travelPackageId, LocalDate travelDate,
+                      int numberOfGuests, String additionalRequests, Long userId) {
         this.id = id;
         this.fullName = fullName;
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
         this.chosenPackage = chosenPackage;
+        this.travelPackageId = travelPackageId;  // ✅ Assigning travelPackageId
         this.travelDate = travelDate;
         this.numberOfGuests = numberOfGuests;
         this.additionalRequests = additionalRequests;
+        this.userId = userId;  // ✅ Assigning userId
     }
 
     // Getters and Setters
-
     public Long getId() {
         return id;
     }
@@ -72,6 +76,14 @@ public class BookingDTO {
         this.chosenPackage = chosenPackage;
     }
 
+    public Long getTravelPackageId() {
+        return travelPackageId;
+    }
+
+    public void setTravelPackageId(Long travelPackageId) {
+        this.travelPackageId = travelPackageId;
+    }
+
     public LocalDate getTravelDate() {
         return travelDate;
     }
@@ -96,6 +108,14 @@ public class BookingDTO {
         this.additionalRequests = additionalRequests;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "BookingDTO{" +
@@ -104,9 +124,11 @@ public class BookingDTO {
                 ", emailAddress='" + emailAddress + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", chosenPackage='" + chosenPackage + '\'' +
+                ", travelPackageId=" + travelPackageId +
                 ", travelDate=" + travelDate +
                 ", numberOfGuests=" + numberOfGuests +
                 ", additionalRequests='" + additionalRequests + '\'' +
+                ", userId=" + userId +
                 '}';
     }
 }

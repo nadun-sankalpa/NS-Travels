@@ -69,4 +69,9 @@ public class TravelPackagesServiceImpl implements TravelPackagesService {
                 .map(travelPackage -> modelMapper.map(travelPackage, TravelPackagesDTO.class))
                 .toList();
     }
+
+    @Override
+    public Boolean existsById(Long id) {
+        return null;
+    }
 }
