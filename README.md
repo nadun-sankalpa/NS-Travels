@@ -6,7 +6,7 @@ Here’s your **supercharged** README with maximum emoji magic ✨, designed to 
 ### 🌎 *Where Dreams Take Flight* 🌠  
 
 <p align="center">
-  <img src="![Image](https://github.com/user-attachments/assets/d1c022dd-8c56-4b43-b300-d13f97b08683)">
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/c8661cf01032c6c4163798dbf7df78f5bdad7f58/g4.jpeg">
   <br>
   <em>🚀 Your passport to hassle-free adventures! 🗺️</em>
 </p>
