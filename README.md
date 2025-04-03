@@ -29,19 +29,19 @@ NS Travels isn’t just another booking platform—it’s **your travel genie** 
 
 ### **1. 🏡 Homepage**  
 <p align="center">
-  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/fddd358e4da38290dc2d57b875f88b1acbece1b9/Screenshot%202025-04-03%20005740.png" width="700" alt="Homepage" style="border-radius: 20px;><br>
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/fddd358e4da38290dc2d57b875f88b1acbece1b9/Screenshot%202025-04-03%20005740.png" width="700" alt="Homepage" ><br>
   <em>🔍 Discover hidden gems with our mood-based search! 💎</em>  
 </p>
 
 ### **2. 📊 Admin Dashboard**  
 <p align="center">
-  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/ce0f909f793e1748ae1add7cfa5488b1d1665c68/Screenshot%202025-04-03%20224344.png" width="700" alt="Admin Dashboard" style="border-radius: 20px;><br>
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/ce0f909f793e1748ae1add7cfa5488b1d1665c68/Screenshot%202025-04-03%20224344.png" width="700" alt="Admin Dashboard" ><br>
   <em>📱 All your trips in one place—even offline! 📶</em>  
 </p>
 
 ### **3. 💰 Booking Dashboard**  
 <p align="center">
-  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/83ff3c1ecd41121bdf860d958b356677ed1922fc/Screenshot%202025-04-03%20224426.png" width="700" alt="Payment Form" style="border-radius: 20px;><br>
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/83ff3c1ecd41121bdf860d958b356677ed1922fc/Screenshot%202025-04-03%20224426.png" width="700" alt="Payment Form" style="border-radius: 20px;"><br>
   <em>💳 Checkout faster than you can say "Bon voyage!" 🛫</em>  
 </p>
 
