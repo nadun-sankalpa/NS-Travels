@@ -33,9 +33,9 @@ NS Travels isn’t just another booking platform—it’s **your travel genie** 
   <em>🔍 Discover hidden gems with our mood-based search! 💎</em>  
 </p>
 
-### **2. 📊 Booking Dashboard**  
+### **2. 📊 Admin Dashboard**  
 <p align="center">
-  <img src="https://i.imgur.com/def456.jpg" width="700" alt="Dashboard"><br>
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/ce0f909f793e1748ae1add7cfa5488b1d1665c68/Screenshot%202025-04-03%20224344.png" width="700" alt="Admin Dashboard"><br>
   <em>📱 All your trips in one place—even offline! 📶</em>  
 </p>
 
