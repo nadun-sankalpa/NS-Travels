@@ -846,79 +846,100 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    // Booking Form Submission
-    const bookingForm = document.getElementById("add-booking-form");
-    if (bookingForm) {
-      bookingForm.addEventListener("submit", async function (e) {
-        e.preventDefault();
+  $(document).ready(function() {
+    const API_BASE = 'http://localhost:8080/api/bookings';
+    const TOKEN_KEY = 'jwtToken';
 
-        // Collect form data
-        const bookingData = {
-          fullName: document.getElementById("full-name").value.trim(),
-          emailAddress: document.getElementById("email_address").value.trim(),
-          phoneNumber: document.getElementById("phone_number").value.trim(),
-          chosenPackage: document.getElementById("chosenPackage").value.trim(),
-          travelPackageId: document.getElementById("travel_package_id").value.trim(),
-          travelDate: document.getElementById("travel-date").value,
-          numberOfGuests: parseInt(document.getElementById("guests").value, 10) || 1,
-        };
+    // Function to show error messages
+    function showError(message) {
+      console.error("Error:", message);
+      alert(message); // Replace with custom UI notifications if desired
+    }
 
-        // Validate input
-        if (!bookingData.fullName || !bookingData.emailAddress || !bookingData.phoneNumber) {
-          showToast("Please fill in all required fields!", "error");
-          return;
-        }
+    // Function to show success messages
+    function showSuccess(message) {
+      console.log("Success:", message);
+      alert(message); // Replace with custom UI notifications if desired
+    }
 
-        const submitBtn = bookingForm.querySelector("button[type='submit']");
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+    // Function to check authentication
+    function checkAuth() {
+      const token = localStorage.getItem(TOKEN_KEY);
+      if (!token) {
+        showError('Authentication required. Please log in.');
+        window.location.href = 'login.html'; // Adjust path as needed
+        return false;
+      }
+      return true;
+    }
 
-        try {
-          const response = await fetch("http://localhost:8080/api/bookings/addBooking", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(bookingData),
-          });
+    // Submit handler for the add-booking form
+    $('#add-booking-form').submit(function(e) {
+      e.preventDefault();
 
-          if (!response.ok) {
-            throw new Error(`Server Error: ${response.status}`);
+      // Ensure user is authenticated
+      if (!checkAuth()) return;
+
+      // Validate package ID input
+      const packageId = Number($('#travel_package_id').val().trim());
+      if (isNaN(packageId) || packageId <= 0) {
+        showError('Valid package ID is required');
+        $('#travel_package_id').addClass('error-highlight');
+        return;
+      }
+
+      // Collect booking data from form fields
+      const bookingData = {
+        chosenPackage: $('#chosenPackage').val().trim(),
+        travelDate: $('#travel-date').val().trim(),
+        numberOfGuests: Number($('#guests').val().trim()),
+        fullName: $('#full-name').val().trim(),
+        travelPackageId: packageId, // Valid package ID as number
+        emailAddress: $('#email_address').val().trim(),
+        phoneNumber: $('#phone_number').val().trim(),
+        userId: Number($('#user-id').val().trim()) // Make sure this hidden field is set
+      };
+
+      console.log("Final Payload Sent:", JSON.stringify(bookingData));
+
+      // Send AJAX POST request to add booking
+      $.ajax({
+        url: API_BASE + '/addBooking',
+        type: 'POST',
+        data: JSON.stringify(bookingData),
+        contentType: 'application/json',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem(TOKEN_KEY)
+        },
+        success: function(response) {
+          if (response && response.code === 201) {
+            // Hide modal if applicable
+            $('#add-booking-modal').hide();
+            showSuccess('Booking added successfully!');
+
+            // Reload the page after 2 seconds with a success message
+            setTimeout(function() {
+              window.location.reload();
+            }, 2000);
+          } else {
+            showError(response?.message || 'Failed to add booking');
           }
-
-          const data = await response.json();
-          updateBookingSummary(bookingData);
-          document.getElementById("booking-form-container").style.display = "none";
-          document.getElementById("payment-form-container").style.display = "block";
-          showToast("Booking saved successfully!", "success");
-        } catch (error) {
-          console.error("Error:", error);
-          showToast(`Error: ${error.message}`, "error");
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = "Save Booking";
+        },
+        error: function(xhr) {
+          console.log("AJAX Error Response:", xhr.responseText);
+          let errorMsg = `Error ${xhr.status}: ${xhr.responseText || 'Unknown error'}`;
+          showError(errorMsg);
         }
       });
-    }
+    });
   });
 
-  // Show toast notifications
-  function showToast(message, type = "info") {
-    const toast = document.createElement("div");
-    toast.className = `toast ${type}`;
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
-  }
 
-  // Update booking summary UI
-  function updateBookingSummary(data) {
-    document.getElementById("summary-name").textContent = data.fullName;
-    document.getElementById("summary-email").textContent = data.emailAddress;
-    document.getElementById("summary-phone").textContent = data.phoneNumber;
-    document.getElementById("summary-package-type").textContent = data.chosenPackage;
-    document.getElementById("summary-travel-date").textContent = new Date(data.travelDate).toLocaleDateString();
-    document.getElementById("summary-guests-count").textContent = data.numberOfGuests;
-  }
+
+
+
+
+
 
 
 </script>

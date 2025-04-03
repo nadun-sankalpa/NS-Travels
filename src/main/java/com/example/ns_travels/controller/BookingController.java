@@ -16,94 +16,97 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/bookings")
-@PreAuthorize("hasRole('ADMIN')")
 @CrossOrigin(origins = "*")
 public class BookingController {
 
     private final BookingService bookingService;
     private final TravelPackagesService packageService;
-    private final UsersRepo userRepository; // Add this field
+    private final UsersRepo userRepository;
 
-    // Constructor injection for BookingService, TravelPackagesService, and UserRepository
+    // Constructor Injection
     public BookingController(BookingService bookingService, TravelPackagesService packageService, UsersRepo userRepository) {
         this.bookingService = bookingService;
         this.packageService = packageService;
-        this.userRepository = userRepository; // Initialize userRepository
+        this.userRepository = userRepository;
     }
 
-    // Get booking by ID
+    // ✅ Get Booking by ID
     @GetMapping("/getById/{id}")
     public ResponseEntity<ResponseUtil> getBookingById(@PathVariable Long id) {
         try {
             BookingDTO bookingDTO = bookingService.getBookingById(id);
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseUtil(200, "Booking fetched successfully", bookingDTO));
+            return ResponseEntity.ok(new ResponseUtil(200, "Booking fetched successfully", bookingDTO));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseUtil(500, e.getMessage(), null));
+                    .body(new ResponseUtil(500, "Error fetching booking: " + e.getMessage(), null));
         }
     }
 
-    // Get all bookings
+    // ✅ Get All Bookings
     @GetMapping("/getAll")
     public ResponseEntity<ResponseUtil> getAllBookings() {
         try {
             List<BookingDTO> bookings = bookingService.getAllBookings();
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseUtil(200, "Bookings fetched successfully", bookings));
+            return ResponseEntity.ok(new ResponseUtil(200, "Bookings fetched successfully", bookings));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseUtil(500, e.getMessage(), null));
+                    .body(new ResponseUtil(500, "Error fetching bookings: " + e.getMessage(), null));
         }
     }
 
-    // Add a new booking
+    // ✅ Add a New Booking
     @PostMapping("/addBooking")
     public ResponseEntity<ResponseUtil> addBooking(@RequestBody BookingDTO bookingDTO) {
         try {
-            // Check if the user exists
-            Optional<User> user = userRepository.findById(bookingDTO.getUserId());
-            if (!user.isPresent()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(new ResponseUtil(400, "User not found", null));
+            System.out.println("Received booking data: " + bookingDTO);
+
+            if (bookingDTO.getUserId() == null) {
+                return ResponseEntity.badRequest().body(new ResponseUtil(400, "User ID is required", null));
             }
 
-            // Proceed to save the booking if user exists
+            Optional<User> user = userRepository.findById(bookingDTO.getUserId());
+            if (user.isEmpty()) {
+                return ResponseEntity.badRequest().body(new ResponseUtil(400, "User not found", null));
+            }
+
             bookingService.save(bookingDTO);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(new ResponseUtil(201, "Booking added successfully", null));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseUtil(500, e.getMessage(), null));
+                    .body(new ResponseUtil(500, "Error saving booking: " + e.getMessage(), null));
         }
     }
 
-    // Update booking
+
+    // ✅ Update a Booking
     @PutMapping("/updateBooking")
     public ResponseEntity<ResponseUtil> updateBooking(@RequestBody BookingDTO bookingDTO) {
         try {
+            if (bookingDTO.getId() == null) {
+                return ResponseEntity.badRequest().body(new ResponseUtil(400, "Booking ID is required", null));
+            }
             bookingService.updateBooking(bookingDTO.getId(), bookingDTO);
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseUtil(200, "Booking updated successfully", null));
+            return ResponseEntity.ok(new ResponseUtil(200, "Booking updated successfully", null));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseUtil(500, e.getMessage(), null));
+                    .body(new ResponseUtil(500, "Error updating booking: " + e.getMessage(), null));
         }
     }
 
-    // Delete booking
+    // ✅ Delete a Booking
     @DeleteMapping("/deleteBooking/{id}")
     public ResponseEntity<ResponseUtil> deleteBooking(@PathVariable Long id) {
         try {
             bookingService.deleteBooking(id);
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseUtil(200, "Booking deleted successfully", null));
+            return ResponseEntity.ok(new ResponseUtil(200, "Booking deleted successfully", null));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseUtil(500, e.getMessage(), null));
+                    .body(new ResponseUtil(500, "Error deleting booking: " + e.getMessage(), null));
         }
     }
 
+    // ✅ Check if a Travel Package Exists
     @GetMapping("/packages/exists/{id}")
     public ResponseEntity<Boolean> packageExists(@PathVariable Long id) {
         return ResponseEntity.ok(packageService.existsById(id));
