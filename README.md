@@ -39,9 +39,9 @@ NS Travels isn’t just another booking platform—it’s **your travel genie** 
   <em>📱 All your trips in one place—even offline! 📶</em>  
 </p>
 
-### **3. 💰 Payment Portal**  
+### **3. 💰 Booking Dashboard**  
 <p align="center">
-  <img src="https://i.imgur.com/ghi789.jpg" width="500" alt="Payment Form"><br>
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/83ff3c1ecd41121bdf860d958b356677ed1922fc/Screenshot%202025-04-03%20224426.png" width="500" alt="Payment Form"><br>
   <em>💳 Checkout faster than you can say "Bon voyage!" 🛫</em>  
 </p>
 
