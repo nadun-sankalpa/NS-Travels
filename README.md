@@ -29,7 +29,7 @@ NS Travels isn’t just another booking platform—it’s **your travel genie** 
 
 ### **1. 🏡 Homepage**  
 <p align="center">
-  <img src="https://i.imgur.com/abc123.jpg" width="700" alt="Homepage"><br>
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/fddd358e4da38290dc2d57b875f88b1acbece1b9/Screenshot%202025-04-03%20005740.png" width="700" alt="Homepage"><br>
   <em>🔍 Discover hidden gems with our mood-based search! 💎</em>  
 </p>
 
