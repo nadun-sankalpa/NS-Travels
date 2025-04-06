@@ -2,8 +2,10 @@ package com.example.ns_travels.service.impl;
 
 import com.example.ns_travels.dto.PaymentDTO;
 import com.example.ns_travels.entity.Payment;
+import com.example.ns_travels.entity.TravelPackages;
 import com.example.ns_travels.entity.User;
 import com.example.ns_travels.repository.PaymentRepo;
+import com.example.ns_travels.repository.TravelPackagesRepo;
 import com.example.ns_travels.repository.UsersRepo;
 import com.example.ns_travels.service.PaymentService;
 import org.modelmapper.ModelMapper;
@@ -23,20 +25,28 @@ public class PaymentServiceImpl implements PaymentService {
     private UsersRepo userRepo;
 
     @Autowired
+    private TravelPackagesRepo travelPackagesRepo;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     @Override
     public void save(PaymentDTO paymentDTO) {
         Payment payment = modelMapper.map(paymentDTO, Payment.class);
 
-        // Validate User
-        Optional<User> optUser = userRepo.findById(paymentDTO.getUserId());
-        if (optUser.isEmpty()) {
+        // Set User
+        Optional<User> userOpt = userRepo.findById(paymentDTO.getUserId());
+        if (userOpt.isEmpty()) {
             throw new RuntimeException("User not found with ID: " + paymentDTO.getUserId());
         }
+        payment.setUser(userOpt.get());
 
-        // Set User reference
-        payment.setUser(optUser.get());
+        // Set TravelPackage and assign price from it
+        Optional<TravelPackages> packageOpt = travelPackagesRepo.findById(paymentDTO.getTravelPackageId());
+        if (packageOpt.isEmpty()) {
+            throw new RuntimeException("Travel Package not found with ID: " + paymentDTO.getTravelPackageId());
+        }
+        payment.setTravelPackage(packageOpt.get());
 
         paymentRepo.save(payment);
     }
@@ -50,13 +60,19 @@ public class PaymentServiceImpl implements PaymentService {
 
         Payment payment = modelMapper.map(paymentDTO, Payment.class);
 
-        // Validate User
-        Optional<User> optUser = userRepo.findById(paymentDTO.getUserId());
-        if (optUser.isEmpty()) {
+        // Set User
+        Optional<User> userOpt = userRepo.findById(paymentDTO.getUserId());
+        if (userOpt.isEmpty()) {
             throw new RuntimeException("User not found with ID: " + paymentDTO.getUserId());
         }
+        payment.setUser(userOpt.get());
 
-        payment.setUser(optUser.get());
+        // Set TravelPackage and update price
+        Optional<TravelPackages> packageOpt = travelPackagesRepo.findById(paymentDTO.getTravelPackageId());
+        if (packageOpt.isEmpty()) {
+            throw new RuntimeException("Travel Package not found with ID: " + paymentDTO.getTravelPackageId());
+        }
+        payment.setTravelPackage(packageOpt.get());
 
         paymentRepo.save(payment);
     }
@@ -71,11 +87,11 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentDTO getPaymentById(Long id) {
-        Optional<Payment> payment = paymentRepo.findById(id);
-        if (payment.isEmpty()) {
+        Optional<Payment> paymentOpt = paymentRepo.findById(id);
+        if (paymentOpt.isEmpty()) {
             throw new RuntimeException("Payment not found with ID: " + id);
         }
-        return modelMapper.map(payment.get(), PaymentDTO.class);
+        return modelMapper.map(paymentOpt.get(), PaymentDTO.class);
     }
 
     @Override

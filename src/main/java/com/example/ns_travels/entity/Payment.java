@@ -3,14 +3,11 @@ package com.example.ns_travels.entity;
 import com.example.ns_travels.enums.PaymentMethod;
 import com.example.ns_travels.enums.PaymentStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "payments")
 public class Payment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,7 +16,9 @@ public class Payment {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private double amount;
+    // This is the price that will be assigned from the selected TravelPackage
+    @Column(name = "price")
+    private double price;
 
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
@@ -27,13 +26,18 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
+    @ManyToOne
+    @JoinColumn(name = "travel_package_id")
+    private TravelPackages travelPackage;
+
     public Payment() {
     }
 
-    public Payment(Long id, User user, double amount, PaymentMethod paymentMethod, PaymentStatus paymentStatus) {
+    public Payment(Long id, User user, TravelPackages travelPackage, PaymentMethod paymentMethod, PaymentStatus paymentStatus) {
         this.id = id;
         this.user = user;
-        this.amount = amount;
+        this.travelPackage = travelPackage;
+        this.price = travelPackage != null ? travelPackage.getPrice() : 0.0;
         this.paymentMethod = paymentMethod;
         this.paymentStatus = paymentStatus;
     }
@@ -54,12 +58,12 @@ public class Payment {
         this.user = user;
     }
 
-    public double getAmount() {
-        return amount;
+    public double getPrice() {
+        return price;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public PaymentMethod getPaymentMethod() {
@@ -78,14 +82,26 @@ public class Payment {
         this.paymentStatus = paymentStatus;
     }
 
+    public TravelPackages getTravelPackage() {
+        return travelPackage;
+    }
+
+    public void setTravelPackage(TravelPackages travelPackage) {
+        this.travelPackage = travelPackage;
+        if (travelPackage != null) {
+            this.price = travelPackage.getPrice(); // Automatically set price from selected package
+        }
+    }
+
     @Override
     public String toString() {
         return "Payment{" +
                 "id=" + id +
                 ", user=" + user +
-                ", amount=" + amount +
+                ", price=" + price +
                 ", paymentMethod=" + paymentMethod +
                 ", paymentStatus=" + paymentStatus +
+                ", travelPackage=" + travelPackage +
                 '}';
     }
 }

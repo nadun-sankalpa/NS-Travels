@@ -1,24 +1,26 @@
 package com.example.ns_travels.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import com.example.ns_travels.enums.PaymentMethod;
+import com.example.ns_travels.enums.PaymentStatus;
 
 public class PaymentDTO {
+
     private Long id;
     private Long userId;
-    private double amount;
-    private String paymentMethod;
-    private String paymentStatus;
+    private Long travelPackageId;
+    private double price;
+    private PaymentMethod paymentMethod;
+    private PaymentStatus paymentStatus;
 
     public PaymentDTO() {
     }
 
-    public PaymentDTO(Long id, Long userId, double amount, String paymentMethod, String paymentStatus) {
+    public PaymentDTO(Long id, Long userId, Long travelPackageId, double price,
+                      PaymentMethod paymentMethod, PaymentStatus paymentStatus) {
         this.id = id;
         this.userId = userId;
-        this.amount = amount;
+        this.travelPackageId = travelPackageId;
+        this.price = price;
         this.paymentMethod = paymentMethod;
         this.paymentStatus = paymentStatus;
     }
@@ -39,27 +41,35 @@ public class PaymentDTO {
         this.userId = userId;
     }
 
-    public double getAmount() {
-        return amount;
+    public Long getTravelPackageId() {
+        return travelPackageId;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setTravelPackageId(Long travelPackageId) {
+        this.travelPackageId = travelPackageId;
     }
 
-    public String getPaymentMethod() {
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public PaymentMethod getPaymentMethod() {
         return paymentMethod;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 
-    public String getPaymentStatus() {
+    public PaymentStatus getPaymentStatus() {
         return paymentStatus;
     }
 
-    public void setPaymentStatus(String paymentStatus) {
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
 
@@ -68,9 +78,10 @@ public class PaymentDTO {
         return "PaymentDTO{" +
                 "id=" + id +
                 ", userId=" + userId +
-                ", amount=" + amount +
-                ", paymentMethod='" + paymentMethod + '\'' +
-                ", paymentStatus='" + paymentStatus + '\'' +
+                ", travelPackageId=" + travelPackageId +
+                ", price=" + price +
+                ", paymentMethod=" + paymentMethod +
+                ", paymentStatus=" + paymentStatus +
                 '}';
     }
 }
