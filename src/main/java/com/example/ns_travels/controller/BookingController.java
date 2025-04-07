@@ -1,114 +1,120 @@
 package com.example.ns_travels.controller;
 
 import com.example.ns_travels.dto.BookingDTO;
-import com.example.ns_travels.entity.User;
-import com.example.ns_travels.repository.UsersRepo;
+import com.example.ns_travels.dto.ResponseDTO;
+import com.example.ns_travels.dto.TravelPackagesDTO;
+import com.example.ns_travels.dto.UserDTO;
+import com.example.ns_travels.entity.Booking;
 import com.example.ns_travels.service.BookingService;
 import com.example.ns_travels.service.TravelPackagesService;
-import com.example.ns_travels.util.ResponseUtil;
+import com.example.ns_travels.service.UserService;
+import com.example.ns_travels.service.impl.BookingServiceImpl;
+import com.example.ns_travels.service.impl.EmailServiceImpl;
+import com.example.ns_travels.service.impl.UserServiceImpl;
+import com.example.ns_travels.util.VarList;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/bookings")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:63342")
 public class BookingController {
 
     private final BookingService bookingService;
+    private final BookingServiceImpl bookingServiceImpl;
+    private final UserServiceImpl userServiceImpl;
+    private final UserService userService;
+    private final EmailServiceImpl emailService;
     private final TravelPackagesService packageService;
-    private final UsersRepo userRepository;
 
-    // Constructor Injection
-    public BookingController(BookingService bookingService, TravelPackagesService packageService, UsersRepo userRepository) {
+    @Autowired
+    public BookingController(BookingService bookingService,
+                             BookingServiceImpl bookingServiceImpl,
+                             UserServiceImpl userServiceImpl,
+                             UserService userService,
+                             EmailServiceImpl emailService,
+                             TravelPackagesService packageService) {
         this.bookingService = bookingService;
+        this.bookingServiceImpl = bookingServiceImpl;
+        this.userServiceImpl = userServiceImpl;
+        this.userService = userService;
+        this.emailService = emailService;
         this.packageService = packageService;
-        this.userRepository = userRepository;
     }
 
-    // ✅ Get Booking by ID
-    @GetMapping("/getById/{id}")
-    public ResponseEntity<ResponseUtil> getBookingById(@PathVariable Long id) {
-        try {
-            BookingDTO bookingDTO = bookingService.getBookingById(id);
-            return ResponseEntity.ok(new ResponseUtil(200, "Booking fetched successfully", bookingDTO));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseUtil(500, "Error fetching booking: " + e.getMessage(), null));
+    @PostMapping("/save")
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
+    public ResponseEntity<ResponseDTO> save(@Valid @RequestBody BookingDTO bookingDTO) {
+        System.out.println("Booking save controller");
+
+
+
+        // Check if the user is registered
+        UserDTO userDto = userServiceImpl.findByEmail(bookingDTO.getUserEmail());
+        if (userDto == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseDTO(VarList.Bad_Request, "Your email is not registered with us", null));
         }
-    }
 
-    // ✅ Get All Bookings
-    @GetMapping("/getAll")
-    public ResponseEntity<ResponseUtil> getAllBookings() {
-        try {
-            List<BookingDTO> bookings = bookingService.getAllBookings();
-            return ResponseEntity.ok(new ResponseUtil(200, "Bookings fetched successfully", bookings));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseUtil(500, "Error fetching bookings: " + e.getMessage(), null));
+        // Check if the travel package exists
+        TravelPackagesDTO packageDTO = packageService.getPackageByName(bookingDTO.getPackageName());
+        if (packageDTO == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ResponseDTO(VarList.Bad_Request, "Package not found with the name: " + bookingDTO.getPackageName(), null));
         }
+
+        // Set user and travel package for the booking
+        bookingDTO.setUser(userDto);
+        bookingDTO.setTravelPackage(packageDTO);
+        bookingDTO.setStatus(Booking.BookingStatus.PENDING);
+
+        // Save the booking
+        bookingServiceImpl.save(bookingDTO);
+
+        // Send confirmation email
+        String userEmail = bookingDTO.getUserEmail();
+        String userName = bookingDTO.getUser().getUsername();
+        LocalDate travelDate = bookingDTO.getTravelDate();
+        emailService.sendBookingConfirmationEmail(
+                userEmail,
+                "Your Booking is Confirmed – NS TRAVELS 🌿\n",
+                "Hi " + userName + ",\n\n" +
+                        "Your booking has been confirmed successfully. Here are the details:\n\n" +
+                        "📅 Travel Date: " + travelDate + "\n" +
+                        "📍 Location: No.42, Karapitiya, Galle\n" +
+                        "📞 Contact: 076 209 9693\n\n" +
+                        "What to Expect:\n" +
+                        "Our expert team is ready to provide you with a relaxing and professional experience. If you have any questions before your travel, feel free to call us!\n\n" +
+                        "ExploreLanka Team\n" +
+                        "📍 No.42, Karapitiya, Galle\n" +
+                        "📞 076 209 9693"
+        );
+
+        // Return success response
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDTO(VarList.OK, "Booking Saved Successfully", bookingDTO));
     }
 
-    // ✅ Add a New Booking
-    @PostMapping("/addBooking")
-    public ResponseEntity<ResponseUtil> addBooking(@RequestBody BookingDTO bookingDTO) {
-        try {
-            System.out.println("Received booking data: " + bookingDTO);
-
-            if (bookingDTO.getUserId() == null) {
-                return ResponseEntity.badRequest().body(new ResponseUtil(400, "User ID is required", null));
-            }
-
-            Optional<User> user = userRepository.findById(bookingDTO.getUserId());
-            if (user.isEmpty()) {
-                return ResponseEntity.badRequest().body(new ResponseUtil(400, "User not found", null));
-            }
-
-            bookingService.save(bookingDTO);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(new ResponseUtil(201, "Booking added successfully", null));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseUtil(500, "Error saving booking: " + e.getMessage(), null));
-        }
+    @GetMapping("/all")
+    //@PreAuthorize("hasAuthority('ADMIN')") // Uncomment after testing
+    public ResponseEntity<ResponseDTO> getAllBookings() {
+        return ResponseEntity.ok(new ResponseDTO(VarList.OK, "Success", bookingService.getAll()));
     }
 
-
-    // ✅ Update a Booking
-    @PutMapping("/updateBooking")
-    public ResponseEntity<ResponseUtil> updateBooking(@RequestBody BookingDTO bookingDTO) {
-        try {
-            if (bookingDTO.getId() == null) {
-                return ResponseEntity.badRequest().body(new ResponseUtil(400, "Booking ID is required", null));
-            }
-            bookingService.updateBooking(bookingDTO.getId(), bookingDTO);
-            return ResponseEntity.ok(new ResponseUtil(200, "Booking updated successfully", null));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseUtil(500, "Error updating booking: " + e.getMessage(), null));
-        }
-    }
-
-    // ✅ Delete a Booking
-    @DeleteMapping("/deleteBooking/{id}")
-    public ResponseEntity<ResponseUtil> deleteBooking(@PathVariable Long id) {
-        try {
-            bookingService.deleteBooking(id);
-            return ResponseEntity.ok(new ResponseUtil(200, "Booking deleted successfully", null));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseUtil(500, "Error deleting booking: " + e.getMessage(), null));
-        }
-    }
-
-    // ✅ Check if a Travel Package Exists
-    @GetMapping("/packages/exists/{id}")
-    public ResponseEntity<Boolean> packageExists(@PathVariable Long id) {
-        return ResponseEntity.ok(packageService.existsById(id));
+    @DeleteMapping("/delete/{id}")
+    //@PreAuthorize("hasAuthority('ADMIN')") // Uncomment after testing
+    public ResponseEntity<ResponseDTO> deleteBooking(@PathVariable Long id) {
+        bookingService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDTO(VarList.OK, "Booking deleted successfully", null));
     }
 }

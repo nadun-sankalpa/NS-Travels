@@ -1,73 +1,93 @@
 package com.example.ns_travels.service.impl;
 
 import com.example.ns_travels.dto.BookingDTO;
+import com.example.ns_travels.dto.ResponseDTO;
 import com.example.ns_travels.entity.Booking;
-import com.example.ns_travels.repository.BookingRepo;
+import com.example.ns_travels.entity.TravelPackages;
+import com.example.ns_travels.entity.User;
+import com.example.ns_travels.repository.BookingRepository;
+import com.example.ns_travels.repository.TravelPackagesRepo;
+import com.example.ns_travels.repository.UsersRepo;
 import com.example.ns_travels.service.BookingService;
+import com.example.ns_travels.service.EmailService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class BookingServiceImpl implements BookingService {
-
-    private final BookingRepo bookingRepo;
-    private final ModelMapper modelMapper;
-    private static final Logger logger = Logger.getLogger(BookingServiceImpl.class.getName());
+    @Autowired
+    private BookingRepository bookingRepository;
 
     @Autowired
-    public BookingServiceImpl(BookingRepo bookingRepo, ModelMapper modelMapper) {
-        this.bookingRepo = bookingRepo;
-        this.modelMapper = modelMapper;
+    private UsersRepo userRepository;
+
+    @Autowired
+    private TravelPackagesRepo travelPackageRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Autowired
+    private EmailService emailService;
+
+    private static final Logger logger = Logger.getLogger(BookingServiceImpl.class.getName());
+
+    @Override
+    public void save(BookingDTO bookingDTO) {
+        System.out.println("save booking");
+
+        TravelPackages travelPackage = modelMapper.map(bookingDTO.getTravelPackage(), TravelPackages.class);
+        User user = modelMapper.map(bookingDTO.getUser(), User.class);
+
+        Booking booking = new Booking();
+        booking.setUser(user);
+        booking.setTravelPackage(travelPackage);
+        booking.setStatus(bookingDTO.getStatus());
+        booking.setAdditionalRequests(bookingDTO.getAdditionalRequests());
+        booking.setNumberOfGuests(bookingDTO.getNumberOfGuests());
+        booking.setTravelDate(bookingDTO.getTravelDate());
+        booking.setUserEmail(bookingDTO.getUserEmail());
+        booking.setUserName(bookingDTO.getUser().getUsername());
+        bookingRepository.save(booking);
+
+
     }
 
     @Override
-    public BookingDTO save(BookingDTO bookingDTO) {
-        logger.info("Saving booking: " + bookingDTO);
-        Booking booking = modelMapper.map(bookingDTO, Booking.class);
-        Booking savedBooking = bookingRepo.save(booking);
-        return modelMapper.map(savedBooking, BookingDTO.class);
+    public List<BookingDTO> getAll() {
+        return modelMapper.map(bookingRepository.findAll(), new TypeToken<List<BookingDTO>>() {}.getType());
     }
 
     @Override
-    public List<BookingDTO> getAllBookings() {
-        List<Booking> bookings = bookingRepo.findAll();
-        return modelMapper.map(bookings, new TypeToken<List<BookingDTO>>() {}.getType());
+    public void save(Booking booking) {
+        bookingRepository.save(booking);
     }
 
     @Override
-    public BookingDTO getBookingById(Long id) {
-        Booking booking = bookingRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
-        return modelMapper.map(booking, BookingDTO.class);
+    public List<BookingDTO> getByUserId(Long userId) {
+        return modelMapper.map(bookingRepository.findById(userId), new TypeToken<List<BookingDTO>>(){}.getType());
     }
 
     @Override
-    public BookingDTO updateBooking(Long id, BookingDTO bookingDTO) {
-        Booking existingBooking = bookingRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
-
-        existingBooking.setFullName(bookingDTO.getFullName());
-        existingBooking.setEmailAddress(bookingDTO.getEmailAddress());
-        existingBooking.setPhoneNumber(bookingDTO.getPhoneNumber());
-        existingBooking.setChosenPackage(bookingDTO.getChosenPackage());
-        existingBooking.setTravelDate(bookingDTO.getTravelDate());
-        existingBooking.setNumberOfGuests(bookingDTO.getNumberOfGuests());
-        existingBooking.setAdditionalRequests(bookingDTO.getAdditionalRequests());
-
-        Booking updatedBooking = bookingRepo.save(existingBooking);
-        return modelMapper.map(updatedBooking, BookingDTO.class);
+    public void delete(Long id) {
+        bookingRepository.deleteById(id);
     }
 
     @Override
-    public void deleteBooking(Long id) {
-        if (!bookingRepo.existsById(id)) {
-            throw new RuntimeException("Booking not found with id: " + id);
-        }
-        bookingRepo.deleteById(id);
+    public void update(Long id, BookingDTO bookingDTO) {
+        Booking existingBooking = bookingRepository.findById(id).orElseThrow(() -> new RuntimeException("Booking not found."));
+        existingBooking.setStatus(Booking.BookingStatus.valueOf(String.valueOf(bookingDTO.getStatus())));
+        bookingRepository.save(existingBooking);
     }
+
+
 }

@@ -1,41 +1,35 @@
 package com.example.ns_travels.dto;
 
+import com.example.ns_travels.entity.Booking;
 import java.time.LocalDate;
 
 public class BookingDTO {
 
     private Long id;
-    private String fullName;
-    private String emailAddress;
-    private String phoneNumber;
-    private String chosenPackage;
-    private Long travelPackageId;  // ✅ Added travelPackageId
+    private TravelPackagesDTO travelPackage;
+    private String packageName;
+    private UserDTO user;
+    private String userEmail;
     private LocalDate travelDate;
     private int numberOfGuests;
     private String additionalRequests;
-    private Long userId;  // ✅ Added userId
+    private Booking.BookingStatus status;
 
-    // Default constructor
     public BookingDTO() {
     }
 
-    // Parameterized constructor
-    public BookingDTO(Long id, String fullName, String emailAddress, String phoneNumber,
-                      String chosenPackage, Long travelPackageId, LocalDate travelDate,
-                      int numberOfGuests, String additionalRequests, Long userId) {
+    public BookingDTO(Long id, TravelPackagesDTO travelPackage, String packageName, UserDTO user, String userEmail, LocalDate travelDate, int numberOfGuests, String additionalRequests, Booking.BookingStatus status) {
         this.id = id;
-        this.fullName = fullName;
-        this.emailAddress = emailAddress;
-        this.phoneNumber = phoneNumber;
-        this.chosenPackage = chosenPackage;
-        this.travelPackageId = travelPackageId;  // ✅ Assigning travelPackageId
+        this.travelPackage = travelPackage;
+        this.packageName = packageName;
+        this.user = user;
+        this.userEmail = userEmail;
         this.travelDate = travelDate;
         this.numberOfGuests = numberOfGuests;
         this.additionalRequests = additionalRequests;
-        this.userId = userId;  // ✅ Assigning userId
+        this.status = status;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -44,44 +38,36 @@ public class BookingDTO {
         this.id = id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public TravelPackagesDTO getTravelPackage() {
+        return travelPackage;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setTravelPackage(TravelPackagesDTO travelPackage) {
+        this.travelPackage = travelPackage;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getPackageName() {
+        return packageName;
     }
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public UserDTO getUser() {
+        return user;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setUser(UserDTO user) {
+        this.user = user;
     }
 
-    public String getChosenPackage() {
-        return chosenPackage;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setChosenPackage(String chosenPackage) {
-        this.chosenPackage = chosenPackage;
-    }
-
-    public Long getTravelPackageId() {
-        return travelPackageId;
-    }
-
-    public void setTravelPackageId(Long travelPackageId) {
-        this.travelPackageId = travelPackageId;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public LocalDate getTravelDate() {
@@ -108,27 +94,26 @@ public class BookingDTO {
         this.additionalRequests = additionalRequests;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Booking.BookingStatus getStatus() {
+        return status;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setStatus(Booking.BookingStatus status) {
+        this.status = status;
     }
 
     @Override
     public String toString() {
         return "BookingDTO{" +
                 "id=" + id +
-                ", fullName='" + fullName + '\'' +
-                ", emailAddress='" + emailAddress + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", chosenPackage='" + chosenPackage + '\'' +
-                ", travelPackageId=" + travelPackageId +
+                ", travelPackage=" + travelPackage +
+                ", packageName='" + packageName + '\'' +
+                ", user=" + user +
+                ", userEmail='" + userEmail + '\'' +
                 ", travelDate=" + travelDate +
                 ", numberOfGuests=" + numberOfGuests +
                 ", additionalRequests='" + additionalRequests + '\'' +
-                ", userId=" + userId +
+                ", status=" + status +
                 '}';
     }
 }

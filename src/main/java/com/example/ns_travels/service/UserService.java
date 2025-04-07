@@ -11,6 +11,7 @@ public interface UserService {
     void update(UserDTO userDTO);
     void delete(Long id);
     UserDTO getUserById(Long id);
+    UserDTO findByEmail(String email);
     List<UserDTO> getAllUsers();
     List<UserDTO> getUsersByRole(String role);
     UserDTO getUserByEmail(String email);

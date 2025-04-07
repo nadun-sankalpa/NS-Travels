@@ -12,5 +12,7 @@ public interface TravelPackagesService {
     List<TravelPackagesDTO> getAllTravelPackages();
     List<TravelPackagesDTO> getTravelPackagesByBudget(Double minBudget, Double maxBudget);
 
+    TravelPackagesDTO getPackageByName(String name);
+
     Boolean existsById(Long id);
 }

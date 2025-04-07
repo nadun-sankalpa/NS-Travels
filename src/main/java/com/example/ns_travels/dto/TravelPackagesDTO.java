@@ -1,9 +1,5 @@
 package com.example.ns_travels.dto;
 
-import lombok.*;
-
-
-@Builder
 public class TravelPackagesDTO {
     private Long id;
     private String name;
@@ -13,9 +9,11 @@ public class TravelPackagesDTO {
     private int duration;
     private String includedServices;
 
+    // Default constructor
     public TravelPackagesDTO() {
     }
 
+    // Constructor with all fields
     public TravelPackagesDTO(Long id, String name, String description, double price, double budget, int duration, String includedServices) {
         this.id = id;
         this.name = name;
@@ -26,6 +24,7 @@ public class TravelPackagesDTO {
         this.includedServices = includedServices;
     }
 
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -82,6 +81,7 @@ public class TravelPackagesDTO {
         this.includedServices = includedServices;
     }
 
+    // Override toString method
     @Override
     public String toString() {
         return "TravelPackagesDTO{" +

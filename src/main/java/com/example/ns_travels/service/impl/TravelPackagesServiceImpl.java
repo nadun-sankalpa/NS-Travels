@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @Service
 public class TravelPackagesServiceImpl implements TravelPackagesService {
+
     @Autowired
     private TravelPackagesRepo travelPackageRepo;
 
@@ -34,7 +35,6 @@ public class TravelPackagesServiceImpl implements TravelPackagesService {
 
         TravelPackages travelPackage = modelMapper.map(travelPackageDTO, TravelPackages.class);
         travelPackageRepo.save(travelPackage);
-
     }
 
     @Override
@@ -71,7 +71,19 @@ public class TravelPackagesServiceImpl implements TravelPackagesService {
     }
 
     @Override
+    public TravelPackagesDTO getPackageByName(String name) {
+        // Fetch the package by name
+        TravelPackages packageEntity = travelPackageRepo.findByName(name);
+        if (packageEntity == null) {
+            // Handle the case when package is not found
+            System.out.println("No package found with name: " + name);
+            return null; // Return null instead of throwing an exception
+        }
+        return modelMapper.map(packageEntity, TravelPackagesDTO.class);
+    }
+
+    @Override
     public Boolean existsById(Long id) {
-        return null;
+        return travelPackageRepo.existsById(id);
     }
 }

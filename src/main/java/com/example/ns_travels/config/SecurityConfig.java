@@ -1,6 +1,9 @@
 package com.example.ns_travels.config;
 
 import com.example.ns_travels.Filter.JwtFilter;
+import com.example.ns_travels.dto.BookingDTO;
+import com.example.ns_travels.entity.Booking;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -100,4 +103,6 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
+
 }

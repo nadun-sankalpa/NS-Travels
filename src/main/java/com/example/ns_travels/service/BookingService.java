@@ -1,18 +1,16 @@
 package com.example.ns_travels.service;
 
 import com.example.ns_travels.dto.BookingDTO;
+import com.example.ns_travels.entity.Booking;
 
 import java.util.List;
 
 public interface BookingService {
 
-    BookingDTO save(BookingDTO bookingDTO);
-
-    List<BookingDTO> getAllBookings();
-
-    BookingDTO getBookingById(Long id);
-
-    BookingDTO updateBooking(Long id, BookingDTO bookingDTO);
-
-    void deleteBooking(Long id);
+    void save(BookingDTO bookingDTO);
+    void save(Booking booking);
+    void delete(Long id);
+    void update(Long id, BookingDTO bookingDTO);
+    List<BookingDTO> getAll();
+    List<BookingDTO> getByUserId(Long userId);
 }
