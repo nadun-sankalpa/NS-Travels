@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sri Lanka Weather App</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+            background-color: #0a1a2f;
+        }
+
+        /* Canvas background */
+        #weather-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Header styles */
+        .header {
+            background-color: #0a1a2f;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .location-pill {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .location-pill i {
+            font-size: 18px;
+        }
+
+        .temp-unit {
+            cursor: pointer;
+        }
+
+        /* Subheader */
+        .subheader {
+            background-color: #102a4c;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mobile-link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Main content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Current weather section */
+        .current-weather {
+            background-color: rgba(16, 42, 76, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .current-time {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .weather-icon-temp {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .weather-icon {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .temperature {
+            font-size: 64px;
+            font-weight: 300;
+        }
+
+        .temperature sup {
+            font-size: 32px;
+            vertical-align: super;
+        }
+
+        .weather-condition {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .feels-like {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 15px;
+        }
+
+        .weather-description {
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .weather-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .detail-value {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* Map section */
+        .map-section {
+            background-color: rgba(16, 42, 76, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .map-controls {
+            display: flex;
+            padding: 10px;
+            gap: 10px;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .map-control {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .map-control.active {
+            background-color: #ffb100;
+            color: #000;
+        }
+
+        .map-container {
+            flex: 1;
+            position: relative;
+            min-height: 200px;
+            background-color: #a8c9e8;
+        }
+
+        .map-location {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .map-location-dot {
+            width: 8px;
+            height: 8px;
+            background-color: white;
+            border-radius: 50%;
+            margin-bottom: 2px;
+        }
+
+        .map-location-label {
+            font-size: 12px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        .rain-forecast {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .rain-timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            height: 50px;
+            position: relative;
+        }
+
+        .rain-timeline::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .rain-time {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .rain-drop {
+            width: 2px;
+            height: 15px;
+            background-color: #4a90e2;
+            margin-bottom: 5px;
+        }
+
+        .rain-time-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Forecast section */
+        .forecast-section {
+            margin-top: 20px;
+            background-color: rgba(16, 42, 76, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+            grid-column: 1 / -1;
+        }
+
+        .forecast-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+        .forecast-tab {
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .forecast-tab.active {
+            background-color: #ffb100;
+            color: #000;
+        }
+
+        .daily-forecast {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding-bottom: 10px;
+        }
+
+        .daily-forecast::-webkit-scrollbar {
+            height: 5px;
+        }
+
+        .daily-forecast::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .daily-forecast::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .forecast-day {
+            min-width: 100px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .forecast-date {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .forecast-day-name {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .forecast-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .forecast-temp {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .forecast-low {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Hourly forecast */
+        .hourly-forecast {
+            margin-top: 20px;
+            background-color: rgba(16, 42, 76, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+            grid-column: 1 / -1;
+        }
+
+        .hourly-title {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .hourly-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toggle-switch {
+            width: 40px;
+            height: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-color: white;
+            border-radius: 50%;
+            top: 2px;
+            right: 2px;
+            transition: all 0.3s;
+        }
+
+        .hourly-chart {
+            height: 200px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .chart-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .chart-temp {
+            position: absolute;
+            left: 0;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .chart-content {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .chart-bar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .chart-icon {
+            margin-bottom: 10px;
+        }
+
+        .chart-value {
+            width: 10px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 5px 5px 0 0;
+        }
+
+        .chart-time {
+            position: absolute;
+            bottom: -25px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Search overlay */
+        .search-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 26, 47, 0.95);
+            z-index: 100;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .search-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-title {
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        .search-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .search-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .search-button {
+            padding: 15px;
+            border-radius: 10px;
+            border: none;
+            background-color: #ffb100;
+            color: #000;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .search-button:hover {
+            background-color: #ffc233;
+        }
+
+        /* Utility classes */
+        .search-trigger {
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .show {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+<canvas id="weather-canvas"></canvas>
+
+<!-- Header -->
+<div class="header">
+    <div class="location-pill">
+        <i>🏠</i>
+        <span id="current-location">Galle</span>
+        <span id="current-temp">84°</span>
+    </div>
+    <div class="temp-unit">°F</div>
+</div>
+
+<!-- Subheader -->
+<div class="subheader">
+    <div class="breadcrumb">
+        <i>🏠</i>
+        <span id="location-detail">Galle, Southern Province, Sri Lanka</span>
+    </div>
+    <div class="mobile-link">
+        <i>📱</i>
+        <span>Live Weather on Mobile</span>
+    </div>
+</div>
+
+<!-- Main content -->
+<div class="main-content">
+    <!-- Current weather section -->
+    <div class="current-weather">
+        <div class="current-time">Current weather <span id="current-time">3:54 PM</span></div>
+        <div class="weather-icon-temp">
+            <div class="weather-icon">☁️</div>
+            <div class="temperature">84<sup>°F</sup></div>
+        </div>
+        <div class="weather-condition">Cloudy</div>
+        <div class="feels-like">Feels like 91°</div>
+        <div class="weather-description">
+            Scattered light rain showers are expected. The high will be 88° on this very humid day.
+        </div>
+        <div class="weather-details">
+            <div class="detail-item">
+                <div class="detail-label"><i>💨</i> Air quality</div>
+                <div class="detail-value">54</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label"><i>🌬️</i> Wind</div>
+                <div class="detail-value">9 mph ↗</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label"><i>💧</i> Humidity</div>
+                <div class="detail-value">82%</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label"><i>👁️</i> Visibility</div>
+                <div class="detail-value">12.4 mi</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label"><i>📊</i> Pressure</div>
+                <div class="detail-value">29.86 in</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label"><i>💦</i> Dew point</div>
+                <div class="detail-value">78°</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map section -->
+    <div class="map-section">
+        <div class="map-controls">
+            <div class="map-control active">🌡️</div>
+            <div class="map-control">🌡️</div>
+            <div class="map-control">💨</div>
+        </div>
+        <div class="map-container">
+            <!-- Sri Lanka map with locations -->
+            <div class="map-location" style="top: 30%; left: 40%;">
+                <div class="map-location-dot"></div>
+                <div class="map-location-label">Colombo 87°F</div>
+            </div>
+            <div class="map-location" style="top: 25%; left: 60%;">
+                <div class="map-location-dot"></div>
+                <div class="map-location-label">Badulla 75°F</div>
+            </div>
+            <div class="map-location" style="top: 60%; left: 45%;">
+                <div class="map-location-dot"></div>
+                <div class="map-location-label">Galle 84°F</div>
+            </div>
+            <div class="map-location" style="top: 55%; left: 65%;">
+                <div class="map-location-dot"></div>
+                <div class="map-location-label">Hambantota 85°F</div>
+            </div>
+        </div>
+        <div class="rain-forecast">
+            <div>Rain starting in 28 minutes.</div>
+            <div class="rain-timeline">
+                <div class="rain-time">
+                    <div class="rain-drop" style="height: 5px;"></div>
+                    <div class="rain-time-label">3:54PM</div>
+                </div>
+                <div class="rain-time">
+                    <div class="rain-drop" style="height: 10px;"></div>
+                    <div class="rain-time-label">3:58PM</div>
+                </div>
+                <div class="rain-time">
+                    <div class="rain-drop" style="height: 15px;"></div>
+                    <div class="rain-time-label">4:02PM</div>
+                </div>
+                <div class="rain-time">
+                    <div class="rain-drop" style="height: 20px;"></div>
+                    <div class="rain-time-label">4:06PM</div>
+                </div>
+                <div class="rain-time">
+                    <div class="rain-drop" style="height: 25px;"></div>
+                    <div class="rain-time-label">4:10PM</div>
+                </div>
+                <div class="rain-time">
+                    <div class="rain-drop" style="height: 20px;"></div>
+                    <div class="rain-time-label">4:14PM</div>
+                </div>
+                <div class="rain-time">
+                    <div class="rain-drop" style="height: 15px;"></div>
+                    <div class="rain-time-label">4:18PM</div>
+                </div>
+                <div class="rain-time">
+                    <div class="rain-drop" style="height: 10px;"></div>
+                    <div class="rain-time-label">4:22PM</div>
+                </div>
+                <div class="rain-time">
+                    <div class="rain-drop" style="height: 5px;"></div>
+                    <div class="rain-time-label">4:26PM</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forecast section -->
+    <div class="forecast-section">
+        <div class="forecast-tabs">
+            <div class="forecast-tab active">Hourly</div>
+            <div class="forecast-tab">Precipitation</div>
+            <div class="forecast-tab">Wind</div>
+            <div class="forecast-tab">Air Quality</div>
+            <div class="forecast-tab">Humidity</div>
+            <div class="forecast-tab">Cloud cover</div>
+            <div class="forecast-tab">Pressure</div>
+            <div class="forecast-tab">UV</div>
+            <div class="forecast-tab">Visibility</div>
+            <div class="forecast-tab">Feels like</div>
+        </div>
+        <div class="daily-forecast">
+            <div class="forecast-day">
+                <div class="forecast-date">8</div>
+                <div class="forecast-day-name">Yesterday</div>
+                <div class="forecast-icon">🌧️</div>
+                <div class="forecast-temp">86°</div>
+                <div class="forecast-low">79°</div>
+            </div>
+            <div class="forecast-day">
+                <div class="forecast-date">9</div>
+                <div class="forecast-day-name">Today</div>
+                <div class="forecast-icon">🌦️</div>
+                <div class="forecast-temp">86°</div>
+                <div class="forecast-low">79°</div>
+            </div>
+            <div class="forecast-day">
+                <div class="forecast-date">10</div>
+                <div class="forecast-day-name">Thu</div>
+                <div class="forecast-icon">🌧️</div>
+                <div class="forecast-temp">87°</div>
+                <div class="forecast-low">79°</div>
+            </div>
+            <div class="forecast-day">
+                <div class="forecast-date">11</div>
+                <div class="forecast-day-name">Fri</div>
+                <div class="forecast-icon">🌦️</div>
+                <div class="forecast-temp">86°</div>
+                <div class="forecast-low">80°</div>
+            </div>
+            <div class="forecast-day">
+                <div class="forecast-date">12</div>
+                <div class="forecast-day-name">Sat</div>
+                <div class="forecast-icon">🌧️</div>
+                <div class="forecast-temp">87°</div>
+                <div class="forecast-low">80°</div>
+            </div>
+            <div class="forecast-day">
+                <div class="forecast-date">13</div>
+                <div class="forecast-day-name">Sun</div>
+                <div class="forecast-icon">🌤️</div>
+                <div class="forecast-temp">89°</div>
+                <div class="forecast-low">80°</div>
+            </div>
+            <div class="forecast-day">
+                <div class="forecast-date">14</div>
+                <div class="forecast-day-name">Mon</div>
+                <div class="forecast-icon">☀️</div>
+                <div class="forecast-temp">90°</div>
+                <div class="forecast-low">79°</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hourly forecast -->
+    <div class="hourly-forecast">
+        <div class="hourly-title">
+            <h3>Overview</h3>
+            <div class="hourly-toggle">
+                <span>Feels like</span>
+                <div class="toggle-switch"></div>
+            </div>
+        </div>
+        <div class="hourly-chart">
+            <div class="chart-line" style="top: 0%;">
+                <span class="chart-temp">105°</span>
+            </div>
+            <div class="chart-line" style="top: 25%;">
+                <span class="chart-temp">95°</span>
+            </div>
+            <div class="chart-line" style="top: 50%;">
+                <span class="chart-temp">85°</span>
+            </div>
+            <div class="chart-line" style="top: 75%;">
+                <span class="chart-temp">75°</span>
+            </div>
+            <div class="chart-content">
+                <div class="chart-bar">
+                    <div class="chart-icon">☁️</div>
+                    <div class="chart-value" style="height: 80px;"></div>
+                    <div class="chart-time">1 PM</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-icon">☁️</div>
+                    <div class="chart-value" style="height: 75px;"></div>
+                    <div class="chart-time">Now</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-icon">🌦️</div>
+                    <div class="chart-value" style="height: 75px;"></div>
+                    <div class="chart-time">5 PM</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-icon">🌧️</div>
+                    <div class="chart-value" style="height: 70px;"></div>
+                    <div class="chart-time">7 PM</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-icon">🌧️</div>
+                    <div class="chart-value" style="height: 70px;"></div>
+                    <div class="chart-time">9 PM</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-icon">🌧️</div>
+                    <div class="chart-value" style="height: 65px;"></div>
+                    <div class="chart-time">11 PM</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-icon">🌧️</div>
+                    <div class="chart-value" style="height: 65px;"></div>
+                    <div class="chart-time">1 AM</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-icon">🌧️</div>
+                    <div class="chart-value" style="height: 60px;"></div>
+                    <div class="chart-time">3 AM</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-icon">🌧️</div>
+                    <div class="chart-value" style="height: 65px;"></div>
+                    <div class="chart-time">5 AM</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-icon">🌦️</div>
+                    <div class="chart-value" style="height: 70px;"></div>
+                    <div class="chart-time">7 AM</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-icon">🌦️</div>
+                    <div class="chart-value" style="height: 75px;"></div>
+                    <div class="chart-time">9 AM</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-icon">🌦️</div>
+                    <div class="chart-value" style="height: 80px;"></div>
+                    <div class="chart-time">11 AM</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Search overlay -->
+<div class="search-overlay" id="search-overlay">
+    <div class="search-container">
+        <div class="search-header">
+            <div class="search-title">Search Location & Date</div>
+            <button class="search-close" id="search-close">×</button>
+        </div>
+        <form class="search-form" id="search-form">
+            <input type="text" class="search-input" placeholder="Enter city or location" id="location-input">
+            <input type="date" class="search-input" id="date-input">
+            <button type="submit" class="search-button">Search Weather</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    async function fetchWeather(city, date) {
+        const apiKey = 'ac80d6c7ed4740e78734ba80afbf2bdf'; // Your Weatherbit API key
+        const url = `https://api.weatherbit.io/v2.0/forecast/daily?city=${city}&key=${apiKey}&units=M`;
+
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (!data.data || data.data.length === 0) {
+                throw new Error('No weather data found.');
+            }
+
+            // Find the weather matching the selected date
+            const selectedWeather = data.data.find(day => day.datetime === date);
+
+            if (!selectedWeather) {
+                throw new Error('No weather data available for the selected date.');
+            }
+
+            return {
+                temperature: selectedWeather.temp,
+                condition: selectedWeather.weather.description,
+                humidity: selectedWeather.rh,
+                windSpeed: selectedWeather.wind_spd
+            };
+        } catch (error) {
+            console.error('Error fetching weather data:', error);
+            alert('Error fetching weather data. Please check the city name or date and try again.');
+        }
+    }
+
+    function displayWeather(weather) {
+        document.getElementById('temperature').textContent = weather.temperature;
+        document.getElementById('weather-condition').textContent = weather.condition;
+        document.getElementById('humidity').textContent = weather.humidity;
+        document.getElementById('wind-speed').textContent = weather.windSpeed;
+        document.getElementById('weather-info').style.display = 'block';
+    }
+
+</script>
+
+<script>
+    // DOM Elements
+    const canvas = document.getElementById('weather-canvas');
+    const ctx = canvas.getContext('2d');
+    const searchOverlay = document.getElementById('search-overlay');
+    const searchForm = document.getElementById('search-form');
+    const locationInput = document.getElementById('location-input');
+    const dateInput = document.getElementById('date-input');
+    const searchClose = document.getElementById('search-close');
+    const currentLocation = document.getElementById('current-location');
+    const currentTemp = document.getElementById('current-temp');
+    const locationDetail = document.getElementById('location-detail');
+    const currentTime = document.getElementById('current-time');
+
+    // Weather state
+    let weatherState = {
+        location: 'Galle',
+        country: 'Sri Lanka',
+        province: 'Southern Province',
+        temperature: 84,
+        feelsLike: 91,
+        condition: 'Cloudy',
+        humidity: 82,
+        windSpeed: 9,
+        windDirection: '↗',
+        visibility: 12.4,
+        pressure: 29.86,
+        dewPoint: 78,
+        description: 'Scattered light rain showers are expected. The high will be 88° on this very humid day.',
+        date: new Date()
+    };
+
+    // Animation variables
+    let raindrops = [];
+    let clouds = [];
+    let birds = [];
+    let lightning = {
+        active: false,
+        timer: 0
+    };
+    let sun = {
+        x: 0,
+        y: 0,
+        radius: 50,
+        rays: []
+    };
+
+    // Initialize the app
+    function init() {
+        // Set canvas size
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Set default date to today
+        const today = new Date();
+        const formattedDate = formatDateForInput(today);
+        dateInput.value = formattedDate;
+
+        // Update current time
+        updateCurrentTime();
+        setInterval(updateCurrentTime, 60000); // Update every minute
+
+        // Set up event listeners
+        setupEventListeners();
+
+        // Initialize weather animations based on current condition
+        initializeWeatherEffects();
+
+        // Start animation loop
+        animate();
+    }
+
+    // Resize canvas to fill window
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    // Format date for input field (YYYY-MM-DD)
+    function formatDateForInput(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    // Update current time display
+    function updateCurrentTime() {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const formattedHours = hours % 12 || 12;
+        const formattedMinutes = String(minutes).padStart(2, '0');
+        currentTime.textContent = `${formattedHours}:${formattedMinutes} ${ampm}`;
+    }
+
+    // Set up event listeners
+    function setupEventListeners() {
+        // Open search overlay when clicking on location
+        currentLocation.addEventListener('click', openSearchOverlay);
+        locationDetail.addEventListener('click', openSearchOverlay);
+
+        // Close search overlay
+        searchClose.addEventListener('click', closeSearchOverlay);
+
+        // Handle search form submission
+        searchForm.addEventListener('submit', handleSearch);
+
+        // Close search overlay when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === searchOverlay) {
+                closeSearchOverlay();
+            }
+        });
+
+        // Handle escape key to close search overlay
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && searchOverlay.classList.contains('show')) {
+                closeSearchOverlay();
+            }
+        });
+    }
+
+    // Open search overlay
+    function openSearchOverlay() {
+        searchOverlay.style.display = 'flex';
+        locationInput.focus();
+    }
+
+    // Close search overlay
+    function closeSearchOverlay() {
+        searchOverlay.style.display = 'none';
+    }
+
+    // Handle search form submission
+    function handleSearch(e) {
+        e.preventDefault();
+
+        const location = locationInput.value.trim();
+        const date = dateInput.value;
+
+        if (location) {
+            // Update weather state with new location
+            updateWeatherState(location, date);
+            closeSearchOverlay();
+        }
+    }
+
+    // Update weather state with new location and date
+    function updateWeatherState(location, date) {
+        // In a real app, you would fetch weather data from an API
+        // For demo purposes, we'll simulate different weather conditions
+
+        // Generate a hash from the location and date to get consistent weather
+        const hash = hashString(location + date);
+        const conditions = ['Sunny', 'Cloudy', 'Rainy', 'Stormy', 'Windy'];
+        const conditionIndex = hash % conditions.length;
+
+        // Update weather state
+        weatherState.location = location;
+        weatherState.condition = conditions[conditionIndex];
+        weatherState.temperature = 70 + (hash % 30); // 70-99°F
+        weatherState.feelsLike = weatherState.temperature + (hash % 10);
+        weatherState.humidity = 50 + (hash % 50); // 50-99%
+        weatherState.date = date ? new Date(date) : new Date();
+
+        // Update UI
+        updateWeatherUI();
+
+        // Reinitialize weather effects
+        initializeWeatherEffects();
+    }
+
+    // Simple hash function for strings
+    function hashString(str) {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+            hash = ((hash << 5) - hash) + str.charCodeAt(i);
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        return Math.abs(hash);
+    }
+
+    // Update UI with current weather state
+    function updateWeatherUI() {
+        // Update location and temperature
+        currentLocation.textContent = weatherState.location;
+        currentTemp.textContent = `${weatherState.temperature}°`;
+
+        // Update location detail
+        locationDetail.textContent = `${weatherState.location}, ${weatherState.province}, ${weatherState.country}`;
+
+        // Update main weather display
+        document.querySelector('.temperature').innerHTML = `${weatherState.temperature}<sup>°F</sup>`;
+        document.querySelector('.weather-condition').textContent = weatherState.condition;
+        document.querySelector('.feels-like').textContent = `Feels like ${weatherState.feelsLike}°`;
+        document.querySelector('.weather-description').textContent = weatherState.description;
+
+        // Update weather details
+        document.querySelector('.detail-item:nth-child(3) .detail-value').textContent = `${weatherState.humidity}%`;
+        document.querySelector('.detail-item:nth-child(2) .detail-value').textContent = `${weatherState.windSpeed} mph ${weatherState.windDirection}`;
+        document.querySelector('.detail-item:nth-child(4) .detail-value').textContent = `${weatherState.visibility} mi`;
+        document.querySelector('.detail-item:nth-child(5) .detail-value').textContent = `${weatherState.pressure} in`;
+        document.querySelector('.detail-item:nth-child(6) .detail-value').textContent = `${weatherState.dewPoint}°`;
+
+        // Update weather icon
+        const weatherIcon = document.querySelector('.weather-icon');
+        weatherIcon.innerHTML = getWeatherIcon(weatherState.condition);
+    }
+
+    // Get weather icon based on condition
+    function getWeatherIcon(condition) {
+        switch (condition.toLowerCase()) {
+            case 'sunny':
+                return '☀️';
+            case 'cloudy':
+                return '☁️';
+            case 'rainy':
+                return '🌧️';
+            case 'stormy':
+                return '⛈️';
+            case 'windy':
+                return '💨';
+            default:
+                return '🌤️';
+        }
+    }
+
+    // Initialize weather effects based on current condition
+    function initializeWeatherEffects() {
+        // Clear existing effects
+        raindrops = [];
+        clouds = [];
+        birds = [];
+        lightning.active = false;
+
+        // Create new effects based on weather condition
+        switch (weatherState.condition.toLowerCase()) {
+            case 'sunny':
+                createSunnyEffects();
+                break;
+            case 'cloudy':
+                createCloudyEffects();
+                break;
+            case 'rainy':
+                createRainyEffects();
+                break;
+            case 'stormy':
+                createStormyEffects();
+                break;
+            case 'windy':
+                createWindyEffects();
+                break;
+            default:
+                createCloudyEffects();
+        }
+    }
+
+    // Create sunny weather effects
+    function createSunnyEffects() {
+        // Create sun
+        sun = {
+            x: canvas.width * 0.2,
+            y: canvas.height * 0.2,
+            radius: 50,
+            rays: []
+        };
+
+        // Create sun rays
+        for (let i = 0; i < 12; i++) {
+            const angle = (i / 12) * Math.PI * 2;
+            sun.rays.push({
+                angle: angle,
+                length: Math.random() * 30 + 70
+            });
+        }
+
+        // Create a few light clouds
+        for (let i = 0; i < 5; i++) {
+            clouds.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * (canvas.height * 0.4),
+                width: Math.random() * 100 + 50,
+                height: Math.random() * 50 + 30,
+                speed: Math.random() * 0.5 + 0.1,
+                opacity: Math.random() * 0.3 + 0.1
+            });
+        }
+
+        // Create birds
+        for (let i = 0; i < 10; i++) {
+            birds.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * (canvas.height * 0.5),
+                size: Math.random() * 3 + 2,
+                speed: Math.random() * 2 + 1,
+                wingPosition: 0,
+                wingDirection: 1
+            });
+        }
+    }
+
+    // Create cloudy weather effects
+    function createCloudyEffects() {
+        // Create many clouds
+        for (let i = 0; i < 15; i++) {
+            clouds.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * (canvas.height * 0.6),
+                width: Math.random() * 150 + 100,
+                height: Math.random() * 80 + 50,
+                speed: Math.random() * 0.3 + 0.1,
+                opacity: Math.random() * 0.5 + 0.3
+            });
+        }
+    }
+
+    // Create rainy weather effects
+    function createRainyEffects() {
+        // Create dark clouds
+        for (let i = 0; i < 12; i++) {
+            clouds.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * (canvas.height * 0.5),
+                width: Math.random() * 200 + 100,
+                height: Math.random() * 100 + 50,
+                speed: Math.random() * 0.2 + 0.1,
+                opacity: Math.random() * 0.3 + 0.6
+            });
+        }
+
+        // Create raindrops
+        for (let i = 0; i < 200; i++) {
+            raindrops.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                length: Math.random() * 10 + 5,
+                speed: Math.random() * 10 + 15,
+                thickness: Math.random() * 1 + 1
+            });
+        }
+    }
+
+    // Create stormy weather effects
+    function createStormyEffects() {
+        // Create dark clouds
+        for (let i = 0; i < 15; i++) {
+            clouds.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * (canvas.height * 0.5),
+                width: Math.random() * 250 + 150,
+                height: Math.random() * 120 + 80,
+                speed: Math.random() * 0.4 + 0.2,
+                opacity: Math.random() * 0.2 + 0.7
+            });
+        }
+
+        // Create heavy raindrops
+        for (let i = 0; i < 300; i++) {
+            raindrops.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                length: Math.random() * 15 + 10,
+                speed: Math.random() * 15 + 20,
+                thickness: Math.random() * 2 + 1
+            });
+        }
+
+        // Initialize lightning
+        lightning = {
+            active: false,
+            timer: 0
+        };
+    }
+
+    // Create windy weather effects
+    function createWindyEffects() {
+        // Create fast-moving clouds
+        for (let i = 0; i < 10; i++) {
+            clouds.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * (canvas.height * 0.6),
+                width: Math.random() * 150 + 100,
+                height: Math.random() * 80 + 40,
+                speed: Math.random() * 1 + 0.5,
+                opacity: Math.random() * 0.4 + 0.3
+            });
+        }
+
+        // Create some birds struggling against the wind
+        for (let i = 0; i < 5; i++) {
+            birds.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * (canvas.height * 0.5),
+                size: Math.random() * 3 + 2,
+                speed: Math.random() * 1 + 0.5,
+                wingPosition: 0,
+                wingDirection: 1
+            });
+        }
+    }
+
+    // Animation loop
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw background gradient based on weather condition
+        drawBackground();
+
+        // Draw weather elements based on condition
+        switch (weatherState.condition.toLowerCase()) {
+            case 'sunny':
+                drawSun();
+                drawClouds();
+                drawBirds();
+                break;
+            case 'cloudy':
+                drawClouds();
+                break;
+            case 'rainy':
+                drawClouds();
+                drawRain();
+                break;
+            case 'stormy':
+                drawClouds();
+                drawRain();
+                drawLightning();
+                break;
+            case 'windy':
+                drawClouds();
+                drawBirds();
+                break;
+        }
+
+        requestAnimationFrame(animate);
+    }
+
+    // Draw background gradient based on weather and time
+    function drawBackground() {
+        let gradient;
+
+        switch (weatherState.condition.toLowerCase()) {
+            case 'sunny':
+                gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                gradient.addColorStop(0, '#4a90e2');
+                gradient.addColorStop(1, '#87ceeb');
+                break;
+            case 'cloudy':
+                gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                gradient.addColorStop(0, '#7494aa');
+                gradient.addColorStop(1, '#a8c0d6');
+                break;
+            case 'rainy':
+                gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                gradient.addColorStop(0, '#2c3e50');
+                gradient.addColorStop(1, '#3498db');
+                break;
+            case 'stormy':
+                gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                gradient.addColorStop(0, '#1a1a2e');
+                gradient.addColorStop(1, '#34495e');
+                break;
+            case 'windy':
+                gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                gradient.addColorStop(0, '#5d8aa8');
+                gradient.addColorStop(1, '#a8c0d6');
+                break;
+            default:
+                gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                gradient.addColorStop(0, '#4a90e2');
+                gradient.addColorStop(1, '#87ceeb');
+        }
+
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // Draw sun and rays
+    function drawSun() {
+        // Draw sun glow
+        const gradient = ctx.createRadialGradient(
+            sun.x, sun.y, sun.radius * 0.5,
+            sun.x, sun.y, sun.radius * 3
+        );
+        gradient.addColorStop(0, 'rgba(255, 255, 190, 0.8)');
+        gradient.addColorStop(0.5, 'rgba(255, 255, 0, 0.2)');
+        gradient.addColorStop(1, 'rgba(255, 255, 0, 0)');
+
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(sun.x, sun.y, sun.radius * 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Draw sun
+        ctx.fillStyle = 'rgba(255, 255, 0, 0.8)';
+        ctx.beginPath();
+        ctx.arc(sun.x, sun.y, sun.radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Draw sun rays
+        ctx.strokeStyle = 'rgba(255, 255, 0, 0.6)';
+        ctx.lineWidth = 3;
+
+        sun.rays.forEach((ray, i) => {
+            const time = Date.now() * 0.001;
+            const length = ray.length + Math.sin(time * 2 + i) * 10;
+
+            ctx.beginPath();
+            ctx.moveTo(
+                sun.x + Math.cos(ray.angle) * sun.radius,
+                sun.y + Math.sin(ray.angle) * sun.radius
+            );
+            ctx.lineTo(
+                sun.x + Math.cos(ray.angle) * (sun.radius + length),
+                sun.y + Math.sin(ray.angle) * (sun.radius + length)
+            );
+            ctx.stroke();
+        });
+
+        // Move sun slowly across the sky
+        sun.x += 0.2;
+        if (sun.x > canvas.width + sun.radius * 3) {
+            sun.x = -sun.radius * 3;
+        }
+    }
+
+    // Draw clouds
+    function drawClouds() {
+        clouds.forEach(cloud => {
+            ctx.fillStyle = `rgba(255, 255, 255, ${cloud.opacity})`;
+
+            // Draw cloud (rounded rectangle)
+            ctx.beginPath();
+            ctx.moveTo(cloud.x, cloud.y + cloud.height / 2);
+            ctx.arcTo(cloud.x, cloud.y, cloud.x + cloud.width, cloud.y, cloud.height / 2);
+            ctx.arcTo(cloud.x + cloud.width, cloud.y, cloud.x + cloud.width, cloud.y + cloud.height, cloud.height / 2);
+            ctx.arcTo(cloud.x + cloud.width, cloud.y + cloud.height, cloud.x, cloud.y + cloud.height, cloud.height / 2);
+            ctx.arcTo(cloud.x, cloud.y + cloud.height, cloud.x, cloud.y, cloud.height / 2);
+            ctx.fill();
+
+            // Move cloud
+            cloud.x += cloud.speed;
+
+            // Reset cloud position when it moves off screen
+            if (cloud.x > canvas.width + cloud.width) {
+                cloud.x = -cloud.width;
+                cloud.y = Math.random() * (canvas.height * 0.6);
+            }
+        });
+    }
+
+    // Draw birds
+    function drawBirds() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+
+        birds.forEach(bird => {
+            // Update wing position for flapping animation
+            bird.wingPosition += 0.2 * bird.wingDirection;
+            if (bird.wingPosition > 1 || bird.wingPosition < -1) {
+                bird.wingDirection *= -1;
+            }
+
+            // Draw bird (simple M shape)
+            ctx.beginPath();
+            ctx.moveTo(bird.x, bird.y);
+            ctx.lineTo(bird.x - 10 * bird.size, bird.y - 5 * bird.size * bird.wingPosition);
+            ctx.lineTo(bird.x - 20 * bird.size, bird.y);
+            ctx.lineTo(bird.x - 10 * bird.size, bird.y + 5 * bird.size * bird.wingPosition);
+            ctx.lineTo(bird.x, bird.y);
+            ctx.fill();
+
+            // Move bird
+            bird.x += bird.speed;
+            bird.y += Math.sin(Date.now() * 0.001 + bird.x * 0.1) * 0.5;
+
+            // Reset bird position when it moves off screen
+            if (bird.x > canvas.width + 20 * bird.size) {
+                bird.x = -20 * bird.size;
+                bird.y = Math.random() * (canvas.height * 0.5);
+            }
+        });
+    }
+
+    // Draw rain
+    function drawRain() {
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+        ctx.lineWidth = 1;
+
+        raindrops.forEach(drop => {
+            ctx.beginPath();
+            ctx.moveTo(drop.x, drop.y);
+            ctx.lineTo(drop.x, drop.y + drop.length);
+            ctx.lineWidth = drop.thickness;
+            ctx.stroke();
+
+            // Move raindrop
+            drop.y += drop.speed;
+
+            // Reset raindrop position when it moves off screen
+            if (drop.y > canvas.height) {
+                drop.y = -drop.length;
+                drop.x = Math.random() * canvas.width;
+            }
+        });
+    }
+
+    // Draw lightning
+    function drawLightning() {
+        // Randomly create new lightning
+        if (!lightning.active && Math.random() < 0.005) {
+            lightning.active = true;
+            lightning.timer = 5;
+
+            // Flash the screen
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw lightning bolt
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.lineWidth = 3;
+
+            const startX = Math.random() * canvas.width;
+            const startY = 0;
+
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+
+            let x = startX;
+            let y = startY;
+
+            for (let i = 0; i < 5; i++) {
+                x += (Math.random() - 0.5) * 100;
+                y += canvas.height / 5;
+                ctx.lineTo(x, y);
+
+                // Add branch with 30% probability
+                if (Math.random() < 0.3) {
+                    const branchX = x;
+                    const branchY = y;
+
+                    ctx.moveTo(branchX, branchY);
+
+                    for (let j = 0; j < 3; j++) {
+                        x += (Math.random() - 0.5) * 60;
+                        y += canvas.height / 15;
+                        ctx.lineTo(x, y);
+                    }
+
+                    ctx.moveTo(branchX, branchY);
+                    x = branchX;
+                    y = branchY;
+                }
+            }
+
+            ctx.stroke();
+        }
+
+        // Decrease lightning timer
+        if (lightning.active) {
+            lightning.timer--;
+
+            if (lightning.timer <= 0) {
+                lightning.active = false;
+            }
+        }
+    }
+
+    // Initialize the app when the page loads
+    window.addEventListener('load', init);
+</script>
+</body>
+</html>
