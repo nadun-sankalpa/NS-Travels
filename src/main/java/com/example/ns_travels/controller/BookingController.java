@@ -17,12 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/bookings")
@@ -52,44 +47,34 @@ public class BookingController {
     }
 
     @PostMapping("/save")
-    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")  // ✅ Requires role in token
     public ResponseEntity<ResponseDTO> save(@Valid @RequestBody BookingDTO bookingDTO) {
         System.out.println("Booking save controller");
 
-
-
-        // Check if the user is registered
         UserDTO userDto = userServiceImpl.findByEmail(bookingDTO.getUserEmail());
         if (userDto == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseDTO(VarList.Bad_Request, "Your email is not registered with us", null));
         }
 
-        // Check if the travel package exists
         TravelPackagesDTO packageDTO = packageService.getPackageByName(bookingDTO.getPackageName());
         if (packageDTO == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseDTO(VarList.Bad_Request, "Package not found with the name: " + bookingDTO.getPackageName(), null));
         }
 
-        // Set user and travel package for the booking
         bookingDTO.setUser(userDto);
         bookingDTO.setTravelPackage(packageDTO);
         bookingDTO.setStatus(Booking.BookingStatus.PENDING);
 
-        // Save the booking
         bookingServiceImpl.save(bookingDTO);
 
-        // Send confirmation email
-        String userEmail = bookingDTO.getUserEmail();
-        String userName = bookingDTO.getUser().getUsername();
-        LocalDate travelDate = bookingDTO.getTravelDate();
         emailService.sendBookingConfirmationEmail(
-                userEmail,
+                bookingDTO.getUserEmail(),
                 "Your Booking is Confirmed – NS TRAVELS 🌿\n",
-                "Hi " + userName + ",\n\n" +
+                "Hi " + userDto.getUsername() + ",\n\n" +
                         "Your booking has been confirmed successfully. Here are the details:\n\n" +
-                        "📅 Travel Date: " + travelDate + "\n" +
+                        "📅 Travel Date: " + bookingDTO.getTravelDate() + "\n" +
                         "📍 Location: No.42, Karapitiya, Galle\n" +
                         "📞 Contact: 076 209 9693\n\n" +
                         "What to Expect:\n" +
@@ -99,22 +84,17 @@ public class BookingController {
                         "📞 076 209 9693"
         );
 
-        // Return success response
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new ResponseDTO(VarList.OK, "Booking Saved Successfully", bookingDTO));
+        return ResponseEntity.ok(new ResponseDTO(VarList.OK, "Booking Saved Successfully", bookingDTO));
     }
 
     @GetMapping("/all")
-    //@PreAuthorize("hasAuthority('ADMIN')") // Uncomment after testing
     public ResponseEntity<ResponseDTO> getAllBookings() {
         return ResponseEntity.ok(new ResponseDTO(VarList.OK, "Success", bookingService.getAll()));
     }
 
     @DeleteMapping("/delete/{id}")
-    //@PreAuthorize("hasAuthority('ADMIN')") // Uncomment after testing
     public ResponseEntity<ResponseDTO> deleteBooking(@PathVariable Long id) {
         bookingService.delete(id);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new ResponseDTO(VarList.OK, "Booking deleted successfully", null));
+        return ResponseEntity.ok(new ResponseDTO(VarList.OK, "Booking deleted successfully", null));
     }
 }

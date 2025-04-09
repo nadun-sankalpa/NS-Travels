@@ -634,22 +634,12 @@
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label class="form-label" for="travel_package_id">Travel Package ID</label>
-              <input type="text" class="form-input" id="travel_package_id" required>
-            </div>
-            <div class="form-group">
               <label class="form-label" for="email_address">Email Address</label>
               <input type="email" class="form-input" id="email_address" required>
             </div>
-          </div>
-          <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="phone_number">Phone Number</label>
               <input type="tel" class="form-input" id="phone_number" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="user-id">User ID</label>
-              <input type="text" class="form-input" id="user-id" required>
             </div>
           </div>
           <div class="modal-footer">
@@ -660,35 +650,6 @@
 
     </div>
 
-    <div class="booking-form" id="edit-booking-form-container" style="display: none;">
-      <h2 class="form-title">Edit Booking</h2>
-      <form id="edit-booking-form">
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="edit-package-id">Travel Package ID</label>
-            <input type="text" class="form-input" id="edit-package-id" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="edit-email_address">Email Address</label>
-            <input type="email" class="form-input" id="edit-email_address" required>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="edit_phone_number">Phone Number</label>
-            <input type="tel" class="form-input" id="edit_phone_number" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="edit-user-id">User ID</label>
-            <input type="text" class="form-input" id="edit-user-id" required>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline" id="cancel-edit">Cancel</button>
-          <button type="submit" class="btn btn-primary">Update Booking</button>
-        </div>
-      </form>
-    </div>
 
     <!-- Booking Summary -->
     <div class="booking-summary">
@@ -752,7 +713,7 @@
         </div>
 
         <div class="summary-actions">
-          <button class="btn btn-primary" id="proceed-to-payment">
+          <button class="btn btn-primary" id="proceed-to-payment" onclick="window.location.href= 'payment.html'">
             <i class="fas fa-credit-card"></i> Proceed to Payment
           </button>
         </div>
@@ -845,104 +806,174 @@
   </div>
 </div>
 
-<script>
-  $(document).ready(function() {
-    const API_BASE = 'http://localhost:8080/api/bookings';
-    const TOKEN_KEY = 'jwtToken';
 
-    // Function to show error messages
-    function showError(message) {
-      console.error("Error:", message);
-      alert(message); // Replace with custom UI notifications if desired
-    }
+  <script>
+    const API_BASE_URL = 'http://localhost:8080/api/bookings';
 
-    // Function to show success messages
-    function showSuccess(message) {
-      console.log("Success:", message);
-      alert(message); // Replace with custom UI notifications if desired
-    }
+    $(document).ready(function () {
+      // Handle booking form submission
+      $('#add-booking-form').submit(async function (e) {
+        e.preventDefault();
 
-    // Function to check authentication
-    function checkAuth() {
-      const token = localStorage.getItem(TOKEN_KEY);
-      if (!token) {
-        showError('Authentication required. Please log in.');
-        window.location.href = 'login.html'; // Adjust path as needed
-        return false;
-      }
-      return true;
-    }
+        // JWT Token handling with validation
+        const jwtToken = localStorage.getItem('jwtToken');
+        if (!jwtToken || jwtToken.split('.').length !== 3) {
+          handleAuthError();
+          return;
+        }
 
-    // Submit handler for the add-booking form
-    $('#add-booking-form').submit(function(e) {
-      e.preventDefault();
-
-      // Ensure user is authenticated
-      if (!checkAuth()) return;
-
-      // Validate package ID input
-      const packageId = Number($('#travel_package_id').val().trim());
-      if (isNaN(packageId) || packageId <= 0) {
-        showError('Valid package ID is required');
-        $('#travel_package_id').addClass('error-highlight');
-        return;
-      }
-
-      // Collect booking data from form fields
-      const bookingData = {
-        chosenPackage: $('#chosenPackage').val().trim(),
-        travelDate: $('#travel-date').val().trim(),
-        numberOfGuests: Number($('#guests').val().trim()),
-        fullName: $('#full-name').val().trim(),
-        travelPackageId: packageId, // Valid package ID as number
-        emailAddress: $('#email_address').val().trim(),
-        phoneNumber: $('#phone_number').val().trim(),
-        userId: Number($('#user-id').val().trim()) // Make sure this hidden field is set
-      };
-
-      console.log("Final Payload Sent:", JSON.stringify(bookingData));
-
-      // Send AJAX POST request to add booking
-      $.ajax({
-        url: API_BASE + '/addBooking',
-        type: 'POST',
-        data: JSON.stringify(bookingData),
-        contentType: 'application/json',
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem(TOKEN_KEY)
-        },
-        success: function(response) {
-          if (response && response.code === 201) {
-            // Hide modal if applicable
-            $('#add-booking-modal').hide();
-            showSuccess('Booking added successfully!');
-
-            // Reload the page after 2 seconds with a success message
-            setTimeout(function() {
-              window.location.reload();
-            }, 2000);
-          } else {
-            showError(response?.message || 'Failed to add booking');
+        // Debug token claims
+        try {
+          const tokenPayload = JSON.parse(atob(jwtToken.split('.')[1]));
+          console.log('Token payload:', tokenPayload);
+          if (Date.now() >= tokenPayload.exp * 1000) {
+            alert('Session expired! Please login again.');
+            handleAuthError();
+            return;
           }
-        },
-        error: function(xhr) {
-          console.log("AJAX Error Response:", xhr.responseText);
-          let errorMsg = `Error ${xhr.status}: ${xhr.responseText || 'Unknown error'}`;
-          showError(errorMsg);
+        } catch (e) {
+          console.error('Token decoding error:', e);
+          handleAuthError();
+          return;
+        }
+
+        // Prepare booking data
+        const bookingData = {
+          userEmail: $('#email_address').val().trim(),
+          packageName: $('#chosenPackage').find(":selected").text(),
+          numberOfGuests: parseInt($('#guests').val()),
+          travelDate: $('#travel-date').val()
+        };
+
+        console.log('Request payload:', JSON.stringify(bookingData, null, 2));
+
+        // Enhanced validation
+        if (!validateBooking(bookingData)) return;
+
+        try {
+          const response = await $.ajax({
+            url: `${API_BASE_URL}/save`,
+            method: 'POST',
+            headers: {
+              "Authorization": `Bearer ${jwtToken}`,
+              "Content-Type": "application/json"
+            },
+            dataType: 'json',
+            data: JSON.stringify(bookingData),
+            statusCode: {
+              403: function() {
+                handleAuthError('Session expired or insufficient permissions');
+              }
+            }
+          });
+
+          console.log('Full server response:', response);
+
+          if (response.code === 200) {
+            updateBookingSummary(response.content);
+            showPaymentSection();
+            alert(response.message);
+          } else {
+            handleBusinessError(response);
+          }
+        } catch (error) {
+          handleAjaxError(error);
         }
       });
+
+      // Validation function
+      function validateBooking(data) {
+        const errors = [];
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!data.userEmail) {
+          errors.push("Email is required");
+        } else if (!emailRegex.test(data.userEmail)) {
+          errors.push("Invalid email format");
+        }
+
+        if (!data.packageName || data.packageName === 'Select a package') {
+          errors.push("Please select a valid package");
+        }
+
+        if (isNaN(data.numberOfGuests)) {
+          errors.push("Number of guests must be a valid number");
+        } else if (data.numberOfGuests < 1 || data.numberOfGuests > 10) {
+          errors.push("Number of guests must be between 1-10");
+        }
+
+        if (!data.travelDate) {
+          errors.push("Travel date is required");
+        } else if (new Date(data.travelDate) < new Date()) {
+          errors.push("Travel date must be in the future");
+        }
+
+        if (errors.length > 0) {
+          showValidationErrors(errors);
+          return false;
+        }
+        return true;
+      }
+
+      function handleAuthError(message = 'Authentication required') {
+        localStorage.removeItem('jwtToken');
+        alert(`${message}. Redirecting to login...`);
+        window.location.href = '/login?from=booking';
+      }
+
+      function handleBusinessError(response) {
+        const errorMessage = response.message || 'Business logic error occurred';
+        console.error('Business error:', response);
+        alert(`Error: ${errorMessage} (Code: ${response.code})`);
+      }
+
+      function handleAjaxError(error) {
+        console.error('AJAX error details:', error);
+        const status = error.status;
+        let message = 'Unknown error occurred';
+
+        if (error.responseJSON) {
+          message = error.responseJSON.message || JSON.stringify(error.responseJSON);
+        } else if (error.responseText) {
+          message = error.responseText;
+        }
+
+        alert(`Request failed: ${message} (Status: ${status})`);
+
+        if (status === 403) {
+          handleAuthError('Insufficient permissions');
+        }
+      }
+
+      function showValidationErrors(errors) {
+        const errorList = errors.map(err => `• ${err}`).join('\n');
+        alert(`Please fix these errors:\n${errorList}`);
+      }
+
+      function updateBookingSummary(bookingData) {
+        $('#summary-name').text($('#full-name').val());
+        $('#summary-email').text(bookingData.userEmail);
+        $('#summary-phone').text($('#phone_number').val());
+        $('#summary-package-type').text(bookingData.packageName);
+        $('#summary-travel-date').text(new Date(bookingData.travelDate).toLocaleDateString());
+        $('#summary-guests-count').text(bookingData.numberOfGuests);
+      }
+
+      function showPaymentSection() {
+        $('#booking-form-container').fadeOut(300, () => {
+          $('#payment-form-container').fadeIn(300);
+        });
+      }
+
+      // Payment section handlers
+      $('#back-to-booking').click(function() {
+        $('#payment-form-container').fadeOut(300, () => {
+          $('#booking-form-container').fadeIn(300);
+        });
+      });
     });
-  });
-
-
-
-
-
-
-
-
-
 </script>
+
 
 <script>
 

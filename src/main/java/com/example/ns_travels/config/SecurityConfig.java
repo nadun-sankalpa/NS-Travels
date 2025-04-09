@@ -1,9 +1,6 @@
 package com.example.ns_travels.config;
 
 import com.example.ns_travels.Filter.JwtFilter;
-import com.example.ns_travels.dto.BookingDTO;
-import com.example.ns_travels.entity.Booking;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,16 +44,20 @@ public class SecurityConfig {
                                 "/auth/login/verify",
                                 "/api/user/addUser",
                                 "/api/register/patient",
-                                "/api/user/deleteUser/**",
-                                "/api/bookings/**",
-                                "/api/bookings/all",
                                 "/test/login",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/api/hotels/**",
                                 "/api/travel-packages/**",
-                                "/api/payments/getAll"  // Temporarily permit access for testing
+                                "/api/payments/getAll"
                         ).permitAll()
+
+                        // 🚫 Require authentication for booking creation
+                        .requestMatchers("/api/bookings/save").authenticated()
+
+                        // ✅ Allow viewing all bookings (optional - can be restricted too)
+                        .requestMatchers("/api/bookings/all").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
@@ -88,9 +89,9 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(
-                "http://localhost:63342",
-                "http://localhost:3000",
-                "http://localhost:4200"
+                "http://localhost:63342", // ✅ From your HTML frontend
+                "http://localhost:3000",  // React frontend
+                "http://localhost:4200"   // Angular frontend
         ));
         configuration.setAllowedMethods(Arrays.asList(
                 "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
@@ -104,6 +105,4 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
-
 }
