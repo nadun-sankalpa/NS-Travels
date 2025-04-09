@@ -1,24 +1,40 @@
 package com.example.ns_travels.dto;
 
 import com.example.ns_travels.entity.Booking;
-import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.time.LocalDate;
+import java.util.List;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BookingDTO {
 
     private Long id;
+
     private TravelPackagesDTO travelPackage;
     private String packageName;
+
     private UserDTO user;
     private String userEmail;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate travelDate;
+
     private int numberOfGuests;
     private String additionalRequests;
+
     private Booking.BookingStatus status;
+
+    private List<String> guestNames; // Declared List property
 
     public BookingDTO() {
     }
 
-    public BookingDTO(Long id, TravelPackagesDTO travelPackage, String packageName, UserDTO user, String userEmail, LocalDate travelDate, int numberOfGuests, String additionalRequests, Booking.BookingStatus status) {
+    public BookingDTO(Long id, TravelPackagesDTO travelPackage, String packageName,
+                      UserDTO user, String userEmail, LocalDate travelDate,
+                      int numberOfGuests, String additionalRequests,
+                      Booking.BookingStatus status, List<String> guestNames) {
         this.id = id;
         this.travelPackage = travelPackage;
         this.packageName = packageName;
@@ -28,6 +44,7 @@ public class BookingDTO {
         this.numberOfGuests = numberOfGuests;
         this.additionalRequests = additionalRequests;
         this.status = status;
+        this.guestNames = guestNames;
     }
 
     public Long getId() {
@@ -102,6 +119,14 @@ public class BookingDTO {
         this.status = status;
     }
 
+    public List<String> getGuestNames() {
+        return guestNames;
+    }
+
+    public void setGuestNames(List<String> guestNames) {
+        this.guestNames = guestNames;
+    }
+
     @Override
     public String toString() {
         return "BookingDTO{" +
@@ -114,6 +139,7 @@ public class BookingDTO {
                 ", numberOfGuests=" + numberOfGuests +
                 ", additionalRequests='" + additionalRequests + '\'' +
                 ", status=" + status +
+                ", guestNames=" + guestNames +
                 '}';
     }
 }

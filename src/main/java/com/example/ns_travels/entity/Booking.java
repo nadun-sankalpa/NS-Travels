@@ -5,13 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.time.LocalDate;
-
 
 @Entity
 @Table(name = "booking")
@@ -21,34 +15,48 @@ public class Booking {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user_id", nullable = false)
         private User user;
 
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "package_id", nullable = false)
         private TravelPackages travelPackage;
+
+        @Column(name = "user_name")
         private String userName;
+
         @NotBlank(message = "User email is required")
         @Email(message = "Invalid email format")
+        @Column(name = "user_email")
         private String userEmail;
+
         @FutureOrPresent(message = "Travel date must be in the present or future")
+        @Column(name = "travel_date")
         private LocalDate travelDate;
+
         @Min(value = 1, message = "Must have at least 1 guest")
+        @Column(name = "number_of_guests")
         private int numberOfGuests;
+
+        @Column(name = "additional_requests")
         private String additionalRequests;
 
         @Enumerated(EnumType.STRING)
+        @Column(name = "status")
         private BookingStatus status;
 
         public enum BookingStatus {
                 PENDING, CONFIRMED, CANCELLED
         }
 
+        // No-arg constructor
         public Booking() {
         }
 
-        public Booking(Long id, User user, TravelPackages travelPackage, String userName, String userEmail, LocalDate travelDate, int numberOfGuests, String additionalRequests, BookingStatus status) {
+        // All-args constructor
+        public Booking(Long id, User user, TravelPackages travelPackage, String userName, String userEmail,
+                       LocalDate travelDate, int numberOfGuests, String additionalRequests, BookingStatus status) {
                 this.id = id;
                 this.user = user;
                 this.travelPackage = travelPackage;
@@ -59,6 +67,8 @@ public class Booking {
                 this.additionalRequests = additionalRequests;
                 this.status = status;
         }
+
+        // Getters and setters
 
         public Long getId() {
                 return id;

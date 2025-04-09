@@ -1,9 +1,7 @@
 package com.example.ns_travels.config;
 
 import com.example.ns_travels.dto.BookingDTO;
-import com.example.ns_travels.dto.UserDTO;
 import com.example.ns_travels.entity.Booking;
-import com.example.ns_travels.entity.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.modelmapper.convention.MatchingStrategies;
@@ -15,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebAppConfig {
 
+    // ModelMapper bean to handle mapping between entities and DTOs
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
@@ -24,21 +23,30 @@ public class WebAppConfig {
 
         // Explicit mapping from Booking to BookingDTO
         TypeMap<Booking, BookingDTO> bookingTypeMap = modelMapper.createTypeMap(Booking.class, BookingDTO.class);
-        bookingTypeMap.addMapping(src -> src.getUser().getEmail(), BookingDTO::setUserEmail);
-        bookingTypeMap.addMapping(Booking::getTravelPackage, BookingDTO::setPackageName);
-        bookingTypeMap.addMapping(Booking::getNumberOfGuests, BookingDTO::setNumberOfGuests);
-        bookingTypeMap.addMapping(Booking::getTravelDate, BookingDTO::setTravelDate);
+        bookingTypeMap.addMapping(src -> src.getUser().getEmail(), BookingDTO::setUserEmail); // Mapping User's email
+        bookingTypeMap.addMapping(src -> src.getTravelPackage().getName(), BookingDTO::setPackageName); // Mapping TravelPackage's name
+        bookingTypeMap.addMapping(Booking::getNumberOfGuests, BookingDTO::setNumberOfGuests); // Mapping Number of Guests
+        bookingTypeMap.addMapping(Booking::getTravelDate, BookingDTO::setTravelDate); // Mapping Travel Date
+        bookingTypeMap.addMapping(Booking::getAdditionalRequests, BookingDTO::setAdditionalRequests); // Mapping Additional Requests
+        bookingTypeMap.addMapping(Booking::getStatus, BookingDTO::setStatus); // Mapping Booking Status
+
+        // If you intend to map the guestNames, you would need to handle it here.
+        // Since the Booking entity doesn't directly have guestNames, this mapping
+        // would likely involve a custom logic or a different source field.
 
         return modelMapper;
     }
 
-    // Optional: CORS configuration
+    // CORS configuration for handling cross-origin requests
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
+                // Allow all origins and all methods
+                registry.addMapping("/**")
+                        .allowedOrigins("*") // Allow any origin to make requests
+                        .allowedMethods("*"); // Allow all HTTP methods (GET, POST, PUT, DELETE, etc.)
             }
         };
     }

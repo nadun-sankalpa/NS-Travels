@@ -14,12 +14,12 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Type;
 
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -57,14 +57,15 @@ public class BookingServiceImpl implements BookingService {
         booking.setTravelDate(bookingDTO.getTravelDate());
         booking.setUserEmail(bookingDTO.getUserEmail());
         booking.setUserName(bookingDTO.getUser().getUsername());
+
         bookingRepository.save(booking);
-
-
     }
 
     @Override
     public List<BookingDTO> getAll() {
-        return modelMapper.map(bookingRepository.findAll(), new TypeToken<List<BookingDTO>>() {}.getType());
+        List<Booking> bookings = bookingRepository.findAll();
+        Type listType = new TypeToken<List<BookingDTO>>() {}.getType();
+        return modelMapper.map(bookings, listType); // This is line 68
     }
 
     @Override
@@ -74,7 +75,9 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<BookingDTO> getByUserId(Long userId) {
-        return modelMapper.map(bookingRepository.findById(userId), new TypeToken<List<BookingDTO>>(){}.getType());
+        List<Booking> bookings = bookingRepository.findByUserId(userId);
+        Type listType = new TypeToken<List<BookingDTO>>() {}.getType();
+        return modelMapper.map(bookings, listType);
     }
 
     @Override
@@ -84,10 +87,11 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void update(Long id, BookingDTO bookingDTO) {
-        Booking existingBooking = bookingRepository.findById(id).orElseThrow(() -> new RuntimeException("Booking not found."));
+        Booking existingBooking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found."));
+
         existingBooking.setStatus(Booking.BookingStatus.valueOf(String.valueOf(bookingDTO.getStatus())));
+
         bookingRepository.save(existingBooking);
     }
-
-
 }

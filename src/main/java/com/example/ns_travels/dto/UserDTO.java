@@ -11,6 +11,14 @@ public class UserDTO {
     private String phone;
     private Role role;
 
+    // If you intend to map the 'bookings' or 'reviews' lists from the User entity
+    // to the UserDTO, you need to add corresponding List properties here
+    // and ensure their setters accept java.util.List.
+
+    // Example (add these if you want to map the lists):
+    // private java.util.List<BookingDTO> bookings;
+    // private java.util.List<ReviewDTO> reviews;
+
     public UserDTO() {
     }
 
@@ -71,6 +79,23 @@ public class UserDTO {
         this.role = role;
     }
 
+    // If you added the List properties above, include their getters and setters:
+    // public java.util.List<BookingDTO> getBookings() {
+    //     return bookings;
+    // }
+    //
+    // public void setBookings(java.util.List<BookingDTO> bookings) {
+    //     this.bookings = bookings;
+    // }
+    //
+    // public java.util.List<ReviewDTO> getReviews() {
+    //     return reviews;
+    // }
+    //
+    // public void setReviews(java.util.List<ReviewDTO> reviews) {
+    //     this.reviews = reviews;
+    // }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -80,6 +105,7 @@ public class UserDTO {
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", role=" + role +
+                // (Include bookings and reviews in toString if you added them)
                 '}';
     }
 }
