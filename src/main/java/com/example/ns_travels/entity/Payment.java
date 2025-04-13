@@ -12,34 +12,27 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(nullable = false)
+    private String cardHolderName;
 
-    // This is the price that will be assigned from the selected TravelPackage
-    @Column(name = "price")
-    private double price;
+    @Column(nullable = false)
+    private String cardNumber;
 
-    @Enumerated(EnumType.STRING)
-    private PaymentMethod paymentMethod;
+    @Column(nullable = false)
+    private String expirationDate;
 
-    @Enumerated(EnumType.STRING)
-    private PaymentStatus paymentStatus;
-
-    @ManyToOne
-    @JoinColumn(name = "travel_package_id")
-    private TravelPackages travelPackage;
+    @Column(nullable = false)
+    private String cvv;
 
     public Payment() {
     }
 
-    public Payment(Long id, User user, TravelPackages travelPackage, PaymentMethod paymentMethod, PaymentStatus paymentStatus) {
+    public Payment(Long id, String cardHolderName, String cardNumber, String expirationDate, String cvv) {
         this.id = id;
-        this.user = user;
-        this.travelPackage = travelPackage;
-        this.price = travelPackage != null ? travelPackage.getPrice() : 0.0;
-        this.paymentMethod = paymentMethod;
-        this.paymentStatus = paymentStatus;
+        this.cardHolderName = cardHolderName;
+        this.cardNumber = cardNumber;
+        this.expirationDate = expirationDate;
+        this.cvv = cvv;
     }
 
     public Long getId() {
@@ -50,58 +43,49 @@ public class Payment {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public String getCardHolderName() {
+        return cardHolderName;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCardHolderName(String cardHolderName) {
+        this.cardHolderName = cardHolderName;
     }
 
-    public double getPrice() {
-        return price;
+    public String getCardNumber() {
+        return cardNumber;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
     }
 
-    public PaymentMethod getPaymentMethod() {
-        return paymentMethod;
+    public String getExpirationDate() {
+        return expirationDate;
     }
 
-    public void setPaymentMethod(PaymentMethod paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setExpirationDate(String expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
-    public PaymentStatus getPaymentStatus() {
-        return paymentStatus;
+    public String getCvv() {
+        return cvv;
     }
 
-    public void setPaymentStatus(PaymentStatus paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
-
-    public TravelPackages getTravelPackage() {
-        return travelPackage;
-    }
-
-    public void setTravelPackage(TravelPackages travelPackage) {
-        this.travelPackage = travelPackage;
-        if (travelPackage != null) {
-            this.price = travelPackage.getPrice(); // Automatically set price from selected package
-        }
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
     }
 
     @Override
     public String toString() {
         return "Payment{" +
                 "id=" + id +
-                ", user=" + user +
-                ", price=" + price +
-                ", paymentMethod=" + paymentMethod +
-                ", paymentStatus=" + paymentStatus +
-                ", travelPackage=" + travelPackage +
+                ", cardHolderName='" + cardHolderName + '\'' +
+                ", cardNumber='" + cardNumber + '\'' +
+                ", expirationDate='" + expirationDate + '\'' +
+                ", cvv='" + cvv + '\'' +
                 '}';
     }
 }
+
+
+

@@ -34,7 +34,24 @@ public class JwtFilter extends OncePerRequestFilter {
         // Check if Authorization header contains a Bearer token
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);  // Extract the token from the header
-            userName = jwtService.extractUsername(token);  // Extract username from token
+            if (token.isEmpty()) {
+                logger.error("JWT token is empty after extraction");
+            } else {
+                logger.info("Extracted JWT token: " + token);
+            }
+        } else {
+            logger.error("Authorization header is missing or does not start with 'Bearer '");
+        }
+
+        // Check if the token is well-formed
+        if (token != null && token.split("\\.").length == 3) {
+            try {
+                userName = jwtService.extractUsername(token);  // Extract username from token
+            } catch (Exception e) {
+                logger.error("Error extracting username from JWT token", e);
+            }
+        } else {
+            logger.error("JWT token has an invalid format. Token: " + token);
         }
 
         // If a username is extracted and there is no authentication in the context, authenticate the user
@@ -42,15 +59,17 @@ public class JwtFilter extends OncePerRequestFilter {
             try {
                 // Load user details
                 UserDetails userDetails = myUserDetailService.loadUserByUsername(userName);
+
                 // Validate the token
                 if (jwtService.validateToken(token, userDetails)) {
                     // If valid, create an authentication token and set it in the context
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);  // Set the authentication object in the SecurityContext
+                } else {
+                    logger.warn("Invalid JWT token");
                 }
             } catch (Exception e) {
-                // You can log the error here if necessary, such as invalid token or user not found
                 logger.error("Error during JWT validation: ", e);
             }
         }

@@ -49,13 +49,13 @@ public class SecurityConfig {
                                 "/swagger-ui.html",
                                 "/api/hotels/**",
                                 "/api/travel-packages/**",
-                                "/api/payments/getAll"
+                                "/api/payments/getAll",
+                                "/api/payments/save",
+                                "/api/payments/**",
+                                "/api/payments/all"  // ✅ FIX: Add this to allow fetching all payments
                         ).permitAll()
 
-                        // 🚫 Require authentication for booking creation
                         .requestMatchers("/api/bookings/save").authenticated()
-
-                        // ✅ Allow viewing all bookings (optional - can be restricted too)
                         .requestMatchers("/api/bookings/all").permitAll()
 
                         .anyRequest().authenticated()
@@ -89,9 +89,9 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(
-                "http://localhost:63342", // ✅ From your HTML frontend
-                "http://localhost:3000",  // React frontend
-                "http://localhost:4200"   // Angular frontend
+                "http://localhost:63342",
+                "http://localhost:3000",
+                "http://localhost:4200"
         ));
         configuration.setAllowedMethods(Arrays.asList(
                 "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));

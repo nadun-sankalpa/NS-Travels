@@ -2,111 +2,69 @@ package com.example.ns_travels.service.impl;
 
 import com.example.ns_travels.dto.PaymentDTO;
 import com.example.ns_travels.entity.Payment;
-import com.example.ns_travels.entity.TravelPackages;
-import com.example.ns_travels.entity.User;
 import com.example.ns_travels.repository.PaymentRepo;
-import com.example.ns_travels.repository.TravelPackagesRepo;
-import com.example.ns_travels.repository.UsersRepo;
 import com.example.ns_travels.service.PaymentService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
-    @Autowired
-    private PaymentRepo paymentRepo;
+    private final PaymentRepo paymentRepository;
 
     @Autowired
-    private UsersRepo userRepo;
-
-    @Autowired
-    private TravelPackagesRepo travelPackagesRepo;
-
-    @Autowired
-    private ModelMapper modelMapper;
-
-    @Override
-    public void save(PaymentDTO paymentDTO) {
-        Payment payment = modelMapper.map(paymentDTO, Payment.class);
-
-        // Set User
-        Optional<User> userOpt = userRepo.findById(paymentDTO.getUserId());
-        if (userOpt.isEmpty()) {
-            throw new RuntimeException("User not found with ID: " + paymentDTO.getUserId());
-        }
-        payment.setUser(userOpt.get());
-
-        // Set TravelPackage and assign price from it
-        Optional<TravelPackages> packageOpt = travelPackagesRepo.findById(paymentDTO.getTravelPackageId());
-        if (packageOpt.isEmpty()) {
-            throw new RuntimeException("Travel Package not found with ID: " + paymentDTO.getTravelPackageId());
-        }
-        payment.setTravelPackage(packageOpt.get());
-
-        paymentRepo.save(payment);
+    public PaymentServiceImpl(PaymentRepo paymentRepository) {
+        this.paymentRepository = paymentRepository;
     }
 
     @Override
-    public void update(PaymentDTO paymentDTO) {
-        Optional<Payment> optPayment = paymentRepo.findById(paymentDTO.getId());
-        if (optPayment.isEmpty()) {
-            throw new RuntimeException("Payment not found with ID: " + paymentDTO.getId());
-        }
-
-        Payment payment = modelMapper.map(paymentDTO, Payment.class);
-
-        // Set User
-        Optional<User> userOpt = userRepo.findById(paymentDTO.getUserId());
-        if (userOpt.isEmpty()) {
-            throw new RuntimeException("User not found with ID: " + paymentDTO.getUserId());
-        }
-        payment.setUser(userOpt.get());
-
-        // Set TravelPackage and update price
-        Optional<TravelPackages> packageOpt = travelPackagesRepo.findById(paymentDTO.getTravelPackageId());
-        if (packageOpt.isEmpty()) {
-            throw new RuntimeException("Travel Package not found with ID: " + paymentDTO.getTravelPackageId());
-        }
-        payment.setTravelPackage(packageOpt.get());
-
-        paymentRepo.save(payment);
-    }
-
-    @Override
-    public void delete(Long id) {
-        if (!paymentRepo.existsById(id)) {
-            throw new RuntimeException("Payment not found with ID: " + id);
-        }
-        paymentRepo.deleteById(id);
+    public PaymentDTO savePayment(PaymentDTO dto) {
+        Payment payment = mapToEntity(dto);
+        Payment saved = paymentRepository.save(payment);
+        return mapToDTO(saved);
     }
 
     @Override
     public PaymentDTO getPaymentById(Long id) {
-        Optional<Payment> paymentOpt = paymentRepo.findById(id);
-        if (paymentOpt.isEmpty()) {
-            throw new RuntimeException("Payment not found with ID: " + id);
-        }
-        return modelMapper.map(paymentOpt.get(), PaymentDTO.class);
+        Optional<Payment> optional = paymentRepository.findById(id);
+        return optional.map(this::mapToDTO).orElse(null);
     }
 
     @Override
     public List<PaymentDTO> getAllPayments() {
-        List<Payment> payments = paymentRepo.findAll();
-        return payments.stream()
-                .map(payment -> modelMapper.map(payment, PaymentDTO.class))
-                .toList();
+        return paymentRepository.findAll()
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<PaymentDTO> getPaymentsByUserId(Long userId) {
-        List<Payment> payments = paymentRepo.findByUserId(userId);
-        return payments.stream()
-                .map(payment -> modelMapper.map(payment, PaymentDTO.class))
-                .toList();
+    public void deletePayment(Long id) {
+        paymentRepository.deleteById(id);
+    }
+
+    // ---------- Mapping Methods ----------
+    private Payment mapToEntity(PaymentDTO dto) {
+        Payment payment = new Payment();
+        payment.setId(dto.getId());
+        payment.setCardHolderName(dto.getCardHolderName());
+        payment.setCardNumber(dto.getCardNumber());
+        payment.setExpirationDate(dto.getExpirationDate());
+        payment.setCvv(dto.getCvv());
+        return payment;
+    }
+
+    private PaymentDTO mapToDTO(Payment payment) {
+        PaymentDTO dto = new PaymentDTO();
+        dto.setId(payment.getId());
+        dto.setCardHolderName(payment.getCardHolderName());
+        dto.setCardNumber(payment.getCardNumber());
+        dto.setExpirationDate(payment.getExpirationDate());
+        dto.setCvv(payment.getCvv());
+        return dto;
     }
 }

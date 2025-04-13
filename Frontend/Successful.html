@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You - NS Travels</title>
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --primary-light: #60a5fa;
+            --secondary: #f97316;
+            --background: rgba(15, 23, 42, 0.8);
+            --card: rgba(30, 41, 59, 0.8);
+            --text: #f8fafc;
+            --text-light: #cbd5e1;
+            --success: #22c55e;
+            --border: #475569;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: url('images/gallery-1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(15, 23, 42, 0.7);
+            z-index: -1;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-circle {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-item {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: white;
+        }
+
+        .book-now {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.25rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .book-now:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .thank-you-container {
+            max-width: 900px;
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        .thank-you-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: scaleIn 1.2s ease-out;
+        }
+
+        .thank-you-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+            position: relative;
+            display: inline-block;
+        }
+
+        .thank-you-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+            animation: expandWidth 1.5s ease-out forwards;
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 100px; }
+        }
+
+        .thank-you-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .confirmation-card {
+            background-color: var(--card);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 1s ease-out;
+        }
+
+        .confirmation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .confirmation-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .confirmation-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(34, 197, 94, 0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--success);
+            font-size: 1.2rem;
+            animation: pulse 2s infinite;
+        }
+
+        .booking-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .booking-detail {
+            animation: fadeInUp 1s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .booking-detail:nth-child(1) { animation-delay: 0.2s; }
+        .booking-detail:nth-child(2) { animation-delay: 0.4s; }
+        .booking-detail:nth-child(3) { animation-delay: 0.6s; }
+        .booking-detail:nth-child(4) { animation-delay: 0.8s; }
+
+        .detail-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .detail-value {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .booking-summary {
+            background-color: rgba(15, 23, 42, 0.5);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .summary-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .summary-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .summary-icon {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .summary-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .summary-value {
+            margin-left: auto;
+            font-weight: 500;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .total-value {
+            color: var(--primary-light);
+        }
+
+        .journey-card {
+            background-color: var(--card);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 1.2s ease-out;
+        }
+
+        .journey-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+        }
+
+        .journey-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+
+        .journey-text {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-info {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            background-color: rgba(15, 23, 42, 0.5);
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .contact-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-details {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-icon {
+            color: var(--primary);
+        }
+
+        .contact-text {
+            color: var(--text-light);
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            opacity: 0.6;
+            z-index: -1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .float-1 {
+            top: 20%;
+            left: 5%;
+            font-size: 2rem;
+            animation-delay: 0s;
+        }
+
+        .float-2 {
+            top: 30%;
+            right: 10%;
+            font-size: 3rem;
+            animation-delay: 1s;
+        }
+
+        .float-3 {
+            bottom: 20%;
+            left: 15%;
+            font-size: 2.5rem;
+            animation-delay: 2s;
+        }
+
+        .float-4 {
+            bottom: 30%;
+            right: 5%;
+            font-size: 2rem;
+            animation-delay: 3s;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+        }
+
+        /* Confetti animation */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .booking-details {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .thank-you-title {
+                font-size: 2.5rem;
+            }
+
+            .confirmation-title {
+                font-size: 1.5rem;
+            }
+
+            .journey-title {
+                font-size: 1.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Floating Elements -->
+<div class="floating-element float-1">✈️</div>
+<div class="floating-element float-2">🏝️</div>
+<div class="floating-element float-3">🧳</div>
+<div class="floating-element float-4">🌴</div>
+
+<!-- Header -->
+<div class="header">
+    <div class="logo">
+        <div class="logo-circle">NS</div>
+        <div class="logo-text">NS Travels</div>
+    </div>
+    <div class="nav">
+        <a href="#" class="nav-item">Home</a>
+        <a href="#" class="nav-item">Destinations</a>
+        <a href="#" class="nav-item">Travel Guides</a>
+        <a href="#" class="nav-item active">Booking</a>
+        <a href="#" class="nav-item">Weather</a>
+    </div>
+    <a href="#" class="book-now">Book Now</a>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <div class="thank-you-container">
+        <div class="thank-you-header">
+            <h1 class="thank-you-title">Thank You for Booking!</h1>
+            <p class="thank-you-subtitle">Your adventure with NS Travels is confirmed. We're excited to be part of your journey and can't wait to provide you with an unforgettable experience.</p>
+        </div>
+
+        <div class="confirmation-card">
+            <h2 class="confirmation-title">
+                <div class="confirmation-icon">✓</div>
+                Booking Confirmation
+            </h2>
+
+            <div class="booking-details">
+                <div class="booking-detail">
+                    <div class="detail-label">
+                        <span>📋</span>
+                        Booking Reference
+                    </div>
+                    <div class="detail-value">NS-2025-78945</div>
+                </div>
+
+                <div class="booking-detail">
+                    <div class="detail-label">
+                        <span>👤</span>
+                        Customer Name
+                    </div>
+                    <div class="detail-value">John Doe</div>
+                </div>
+
+                <div class="booking-detail">
+                    <div class="detail-label">
+                        <span>📅</span>
+                        Booking Date
+                    </div>
+                    <div class="detail-value">April 13, 2025</div>
+                </div>
+
+                <div class="booking-detail">
+                    <div class="detail-label">
+                        <span>💳</span>
+                        Payment Status
+                    </div>
+                    <div class="detail-value">Paid</div>
+                </div>
+            </div>
+
+            <div class="booking-summary">
+                <h3 class="summary-title">Trip Summary</h3>
+                <div class="summary-items">
+                    <div class="summary-item">
+                        <div class="summary-icon">🏝️</div>
+                        <div class="summary-label">Package</div>
+                        <div class="summary-value">Bali Adventure</div>
+                    </div>
+
+                    <div class="summary-item">
+                        <div class="summary-icon">🗓️</div>
+                        <div class="summary-label">Travel Date</div>
+                        <div class="summary-value">May 15, 2025</div>
+                    </div>
+
+                    <div class="summary-item">
+                        <div class="summary-icon">⏱️</div>
+                        <div class="summary-label">Duration</div>
+                        <div class="summary-value">7 days</div>
+                    </div>
+
+                    <div class="summary-item">
+                        <div class="summary-icon">👥</div>
+                        <div class="summary-label">Guests</div>
+                        <div class="summary-value">2</div>
+                    </div>
+
+                    <div class="summary-item">
+                        <div class="summary-icon">🏨</div>
+                        <div class="summary-label">Accommodation</div>
+                        <div class="summary-value">Deluxe</div>
+                    </div>
+
+                    <div class="summary-item">
+                        <div class="summary-icon">🍽️</div>
+                        <div class="summary-label">Meals</div>
+                        <div class="summary-value">All Inclusive</div>
+                    </div>
+                </div>
+
+                <div class="summary-total">
+                    <div>Total Amount</div>
+                    <div class="total-value">$1,299.00</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="journey-card">
+            <h2 class="journey-title">Have a Safe & Wonderful Journey!</h2>
+            <p class="journey-text">
+                Thank you for choosing NS Travels for your adventure. We've prepared everything to make your trip to Bali unforgettable. Your itinerary and travel documents will be sent to your email shortly. Our team is available 24/7 to assist you with any questions or needs before and during your journey.
+            </p>
+            <p class="journey-text">
+                Remember to check your email for important pre-departure information, including packing tips, local customs, and weather forecasts. We recommend arriving at the airport at least 3 hours before your international flight.
+            </p>
+            <p class="journey-text">
+                From all of us at NS Travels, we wish you safe travels, amazing experiences, and memories that will last a lifetime!
+            </p>
+
+            <div class="action-buttons">
+                <a href="#" class="btn btn-primary" id="downloadBtn">
+                    <span>📥</span>
+                    Download Confirmation
+                </a>
+                <a href="#" class="btn btn-secondary">
+                    <span>📧</span>
+                    Email Itinerary
+                </a>
+                <a href="#" class="btn btn-secondary">
+                    <span>📞</span>
+                    Contact Support
+                </a>
+            </div>
+        </div>
+
+        <div class="contact-info">
+            <h3 class="contact-title">Need Assistance?</h3>
+            <div class="contact-details">
+                <div class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div class="contact-text">+1 (800) 123-4567</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">✉️</div>
+                    <div class="contact-text">support@nstravels.com</div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">💬</div>
+                    <div class="contact-text">Live Chat</div>
+                </div>
+            </div>
+
+            <div class="social-icons">
+                <a href="#" class="social-icon">
+                    <span>f</span>
+                </a>
+                <a href="#" class="social-icon">
+                    <span>t</span>
+                </a>
+                <a href="#" class="social-icon">
+                    <span>in</span>
+                </a>
+                <a href="#" class="social-icon">
+                    <span>ig</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <p>© 2025 NS Travels. All rights reserved.</p>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Create confetti effect on page load
+        createConfetti();
+
+        // Download button functionality
+        document.getElementById('downloadBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Your booking confirmation has been downloaded!');
+        });
+
+        // Create confetti effect
+        function createConfetti() {
+            const colors = ['#3b82f6', '#22c55e', '#f97316', '#eab308', '#ec4899'];
+            const confettiCount = 150;
+
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = -10 + 'px';
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                confetti.style.opacity = Math.random();
+                confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+
+                document.body.appendChild(confetti);
+
+                const animationDuration = Math.random() * 3 + 2;
+
+                confetti.animate([
+                    { transform: 'translate3d(0,0,0) rotate(0deg)', opacity: 1 },
+                    { transform: `translate3d(${Math.random() * 250 - 125}px, ${Math.random() * 600 + 600}px, 0) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: animationDuration * 1000,
+                    easing: 'cubic-bezier(0,0.9,0.57,1)',
+                    delay: Math.random() * 1500
+                });
+
+                setTimeout(() => {
+                    document.body.removeChild(confetti);
+                }, animationDuration * 1000 + 1500);
+            }
+        }
+    });
+</script>
+</body>
+</html>

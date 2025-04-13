@@ -1,28 +1,22 @@
 package com.example.ns_travels.dto;
 
-import com.example.ns_travels.enums.PaymentMethod;
-import com.example.ns_travels.enums.PaymentStatus;
-
 public class PaymentDTO {
 
     private Long id;
-    private Long userId;
-    private Long travelPackageId;
-    private double price;
-    private PaymentMethod paymentMethod;
-    private PaymentStatus paymentStatus;
+    private String cardHolderName;
+    private String cardNumber;
+    private String expirationDate;
+    private String cvv;
 
     public PaymentDTO() {
     }
 
-    public PaymentDTO(Long id, Long userId, Long travelPackageId, double price,
-                      PaymentMethod paymentMethod, PaymentStatus paymentStatus) {
+    public PaymentDTO(Long id, String cardHolderName, String cardNumber, String expirationDate, String cvv) {
         this.id = id;
-        this.userId = userId;
-        this.travelPackageId = travelPackageId;
-        this.price = price;
-        this.paymentMethod = paymentMethod;
-        this.paymentStatus = paymentStatus;
+        this.cardHolderName = cardHolderName;
+        this.cardNumber = cardNumber;
+        this.expirationDate = expirationDate;
+        this.cvv = cvv;
     }
 
     public Long getId() {
@@ -33,55 +27,46 @@ public class PaymentDTO {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getCardHolderName() {
+        return cardHolderName;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setCardHolderName(String cardHolderName) {
+        this.cardHolderName = cardHolderName;
     }
 
-    public Long getTravelPackageId() {
-        return travelPackageId;
+    public String getCardNumber() {
+        return cardNumber;
     }
 
-    public void setTravelPackageId(Long travelPackageId) {
-        this.travelPackageId = travelPackageId;
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
     }
 
-    public double getPrice() {
-        return price;
+    public String getExpirationDate() {
+        return expirationDate;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setExpirationDate(String expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
-    public PaymentMethod getPaymentMethod() {
-        return paymentMethod;
+    public String getCvv() {
+        return cvv;
     }
 
-    public void setPaymentMethod(PaymentMethod paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-
-    public PaymentStatus getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(PaymentStatus paymentStatus) {
-        this.paymentStatus = paymentStatus;
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
     }
 
     @Override
     public String toString() {
         return "PaymentDTO{" +
                 "id=" + id +
-                ", userId=" + userId +
-                ", travelPackageId=" + travelPackageId +
-                ", price=" + price +
-                ", paymentMethod=" + paymentMethod +
-                ", paymentStatus=" + paymentStatus +
+                ", cardHolderName='" + cardHolderName + '\'' +
+                ", cardNumber='" + cardNumber + '\'' +
+                ", expirationDate='" + expirationDate + '\'' +
+                ", cvv='" + cvv + '\'' +
                 '}';
     }
 }

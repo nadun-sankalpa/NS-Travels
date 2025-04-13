@@ -2,9 +2,886 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NS Travels - Payment</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #f97316;
+            --background: rgba(15, 23, 42, 0.8);
+            --card: rgba(30, 41, 59, 0.8);
+            --text: #f8fafc;
+            --text-light: #cbd5e1;
+            --success: #22c55e;
+            --border: #475569;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: url('images/gallery-3.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(15, 23, 42, 0.7);
+            z-index: -1;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-circle {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-item {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: white;
+        }
+
+        .book-now {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.25rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .book-now:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--text-light);
+        }
+
+        .progress-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 3rem;
+            width: 100%;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--border);
+            transform: translateY(-50%);
+            z-index: 0;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--background);
+            border: 2px solid var(--border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .step.active .step-circle {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .step-label {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .step.active .step-label {
+            color: var(--text);
+        }
+
+        .content-container {
+            display: flex;
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .payment-card {
+            background-color: var(--card);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            flex: 1;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-card {
+            background-color: var(--card);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            width: 350px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            color: var(--text);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+
+        input::placeholder {
+            color: var(--text-light);
+            opacity: 0.7;
+        }
+
+        .card-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .card-row .form-group {
+            flex: 1;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .error {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        /* Summary styles */
+        .summary-title {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            gap: 0.5rem;
+        }
+
+        .summary-icon {
+            width: 20px;
+            color: var(--text-light);
+        }
+
+        .summary-label {
+            flex: 1;
+            color: var(--text-light);
+        }
+
+        .summary-value {
+            font-weight: 500;
+        }
+
+        .summary-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            background-color: var(--success);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .summary-total {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-label {
+            font-weight: 500;
+        }
+
+        .total-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Success Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background-color: var(--card);
+            border-radius: 0.5rem;
+            padding: 3rem;
+            width: 90%;
+            max-width: 550px;
+            text-align: center;
+            transform: translateY(20px) scale(0.95);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .success-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: rgba(34, 197, 94, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 2rem;
+            font-size: 4rem;
+            color: var(--success);
+            animation: successPulse 2s infinite;
+        }
+
+        @keyframes successPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 20px rgba(34, 197, 94, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+            }
+        }
+
+        .modal h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .modal p {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .modal-btn {
+            padding: 1rem 3rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Card animation */
+        .card-animation {
+            position: relative;
+            height: 40px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            background-color: rgba(15, 23, 42, 0.3);
+            border-radius: 0.25rem;
+        }
+
+        .card-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
+            animation: cardShine 2s infinite;
+        }
+
+        @keyframes cardShine {
+            100% {
+                left: 100%;
+            }
+        }
+
+        .card-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Confetti animation for success */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .content-container {
+                flex-direction: column;
+            }
+
+            .summary-card {
+                width: 100%;
+            }
+
+            .nav {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .header {
+                padding: 1rem;
+            }
+
+            .progress-steps {
+                gap: 0.5rem;
+            }
+
+            .step-label {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
 </head>
 <body>
+<!-- Header -->
+<div class="header">
+    <div class="logo">
+        <div class="logo-circle">NS</div>
+        <div class="logo-text">NS Travels</div>
+    </div>
+    <div class="nav">
+        <a href="#" class="nav-item">Home</a>
+        <a href="#" class="nav-item">Destinations</a>
+        <a href="#" class="nav-item">Travel Guides</a>
+        <a href="#" class="nav-item active">Booking</a>
+        <a href="#" class="nav-item">Weather</a>
+    </div>
+    <a href="#" class="book-now">Book Now</a>
+</div>
 
+<!-- Main Content -->
+<div class="main-content">
+    <h1 class="page-title">Book Your Dream Vacation</h1>
+    <p class="page-subtitle">Complete your booking in a few simple steps</p>
+
+    <!-- Progress Steps -->
+    <div class="progress-container">
+        <div class="progress-line"></div>
+        <div class="progress-steps">
+            <div class="step">
+                <div class="step-circle">1</div>
+                <div class="step-label">Trip Details</div>
+            </div>
+            <div class="step">
+                <div class="step-circle">2</div>
+                <div class="step-label">Traveler Information</div>
+            </div>
+            <div class="step active">
+                <div class="step-circle">3</div>
+                <div class="step-label">Payment</div>
+            </div>
+            <div class="step">
+                <div class="step-circle">4</div>
+                <div class="step-label">Confirmation</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Container -->
+    <div class="content-container">
+        <!-- Payment Form -->
+        <div class="payment-card">
+            <h2 class="card-title">Payment Details</h2>
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label for="cardName">Cardholder Name</label>
+                    <input type="text" id="cardName" placeholder="John Smith" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="cardNumber">Card Number</label>
+                    <div style="position: relative;">
+                        <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                        <div class="card-icon" id="cardTypeIcon">💳</div>
+                    </div>
+                </div>
+
+                <div class="card-row">
+                    <div class="form-group">
+                        <label for="expiryDate">Expiry Date</label>
+                        <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" placeholder="123" maxlength="3" required>
+                    </div>
+                </div>
+
+                <button type="submit" id="payButton">Complete Payment</button>
+            </form>
+        </div>
+
+        <!-- Booking Summary -->
+        <div class="summary-card">
+            <h3 class="summary-title">Booking Summary</h3>
+
+            <div class="summary-item">
+                <div class="summary-icon">👤</div>
+                <div class="summary-label">Full Name</div>
+                <div class="summary-value">John Doe</div>
+            </div>
+
+            <div class="summary-item">
+                <div class="summary-icon">✉️</div>
+                <div class="summary-label">Email</div>
+                <div class="summary-value">john@example.com</div>
+            </div>
+
+            <div class="summary-item">
+                <div class="summary-icon">📱</div>
+                <div class="summary-label">Phone</div>
+                <div class="summary-value">+1 234 567 8900</div>
+            </div>
+
+            <div class="summary-item">
+                <div class="summary-icon">🏝️</div>
+                <div class="summary-label">Package</div>
+                <div class="summary-value">Bali Adventure</div>
+            </div>
+
+            <div class="summary-item">
+                <div class="summary-icon">🗓️</div>
+                <div class="summary-label">Travel Date</div>
+                <div class="summary-value">May 15, 2025</div>
+            </div>
+
+            <div class="summary-item">
+                <div class="summary-icon">👥</div>
+                <div class="summary-label">Guests</div>
+                <div class="summary-value">2</div>
+            </div>
+
+            <div class="summary-item">
+                <div class="summary-icon">⏱️</div>
+                <div class="summary-label">Duration</div>
+                <div class="summary-value">7 days</div>
+            </div>
+
+            <div class="summary-item">
+                <div class="summary-icon">🔄</div>
+                <div class="summary-label">Status</div>
+                <div class="summary-status">CONFIRMED</div>
+            </div>
+
+            <div class="summary-total">
+                <div class="total-label">Total Price</div>
+                <div class="total-value">$1,299.00</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal-overlay" id="successModal">
+    <div class="modal">
+        <div class="success-icon">✓</div>
+        <h3>Payment Successful!</h3>
+        <p>Thank you for your payment. Your booking has been confirmed.<br>Happy journey with NS Travels!</p>
+        <button class="modal-btn" id="successCloseBtn">Continue</button>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#paymentForm').on('submit', function (e) {
+            e.preventDefault();
+
+            const paymentData = {
+                cardHolderName: $('#cardName').val(),
+                cardNumber: $('#cardNumber').val(),
+                expirationDate: $('#expiryDate').val(),
+                cvv: $('#cvv').val()
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8080/api/payments/save",
+                contentType: "application/json",
+                data: JSON.stringify(paymentData),
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("jwt")  // or however you store the token
+                },
+                success: function(response) {
+                    console.log("Payment successful:", response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Payment failed:", error);
+                }
+            });
+
+        });
+
+        // Success modal close button
+        $('#successCloseBtn').on('click', function () {
+            $('#successModal').fadeOut();
+            window.location.href = 'Successful.html'; // redirect or do something
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const paymentForm = document.getElementById('paymentForm');
+        const cardNumberInput = document.getElementById('cardNumber');
+        const expiryDateInput = document.getElementById('expiryDate');
+        const cvvInput = document.getElementById('cvv');
+        const cardNameInput = document.getElementById('cardName');
+        const cardTypeIcon = document.getElementById('cardTypeIcon');
+
+        const successModal = document.getElementById('successModal');
+        const successCloseBtn = document.getElementById('successCloseBtn');
+
+        // Format card number with spaces
+        cardNumberInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s+/g, '');
+            let formattedValue = '';
+
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 4 === 0) {
+                    formattedValue += ' ';
+                }
+                formattedValue += value[i];
+            }
+
+            e.target.value = formattedValue;
+
+            // Show card type icon based on first digit
+            const firstDigit = value.charAt(0);
+            if (firstDigit === '4') {
+                cardTypeIcon.textContent = '💳 Visa';
+            } else if (firstDigit === '5') {
+                cardTypeIcon.textContent = '💳 MasterCard';
+            } else if (firstDigit === '3') {
+                cardTypeIcon.textContent = '💳 Amex';
+            } else if (firstDigit === '6') {
+                cardTypeIcon.textContent = '💳 Discover';
+            } else {
+                cardTypeIcon.textContent = '💳';
+            }
+        });
+
+        // Format expiry date with slash
+        expiryDateInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+
+            if (value.length > 2) {
+                e.target.value = value.substring(0, 2) + '/' + value.substring(2);
+            } else {
+                e.target.value = value;
+            }
+        });
+
+        // Allow only numbers for CVV
+        cvvInput.addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
+
+        // Create confetti effect
+        function createConfetti() {
+            const colors = ['#3b82f6', '#22c55e', '#f97316', '#eab308', '#ec4899'];
+            const confettiCount = 150;
+
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = -10 + 'px';
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                confetti.style.opacity = Math.random();
+                confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+
+                document.body.appendChild(confetti);
+
+                const animationDuration = Math.random() * 3 + 2;
+
+                confetti.animate([
+                    { transform: 'translate3d(0,0,0) rotate(0deg)', opacity: 1 },
+                    { transform: `translate3d(${Math.random() * 250 - 125}px, ${Math.random() * 600 + 600}px, 0) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: animationDuration * 1000,
+                    easing: 'cubic-bezier(0,0.9,0.57,1)',
+                    delay: Math.random() * 1500
+                });
+
+                setTimeout(() => {
+                    document.body.removeChild(confetti);
+                }, animationDuration * 1000 + 1500);
+            }
+        }
+
+        // Form submission with loading animation
+        paymentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Show loading animation
+            payButton.textContent = 'Processing...';
+            payButton.disabled = true;
+
+            // Always show success after 2 seconds
+            setTimeout(() => {
+                payButton.textContent = 'Complete Payment';
+                payButton.disabled = false;
+
+                // Show success modal
+                successModal.classList.add('active');
+
+                // Create confetti effect
+                createConfetti();
+            }, 2000);
+        });
+
+        // Close modal
+        successCloseBtn.addEventListener('click', function() {
+            successModal.classList.remove('active');
+            paymentForm.reset();
+            cardTypeIcon.textContent = '💳';
+
+            // Simulate redirect to confirmation page
+            setTimeout(() => {
+                alert('Thank you for your payment! Redirecting to confirmation page...');
+            }, 500);
+        });
+    });
+</script>
 </body>
 </html>
