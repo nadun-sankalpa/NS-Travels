@@ -148,10 +148,8 @@ NS Travels isn’t just another booking platform—it’s **your travel genie** 
 ---
 
 ## 🎥 **Demo Video - See It in Action! Youtube video link**
-<p align="center">
-  ▶️ <a href="https://youtu.be/DRQch576WAY?si=THjP3Kwp5RutKaY4">
-  </a>
-</p>
+  ▶️ <a href="https://youtu.be/DRQch576WAY?si=THjP3Kwp5RutKaY4">Youtube Video Link</a>
+
 
 ---
 
