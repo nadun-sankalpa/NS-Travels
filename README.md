@@ -33,15 +33,87 @@ NS Travels isn’t just another booking platform—it’s **your travel genie** 
   <em>🔍 Discover hidden gems with our mood-based search! 💎</em>  
 </p>
 
-### **2. 📊 Admin Dashboard**
+### **2. Destinations Page**
 <p align="center">
-  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/ce0f909f793e1748ae1add7cfa5488b1d1665c68/Screenshot%202025-04-03%20224344.png" width="700" alt="Admin Dashboard" ><br>
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/e0d11d48cd598b489dbdd201d98db412359ec7e7/destinations.png" width="700" alt="Admin Dashboard" ><br>
   <em>📱 All your trips in one place—even offline! 📶</em>  
 </p>
 
-### **3. 💰 Booking Dashboard**
+### **3. Guide Page**
 <p align="center">
-  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/83ff3c1ecd41121bdf860d958b356677ed1922fc/Screenshot%202025-04-03%20224426.png" width="700" alt="Payment Form" style="border-radius: 20px;"><br>
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/e0d11d48cd598b489dbdd201d98db412359ec7e7/guides.png" width="700" alt="Payment Form" style="border-radius: 20px;"><br>
+  <em>💳 Checkout faster than you can say "Bon voyage!" 🛫</em>  
+</p>
+
+### **4. Universities Page**
+<p align="center">
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/e0d11d48cd598b489dbdd201d98db412359ec7e7/universities.png" width="700" alt="Payment Form" style="border-radius: 20px;"><br>
+  <em>💳 Checkout faster than you can say "Bon voyage!" 🛫</em>  
+</p>
+
+### **5.  Jobs Page**
+<p align="center">
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/e0d11d48cd598b489dbdd201d98db412359ec7e7/jobs.png" width="700" alt="Payment Form" style="border-radius: 20px;"><br>
+  <em>💳 Checkout faster than you can say "Bon voyage!" 🛫</em>  
+</p>
+
+### **6. Vehicle Booking Page**
+<p align="center">
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/e0d11d48cd598b489dbdd201d98db412359ec7e7/vehicles.png" width="700" alt="Payment Form" style="border-radius: 20px;"><br>
+  <em>💳 Checkout faster than you can say "Bon voyage!" 🛫</em>  
+</p>
+
+### **7. Booking Page**
+<p align="center">
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/e0d11d48cd598b489dbdd201d98db412359ec7e7/user%20booking.png" width="700" alt="Payment Form" style="border-radius: 20px;"><br>
+  <em>💳 Checkout faster than you can say "Bon voyage!" 🛫</em>  
+</p>
+
+### **8. 💰 Payment Page**
+<p align="center">
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/e0d11d48cd598b489dbdd201d98db412359ec7e7/payment.png" width="700" alt="Payment Form" style="border-radius: 20px;"><br>
+  <em>💳 Checkout faster than you can say "Bon voyage!" 🛫</em>  
+</p>
+
+### **9. 💰 Payment Success**
+<p align="center">
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/e0d11d48cd598b489dbdd201d98db412359ec7e7/payment%20success.png" width="700" alt="Payment Form" style="border-radius: 20px;"><br>
+  <em>💳 Checkout faster than you can say "Bon voyage!" 🛫</em>  
+</p>
+
+### **10. Greeting Page**
+<p align="center">
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/e0d11d48cd598b489dbdd201d98db412359ec7e7/thank%20you.png" width="700" alt="Payment Form" style="border-radius: 20px;"><br>
+  <em>💳 Checkout faster than you can say "Bon voyage!" 🛫</em>  
+</p>
+
+### **11. Weather Page**
+<p align="center">
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/e0d11d48cd598b489dbdd201d98db412359ec7e7/weather.png" width="700" alt="Payment Form" style="border-radius: 20px;"><br>
+  <em>💳 Checkout faster than you can say "Bon voyage!" 🛫</em>  
+</p>
+
+### **12. Admin Dashboard**
+<p align="center">
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/e0d11d48cd598b489dbdd201d98db412359ec7e7/Screenshot%202025-04-03%20224344.png" width="700" alt="Payment Form" style="border-radius: 20px;"><br>
+  <em>💳 Checkout faster than you can say "Bon voyage!" 🛫</em>  
+</p>
+
+### **13. Users Page**
+<p align="center">
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/e0d11d48cd598b489dbdd201d98db412359ec7e7/users.png" width="700" alt="Payment Form" style="border-radius: 20px;"><br>
+  <em>💳 Checkout faster than you can say "Bon voyage!" 🛫</em>  
+</p>
+
+### **14. Packages Page**
+<p align="center">
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/e0d11d48cd598b489dbdd201d98db412359ec7e7/packages.png" width="700" alt="Payment Form" style="border-radius: 20px;"><br>
+  <em>💳 Checkout faster than you can say "Bon voyage!" 🛫</em>  
+</p>
+
+### **15. Hotels Page**
+<p align="center">
+  <img src="https://github.com/nadun-sankalpa/NS-Travels/blob/e0d11d48cd598b489dbdd201d98db412359ec7e7/hotel.png" width="700" alt="Payment Form" style="border-radius: 20px;"><br>
   <em>💳 Checkout faster than you can say "Bon voyage!" 🛫</em>  
 </p>
 
