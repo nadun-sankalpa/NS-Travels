@@ -1288,17 +1288,15 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Base URL configuration
     const API_BASE_URL = 'http://localhost:8080/api/bookings';
 
     $(document).ready(function () {
         loadBookings();
 
-        // Save Booking
         $('#saveBtn').click(function (e) {
             e.preventDefault();
-
             const jwtToken = localStorage.getItem('jwtToken');
+
             if (!jwtToken) {
                 alert('Please login first!');
                 window.location.href = '/login';
@@ -1317,9 +1315,7 @@
             $.ajax({
                 url: `${API_BASE_URL}/save`,
                 method: 'POST',
-                headers: {
-                    "Authorization": `Bearer ${jwtToken}`
-                },
+                headers: { "Authorization": `Bearer ${jwtToken}` },
                 contentType: 'application/json',
                 data: JSON.stringify(bookingData),
                 success: function (response) {
@@ -1331,7 +1327,6 @@
             });
         });
 
-        // Confirm Delete Booking
         $('#confirmDeleteBtn').click(function () {
             const bookingId = $('#deleteBookingId').val();
             const jwtToken = localStorage.getItem('jwtToken');
@@ -1339,9 +1334,7 @@
             $.ajax({
                 url: `${API_BASE_URL}/delete/${bookingId}`,
                 method: 'DELETE',
-                headers: {
-                    "Authorization": `Bearer ${jwtToken}`
-                },
+                headers: { "Authorization": `Bearer ${jwtToken}` },
                 success: function (response) {
                     handleSuccess(response, 'Booking deleted successfully!');
                 },
@@ -1351,29 +1344,22 @@
             });
         });
 
-        // Event delegation for dynamically loaded buttons
         $('#bookingTableBody').on('click', '.editBtn', function () {
             const bookingId = $(this).data('id');
-            loadBookingDetails(bookingId); // You should implement this
+            loadBookingDetails(bookingId); // Optional
             $('#modalTitle').text('Edit Booking');
             $('#bookingModal').modal('show');
         });
 
         $('#bookingTableBody').on('click', '.deleteBtn', function () {
             const bookingId = $(this).data('id');
-            $('#deleteBookingId').val(bookingId); // Hidden input
+            $('#deleteBookingId').val(bookingId);
             $('#deleteModal').modal('show');
-            console.log('Delete button clicked for ID:', bookingId);
         });
     });
 
-    // =========================
-    // Helper Functions
-    // =========================
-
     function loadBookings() {
         const jwtToken = localStorage.getItem('jwtToken');
-        console.log('JWT Token for loading:', jwtToken);
 
         if (!jwtToken) {
             alert('Please login first!');
@@ -1384,38 +1370,33 @@
         $.ajax({
             url: `${API_BASE_URL}/all`,
             method: 'GET',
-            headers: {
-                "Authorization": `Bearer ${jwtToken}`
-            },
+            headers: { "Authorization": `Bearer ${jwtToken}` },
             success: function (response) {
-                console.log('Load Bookings Response:', response);
                 const bookingTableBody = $('#bookingTableBody');
                 const emptyState = $('#emptyState');
 
                 if (response.code === 200 && Array.isArray(response.data)) {
                     const bookings = response.data;
-
                     if (bookings.length > 0) {
                         let tableContent = '';
                         bookings.forEach(booking => {
                             tableContent += `
-                            <tr>
-                                <td>${booking.id || 'N/A'}</td>
-                                <td>${booking.userName || 'N/A'}</td>
-                                <td>${booking.userId || 'N/A'}</td>
-                                <td>${booking.userEmail || 'N/A'}</td>
-                                <td>${booking.numberOfGuests || 0}</td>
-                                <td>${booking.travelDate || 'Date not set'}</td>
-                                <td>${booking.packageName || 'N/A'}</td>
-                                <td>${booking.status || 'N/A'}</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm editBtn" data-id="${booking.id}">Edit</button>
-                                    <button class="btn btn-danger btn-sm deleteBtn" data-id="${booking.id}">Delete</button>
-                                </td>
-                            </tr>
-                        `;
+                                <tr>
+                                    <td>${booking.id || 'N/A'}</td>
+                                    <td>${booking.userName || 'N/A'}</td>
+                                    <td>${booking.userId || 'N/A'}</td>
+                                    <td>${booking.userEmail || 'N/A'}</td>
+                                    <td>${booking.numberOfGuests || 0}</td>
+                                    <td>${booking.travelDate || 'Date not set'}</td>
+                                    <td>${booking.packageName || 'N/A'}</td>
+                                    <td>${booking.status || 'N/A'}</td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm editBtn" data-id="${booking.id}">Edit</button>
+                                        <button class="btn btn-danger btn-sm deleteBtn" data-id="${booking.id}">Delete</button>
+                                    </td>
+                                </tr>
+                            `;
                         });
-
                         bookingTableBody.html(tableContent);
                         emptyState.hide();
                     } else {
@@ -1423,7 +1404,6 @@
                         emptyState.show();
                     }
                 } else {
-                    alert('Error loading bookings: Invalid response format');
                     bookingTableBody.html('<tr><td colspan="9">Error loading bookings.</td></tr>');
                     emptyState.hide();
                 }
@@ -1435,7 +1415,7 @@
                     localStorage.removeItem('jwtToken');
                     window.location.href = '/login';
                 } else {
-                    alert('Error loading bookings. Please try again later.');
+                    alert('Error loading bookings.');
                     $('#bookingTableBody').html('<tr><td colspan="9">Error loading bookings.</td></tr>');
                     $('#emptyState').hide();
                 }
@@ -1458,7 +1438,7 @@
     }
 
     function handleSuccess(response, message) {
-        if (response.code === '200' || response.code === 200) {
+        if (response.code === 200) {
             alert(message);
             $('.modal').modal('hide');
             loadBookings();
@@ -1478,12 +1458,10 @@
             `${errorMap[operation]} failed (Status: ${xhr.status})`;
 
         alert(`Error: ${errorMessage}`);
-        console.error(`Error details:`, xhr.responseJSON);
+        console.error('Error details:', xhr.responseJSON);
     }
-
-
-
 </script>
+
 
 
 

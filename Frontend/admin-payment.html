@@ -972,29 +972,37 @@
 <script>
     const BASE_URL = "http://localhost:8080/api/payments";
 
-    // Load all payments
+    // Load all payments from backend
     function loadPayments() {
         $.ajax({
             url: BASE_URL + "/all",
             method: "GET",
             success: function (payments) {
                 $("#paymentTableBody").empty();
-                payments.forEach(payment => {
+                if (payments.length === 0) {
                     $("#paymentTableBody").append(`
-              <tr>
-                <td>${payment.id}</td>
-                <td>${payment.userId}</td>
-                <td>${payment.amount}</td>
-                <td>${payment.method}</td>
-                <td>${payment.date}</td>
-                <td>${payment.status}</td>
-                <td>
-                  <button onclick="editPayment(${payment.id})">Edit</button>
-                  <button onclick="deletePayment(${payment.id})">Delete</button>
-                </td>
-              </tr>
-            `);
-                });
+                    <tr>
+                        <td colspan="6" class="text-center">No payment methods found.</td>
+                    </tr>
+                `);
+                } else {
+                    payments.forEach(payment => {
+                        const maskedNumber = payment.cardNumber ? payment.cardNumber.replace(/\d(?=\d{4})/g, "•") : 'N/A';
+                        $("#paymentTableBody").append(`
+                        <tr>
+                            <td>${payment.id}</td>
+                            <td>${payment.cardHolderName || 'N/A'}</td>
+                            <td>${maskedNumber}</td>
+                            <td>${payment.cvv ? '***' : 'N/A'}</td>
+                            <td>${payment.expirationDate || 'N/A'}</td>
+                            <td>
+                                <button onclick="editPayment(${payment.id})">Edit</button>
+                                <button onclick="deletePayment(${payment.id})">Delete</button>
+                            </td>
+                        </tr>
+                    `);
+                    });
+                }
             },
             error: function (xhr) {
                 console.error("Failed to load payments:", xhr);
@@ -1008,11 +1016,10 @@
 
         const payment = {
             id: $("#paymentId").val() || null,
-            userId: $("#userId").val(),
-            amount: $("#amount").val(),
-            method: $("#method").val(),
-            date: $("#date").val(),
-            status: $("#status").val()
+            cardHolderName: $("#cardHolderName").val(),
+            cardNumber: $("#cardNumber").val(),
+            cvv: $("#cvv").val(),
+            expirationDate: $("#expirationDate").val(),
         };
 
         $.ajax({
@@ -1021,9 +1028,9 @@
             contentType: "application/json",
             data: JSON.stringify(payment),
             success: function () {
-                loadPayments();
                 $("#paymentForm")[0].reset();
                 $("#paymentId").val("");
+                loadPayments();
             },
             error: function (xhr) {
                 console.error("Failed to save payment:", xhr);
@@ -1031,21 +1038,20 @@
         });
     });
 
-    // Populate form for editing
+    // Edit a payment (populate form)
     function editPayment(id) {
         $.ajax({
             url: BASE_URL + "/" + id,
             method: "GET",
             success: function (payment) {
                 $("#paymentId").val(payment.id);
-                $("#userId").val(payment.userId);
-                $("#amount").val(payment.amount);
-                $("#method").val(payment.method);
-                $("#date").val(payment.date);
-                $("#status").val(payment.status);
+                $("#cardHolderName").val(payment.cardHolderName);
+                $("#cardNumber").val(payment.cardNumber);
+                $("#cvv").val(payment.cvv);
+                $("#expirationDate").val(payment.expirationDate);
             },
             error: function (xhr) {
-                console.error("Failed to load payment:", xhr);
+                console.error("Failed to fetch payment:", xhr);
             }
         });
     }
@@ -1066,12 +1072,12 @@
         }
     }
 
-    // Load payments on page load
+    // Load data on page load
     $(document).ready(function () {
         loadPayments();
     });
-
 </script>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
